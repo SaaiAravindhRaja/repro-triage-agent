@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
 
 engine:
-  id: copilot
+  id: codex
 
 permissions: {}
 
