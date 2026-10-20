@@ -1,0 +1,89 @@
+[
+  {
+    "id": "adequate-1",
+    "class": "adequate-repro",
+    "source_url": "https://github.com/pandas-dev/pandas/issues/71376",
+    "title": "BUG: DataFrame.query does not convert string literal when column is categorical",
+    "body": "### Reproducible Example\n\n```python\nimport pandas as pd\ndf = pd.DataFrame({\"a\": pd.Categorical([\"x\", \"y\", \"z\"])})\nprint(df.query(\"a == 'x'\"))\n```\n\n### Expected Behavior\nReturns the single row where a == 'x'.\n\n### Actual Behavior\nRaises TypeError: Cannot compare a Categorical for op __eq__ with a scalar.\n\n### Installed Versions\npandas : 2.2.2\npython : 3.11.6\nOS     : Linux"
+  },
+  {
+    "id": "adequate-2",
+    "class": "adequate-repro",
+    "source_url": "https://github.com/pandas-dev/pandas/issues/71248",
+    "title": "BUG: DataFrame.from_records ignoring falsy exclude",
+    "body": "### Reproducible Example\n\n```python\nimport pandas as pd\nrecs = [{\"a\": 1, \"b\": 2}, {\"a\": 3, \"b\": 4}]\nprint(pd.DataFrame.from_records(recs, exclude=[]))\n```\n\n### Expected Behavior\nAll columns retained since exclude is empty.\n\n### Actual Behavior\nColumn 'b' is dropped.\n\n### Installed Versions\npandas : 2.2.3\npython : 3.12.1\nOS     : macOS 14.5"
+  },
+  {
+    "id": "adequate-3",
+    "class": "adequate-repro",
+    "source_url": "https://github.com/pandas-dev/pandas/issues/65408",
+    "title": "BUG: wrong results with numexpr multiplication",
+    "body": "### Reproducible Example\n\n```python\nimport pandas as pd\nimport numpy as np\ns = pd.Series(np.arange(1_000_000))\nout = s * s\nassert (out == np.arange(1_000_000) ** 2).all()\n```\n\n### Expected Behavior\nElementwise square matches numpy.\n\n### Actual Behavior\nAssertion fails for rows beyond the numexpr threshold; values overflow silently.\n\n### Installed Versions\npandas : 2.1.4\nnumexpr: 2.8.7\npython : 3.10.9\nOS     : Linux"
+  },
+
+  {
+    "id": "inadequate-1",
+    "class": "inadequate-repro",
+    "source_url": "https://github.com/pandas-dev/pandas/issues/64604",
+    "title": "BUG: Need to be able to specify location of legacy file",
+    "body": "### Describe the bug\nreading my file does not work and crashes pandas. it worked before the upgrade.\n\n### Installed Versions\npandas : x.y.z\npython : latest"
+  },
+  {
+    "id": "inadequate-2",
+    "class": "inadequate-repro",
+    "source_url": "https://github.com/pandas-dev/pandas/issues/65895",
+    "title": "failing tests when building pandas 2.3.3 with GCC 16",
+    "body": "### Describe the bug\nSome tests fail when I build from source. See the attached screenshot of the terminal.\n\n### Reproducible Example\n(screenshot only, no code)\n\n### Installed Versions\n<paste the output of pd.show_versions() here>"
+  },
+  {
+    "id": "inadequate-3",
+    "class": "inadequate-repro",
+    "source_url": "https://github.com/pandas-dev/pandas/issues/65249",
+    "title": "BUG: groupby gives wrong numbers sometimes",
+    "body": "### Describe the bug\n\n```\ndf.groupby('k').sum()  # gives wrong totals\n```\n\nThis is pseudo-code describing roughly what I do. The real data is confidential so I can't share it. Expected the right sum, got a wrong one.\n\n### Installed Versions\nrecent pandas on windows"
+  },
+
+  {
+    "id": "feature-1",
+    "class": "feature",
+    "source_url": "https://github.com/pandas-dev/pandas/issues/71333",
+    "title": "ENH: support na_rep=None in to_csv",
+    "body": "### Feature Type\n- [x] Adding new functionality to pandas\n\n### Problem Description\nI would like to_csv to accept na_rep=None so missing values are written as empty strings without a sentinel.\n\n### Feature Description\n\n```python\nimport pandas as pd\ndf = pd.DataFrame({\"a\": [1, None]})\ndf.to_csv(na_rep=None)\n```\n\n### Installed Versions\npandas : 2.2.3\npython : 3.12.0\nOS     : Linux"
+  },
+  {
+    "id": "feature-2",
+    "class": "feature",
+    "source_url": "https://github.com/pandas-dev/pandas/issues/71331",
+    "title": "ENH: accept os.PathLike for archive_name in zip/tar compression",
+    "body": "### Feature Type\n- [x] Adding new functionality to pandas\n\n### Problem Description\narchive_name currently only accepts str. It should accept os.PathLike too.\n\n### Feature Description\n\n```python\nimport pathlib, pandas as pd\ndf = pd.DataFrame({\"a\": [1]})\ndf.to_csv(\"out.zip\", compression={\"method\": \"zip\", \"archive_name\": pathlib.Path(\"data.csv\")})\n```\n\n### Installed Versions\npandas : 2.2.3\npython : 3.11.7"
+  },
+  {
+    "id": "feature-3",
+    "class": "feature",
+    "source_url": "https://github.com/pandas-dev/pandas/issues/71338",
+    "title": "ENH: escape non-printable characters in quoted reprs",
+    "body": "### Feature Type\n- [x] Adding new functionality to pandas\n\n### Problem Description\nNon-printable characters in object dtype reprs make debugging hard. Escape them.\n\n### Feature Description\n\n```python\nimport pandas as pd\ns = pd.Series([\"a\\x00b\"])\nprint(repr(s))\n```\n\n### Installed Versions\npandas : 2.3.0\npython : 3.12.2"
+  },
+
+  {
+    "id": "question-1",
+    "class": "question",
+    "source_url": "https://github.com/pandas-dev/pandas/issues/65375",
+    "title": "How do I do a group-wise rolling mean?",
+    "body": "I'm trying to compute a rolling mean within each group. What's the idiomatic way?\n\n```python\nimport pandas as pd\ndf = pd.DataFrame({\"g\": [\"a\", \"a\", \"b\"], \"v\": [1, 2, 3]})\n# how to roll within g?\n```\n\nThis is a usage question, not a bug. pandas 2.2.3, python 3.11."
+  },
+  {
+    "id": "question-2",
+    "class": "question",
+    "source_url": "https://github.com/pandas-dev/pandas/issues/65308",
+    "title": "Why does my merge produce more rows than expected?",
+    "body": "After merging two frames I get more rows than I started with. Is this expected behaviour? I think it might be duplicate keys but I'm not sure how to confirm.\n\npandas 2.1.0, python 3.10, Windows. Not reporting a bug, just want to understand."
+  },
+  {
+    "id": "question-3",
+    "class": "question",
+    "source_url": "https://github.com/pandas-dev/pandas/issues/65223",
+    "title": "Best way to downcast float64 to float32 safely?",
+    "body": "What is the recommended, safe way to downcast a float64 column to float32 across a whole DataFrame without losing precision warnings?\n\n```python\nimport pandas as pd\ndf = pd.DataFrame({\"x\": [1.0, 2.0]})\ndf.astype(\"float32\")\n```\n\nUsage question. pandas 2.2.2, python 3.12."
+  }
+]
