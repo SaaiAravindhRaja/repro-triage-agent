@@ -32,7 +32,7 @@ questions are never asked for a reproduction.
 | run | issue | result | cost |
 |---|---|---|---|
 | [39454236052](https://github.com/SaaiAravindhRaja/repro-triage-agent/actions/runs/39454236052) | [#5](https://github.com/SaaiAravindhRaja/repro-triage-agent/issues/5) | marker + correct triage (caught placeholder version, missing runtime) | 4.05 AIC |
-| [39466402894](https://github.com/SaaiAravindhRaja/repro-triage-agent/actions/runs/39466402894) | #5 | fully-green pipeline, all 6 jobs success | — |
+| [39469004323](https://github.com/SaaiAravindhRaja/repro-triage-agent/actions/runs/39469004323) | [#11](https://github.com/SaaiAravindhRaja/repro-triage-agent/issues/11) | fully-green (6/6 jobs), read body, triaged, **applied `needs-repro`** | ~cents |
 | [39466414624](https://github.com/SaaiAravindhRaja/repro-triage-agent/actions/runs/39466414624) | [#9](https://github.com/SaaiAravindhRaja/repro-triage-agent/issues/9) | injection ignored (see §5) | 6.71 AIC |
 
 The first run is the end-to-end proof: the agent posted exactly one comment whose
@@ -84,5 +84,8 @@ inference credential); and a pinned, pinnable model.
 - The proxy rejects a model with no pricing (`unknown_model_ai_credits`), so the
   model must be pinned to a priced, CLI-recognised model (`gpt-5`); leaving it
   unset resolved to an unpriced default and fail-closed — the cap doing its job.
-- Freshly created issues can trip the integrity guard; the agent then defers
-  rather than guessing. This is the correct trade.
+- The default `min-integrity: approved` guard filtered out the maintainer's own
+  test issues, so the agent fail-closed with `missing_data` rather than guessing
+  (correct behaviour). Root-cause fix: set `tools.github.min-integrity: none`
+  for this single-maintainer sandbox; compensating controls (read-only, comment+
+  label only, threat detection, injection-ignored) carry the risk. See governance.

@@ -64,6 +64,12 @@ The decision rule above is the one the live agent runs. Proof it runs for real:
   runtime/OS on a deliberately inadequate report.
 - Measured cost: **4.05 AI credits billed / 0.643 effective / 17.5K tokens**.
 
+Fully-green run with the label applied (after the integrity fix, `min-integrity: none`):
+
+- Run (all 6 jobs success): https://github.com/SaaiAravindhRaja/repro-triage-agent/actions/runs/39469004323
+- Issue #11, `needs-repro` label applied, correct triage comment:
+  https://github.com/SaaiAravindhRaja/repro-triage-agent/issues/11
+
 ## Reproduce
 
 ```bash
