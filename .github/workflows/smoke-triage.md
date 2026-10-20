@@ -1,13 +1,19 @@
 ---
 on:
   issues:
-    types: [opened]
+    types: [opened, reopened]
   workflow_dispatch:
 
 engine:
-  id: copilot
+  id: codex
 
 permissions: {}
+
+tools:
+  github:
+    min-integrity: none
+  bash: false
+  cli-proxy: false
 
 network: defaults
 

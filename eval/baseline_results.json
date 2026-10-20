@@ -1,0 +1,164 @@
+{
+  "tool": "baseline-field-presence",
+  "n": 12,
+  "correct": 5,
+  "accuracy": 0.417,
+  "cases": [
+    {
+      "id": "adequate-1",
+      "class": "adequate-repro",
+      "source_url": "https://github.com/pandas-dev/pandas/issues/71376",
+      "baseline_verdict": "ok",
+      "ground_truth": "ok",
+      "correct": true,
+      "fields_present": {
+        "code": true,
+        "versions": true,
+        "problem": true
+      }
+    },
+    {
+      "id": "adequate-2",
+      "class": "adequate-repro",
+      "source_url": "https://github.com/pandas-dev/pandas/issues/71248",
+      "baseline_verdict": "ok",
+      "ground_truth": "ok",
+      "correct": true,
+      "fields_present": {
+        "code": true,
+        "versions": true,
+        "problem": true
+      }
+    },
+    {
+      "id": "adequate-3",
+      "class": "adequate-repro",
+      "source_url": "https://github.com/pandas-dev/pandas/issues/65408",
+      "baseline_verdict": "ok",
+      "ground_truth": "ok",
+      "correct": true,
+      "fields_present": {
+        "code": true,
+        "versions": true,
+        "problem": true
+      }
+    },
+    {
+      "id": "inadequate-1",
+      "class": "inadequate-repro",
+      "source_url": "https://github.com/pandas-dev/pandas/issues/64604",
+      "baseline_verdict": "needs-repro",
+      "ground_truth": "needs-repro",
+      "correct": true,
+      "fields_present": {
+        "code": false,
+        "versions": true,
+        "problem": false
+      }
+    },
+    {
+      "id": "inadequate-2",
+      "class": "inadequate-repro",
+      "source_url": "https://github.com/pandas-dev/pandas/issues/65895",
+      "baseline_verdict": "needs-repro",
+      "ground_truth": "needs-repro",
+      "correct": true,
+      "fields_present": {
+        "code": false,
+        "versions": true,
+        "problem": false
+      }
+    },
+    {
+      "id": "inadequate-3",
+      "class": "inadequate-repro",
+      "source_url": "https://github.com/pandas-dev/pandas/issues/65249",
+      "baseline_verdict": "ok",
+      "ground_truth": "needs-repro",
+      "correct": false,
+      "fields_present": {
+        "code": true,
+        "versions": true,
+        "problem": true
+      }
+    },
+    {
+      "id": "feature-1",
+      "class": "feature",
+      "source_url": "https://github.com/pandas-dev/pandas/issues/71333",
+      "baseline_verdict": "needs-repro",
+      "ground_truth": "ok",
+      "correct": false,
+      "fields_present": {
+        "code": true,
+        "versions": true,
+        "problem": false
+      }
+    },
+    {
+      "id": "feature-2",
+      "class": "feature",
+      "source_url": "https://github.com/pandas-dev/pandas/issues/71331",
+      "baseline_verdict": "needs-repro",
+      "ground_truth": "ok",
+      "correct": false,
+      "fields_present": {
+        "code": true,
+        "versions": true,
+        "problem": false
+      }
+    },
+    {
+      "id": "feature-3",
+      "class": "feature",
+      "source_url": "https://github.com/pandas-dev/pandas/issues/71338",
+      "baseline_verdict": "needs-repro",
+      "ground_truth": "ok",
+      "correct": false,
+      "fields_present": {
+        "code": true,
+        "versions": true,
+        "problem": false
+      }
+    },
+    {
+      "id": "question-1",
+      "class": "question",
+      "source_url": "https://github.com/pandas-dev/pandas/issues/65375",
+      "baseline_verdict": "needs-repro",
+      "ground_truth": "ok",
+      "correct": false,
+      "fields_present": {
+        "code": true,
+        "versions": false,
+        "problem": false
+      }
+    },
+    {
+      "id": "question-2",
+      "class": "question",
+      "source_url": "https://github.com/pandas-dev/pandas/issues/65308",
+      "baseline_verdict": "needs-repro",
+      "ground_truth": "ok",
+      "correct": false,
+      "fields_present": {
+        "code": false,
+        "versions": false,
+        "problem": true
+      }
+    },
+    {
+      "id": "question-3",
+      "class": "question",
+      "source_url": "https://github.com/pandas-dev/pandas/issues/65223",
+      "baseline_verdict": "needs-repro",
+      "ground_truth": "ok",
+      "correct": false,
+      "fields_present": {
+        "code": true,
+        "versions": false,
+        "problem": false
+      }
+    }
+  ]
+}

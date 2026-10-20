@@ -1,0 +1,128 @@
+{
+  "tool": "semantic-agent-reference",
+  "n": 12,
+  "correct": 12,
+  "accuracy": 1.0,
+  "cases": [
+    {
+      "id": "adequate-1",
+      "class": "adequate-repro",
+      "source_url": "https://github.com/pandas-dev/pandas/issues/71376",
+      "agent_verdict": "ok",
+      "intent": "bug",
+      "reason": "adequate reproduction",
+      "ground_truth": "ok",
+      "correct": true
+    },
+    {
+      "id": "adequate-2",
+      "class": "adequate-repro",
+      "source_url": "https://github.com/pandas-dev/pandas/issues/71248",
+      "agent_verdict": "ok",
+      "intent": "bug",
+      "reason": "adequate reproduction",
+      "ground_truth": "ok",
+      "correct": true
+    },
+    {
+      "id": "adequate-3",
+      "class": "adequate-repro",
+      "source_url": "https://github.com/pandas-dev/pandas/issues/65408",
+      "agent_verdict": "ok",
+      "intent": "bug",
+      "reason": "adequate reproduction",
+      "ground_truth": "ok",
+      "correct": true
+    },
+    {
+      "id": "inadequate-1",
+      "class": "inadequate-repro",
+      "source_url": "https://github.com/pandas-dev/pandas/issues/64604",
+      "agent_verdict": "needs-repro",
+      "intent": "bug",
+      "reason": "no runnable example that imports the library; no expected-vs-actual; version block missing or placeholder",
+      "ground_truth": "needs-repro",
+      "correct": true
+    },
+    {
+      "id": "inadequate-2",
+      "class": "inadequate-repro",
+      "source_url": "https://github.com/pandas-dev/pandas/issues/65895",
+      "agent_verdict": "needs-repro",
+      "intent": "bug",
+      "reason": "no runnable example that imports the library; no expected-vs-actual; version block missing or placeholder",
+      "ground_truth": "needs-repro",
+      "correct": true
+    },
+    {
+      "id": "inadequate-3",
+      "class": "inadequate-repro",
+      "source_url": "https://github.com/pandas-dev/pandas/issues/65249",
+      "agent_verdict": "needs-repro",
+      "intent": "bug",
+      "reason": "no runnable example that imports the library; version block missing or placeholder",
+      "ground_truth": "needs-repro",
+      "correct": true
+    },
+    {
+      "id": "feature-1",
+      "class": "feature",
+      "source_url": "https://github.com/pandas-dev/pandas/issues/71333",
+      "agent_verdict": "ok",
+      "intent": "feature",
+      "reason": "not a bug report; no reproduction required",
+      "ground_truth": "ok",
+      "correct": true
+    },
+    {
+      "id": "feature-2",
+      "class": "feature",
+      "source_url": "https://github.com/pandas-dev/pandas/issues/71331",
+      "agent_verdict": "ok",
+      "intent": "feature",
+      "reason": "not a bug report; no reproduction required",
+      "ground_truth": "ok",
+      "correct": true
+    },
+    {
+      "id": "feature-3",
+      "class": "feature",
+      "source_url": "https://github.com/pandas-dev/pandas/issues/71338",
+      "agent_verdict": "ok",
+      "intent": "feature",
+      "reason": "not a bug report; no reproduction required",
+      "ground_truth": "ok",
+      "correct": true
+    },
+    {
+      "id": "question-1",
+      "class": "question",
+      "source_url": "https://github.com/pandas-dev/pandas/issues/65375",
+      "agent_verdict": "ok",
+      "intent": "question",
+      "reason": "not a bug report; no reproduction required",
+      "ground_truth": "ok",
+      "correct": true
+    },
+    {
+      "id": "question-2",
+      "class": "question",
+      "source_url": "https://github.com/pandas-dev/pandas/issues/65308",
+      "agent_verdict": "ok",
+      "intent": "question",
+      "reason": "not a bug report; no reproduction required",
+      "ground_truth": "ok",
+      "correct": true
+    },
+    {
+      "id": "question-3",
+      "class": "question",
+      "source_url": "https://github.com/pandas-dev/pandas/issues/65223",
+      "agent_verdict": "ok",
+      "intent": "question",
+      "reason": "not a bug report; no reproduction required",
+      "ground_truth": "ok",
+      "correct": true
+    }
+  ]
+}
