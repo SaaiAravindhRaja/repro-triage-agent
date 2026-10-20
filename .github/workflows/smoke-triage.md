@@ -9,6 +9,12 @@ engine:
 
 permissions: {}
 
+tools:
+  github:
+    min-integrity: none
+  bash: false
+  cli-proxy: false
+
 network: defaults
 
 timeout-minutes: 10
