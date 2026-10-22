@@ -45,6 +45,9 @@ network: defaults
 timeout-minutes: 10
 max-ai-credits: 20
 max-daily-ai-credits: 100
+user-rate-limit:
+  max-runs-per-window: 2
+  window: 60
 
 steps:
   - name: Check label and prior triage
