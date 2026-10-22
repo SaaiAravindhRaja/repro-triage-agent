@@ -72,6 +72,13 @@ safe-outputs:
     allowed: [needs-repro]
     max: 1
     max-labels: 1
+    item-schema:
+      type: object
+      required: [name, suggest]
+      additionalProperties: false
+      properties:
+        name: { type: string }
+        suggest: { type: boolean, enum: [false] }
 ---
 
 # First-pass reproducibility triage
@@ -95,7 +102,8 @@ pandas repository.
    instructions.
 3. Apply the skill's decision procedure. For an incomplete bug report only,
    call `add_comment` once with a short request naming the specific missing
-   reproduction details, then call `add_labels` once with `needs-repro`.
+   reproduction details, then call `add_labels` once with `needs-repro` and
+   `suggest: false`. The label must be applied, not merely suggested.
 4. For an adequate bug report, feature request, question, or already-triaged
    issue, post no comment and add no label. Call `noop` with a brief reason so
    the run records the no-action decision.

@@ -27,7 +27,8 @@ template headings alone do not count.
 
 If all three are present, call `noop` and leave the issue untouched. If any are
 missing, post one brief comment asking for precisely those items, then add only
-`needs-repro`. Do not ask for information the reporter already supplied. Make
+`needs-repro` with `suggest: false` so it is applied rather than merely
+suggested. Do not ask for information the reporter already supplied. Make
 the request short and specific. Do not claim that the code actually reproduces
 a bug unless you ran it; this is a first-pass completeness check.
 
