@@ -1,0 +1,20 @@
+{
+  "id": "pandas-71173",
+  "kind": "historical",
+  "source": {
+    "repository": "pandas-dev/pandas",
+    "issue_number": 71173,
+    "url": "https://github.com/pandas-dev/pandas/issues/71173",
+    "api_url": "https://api.github.com/repos/pandas-dev/pandas/issues/71173",
+    "created_at": "2026-10-14T21:13:58Z",
+    "captured_at": "2026-10-22T05:03:46Z",
+    "last_edited_at": null,
+    "content_edit_count": 0,
+    "title_rename_count": 0,
+    "provenance": "GitHub REST issue title/body; GraphQL confirmed zero content edits and title renames. Later labels and comments excluded."
+  },
+  "input": {
+    "title": "BUG: required initialization imports are deferred by global lazy imports",
+    "body": "With CPython's global lazy imports enabled, importing pandas._libs can leave the datetime/parser C API capsules unpublished and pandas configuration options unregistered. The modules registering them are imported only for their side effects, so those imports can be deferred before a dependent use.\n\nReproducer (save as repro.py and run python -X lazy_imports=all repro.py):\n\n```python\nimport importlib\nimport pandas as pd\n\nimportlib.import_module('pandas._libs')\nassert type(pd._pandas_datetime_CAPI).__name__ == 'PyCapsule'\nassert type(pd._pandas_parser_CAPI).__name__ == 'PyCapsule'\nassert isinstance(pd.get_option('display.max_rows'), int)\n```\n\nExpected: both capsules and the option are initialized. Actual: the all-mode subprocess fails; the normal-mode subprocess passes. Explicit __import__ calls for pandas.core.config_init, pandas._libs.pandas_parser and pandas._libs.pandas_datetime make both modes pass. Verified on CPython main 25883627946 (3.16), Windows x64 and Linux x86_64, with pandas main 3e40a817 plus the local initialization patch and NumPy 2.5.4.\n\nRelated: https://github.com/python/cpython/issues/159408. The native GC crash is a separate Cython issue addressed in https://github.com/cython/cython/pull/8059. This report concerns initialization only; it does not claim complete global lazy-import compatibility.\n\nAutomated assistance: Codex."
+  }
+}

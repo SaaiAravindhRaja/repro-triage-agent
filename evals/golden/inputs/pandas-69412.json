@@ -1,0 +1,20 @@
+{
+  "id": "pandas-69412",
+  "kind": "historical",
+  "source": {
+    "repository": "pandas-dev/pandas",
+    "issue_number": 69412,
+    "url": "https://github.com/pandas-dev/pandas/issues/69412",
+    "api_url": "https://api.github.com/repos/pandas-dev/pandas/issues/69412",
+    "created_at": "2026-09-22T21:30:16Z",
+    "captured_at": "2026-10-22T05:03:51Z",
+    "last_edited_at": null,
+    "content_edit_count": 0,
+    "title_rename_count": 0,
+    "provenance": "GitHub REST issue title/body; GraphQL confirmed zero content edits and title renames. Later labels and comments excluded."
+  },
+  "input": {
+    "title": "BUG: DataFrame.select with duplicate columns",
+    "body": "### Pandas version checks\n\n- [x] I have checked that this issue has not already been reported.\n\n- [x] I have confirmed this bug exists on the [latest version](https://pandas.pydata.org/docs/whatsnew/index.html) of pandas.\n\n- [x] I have confirmed this bug exists on the [main branch](https://pandas.pydata.org/docs/dev/getting_started/install.html#installing-the-development-version-of-pandas) of pandas.\n\n\n### Reproducible Example\n\n```python\ndf = DataFrame([[1, 2, 3],[4, 5, 6]], columns=[\"b\", \"b\", \"a\"])\ndf.select(pd.col(\"a\").rename(\"b\"))\n\n>>> df.select(pd.col(\"a\").rename(\"b\"))\n   b\n0  3\n1  3\n```\n\n### Issue Description\n\ncc @rhshadrach \n\n### Expected Behavior\n\n```\n>>> df.select(pd.col(\"a\").rename(\"b\"))\n   b\n0  3\n1  6\n```\n\n### Installed Versions\n\n<details>\n\nReplace this line with the output of pd.show_versions()\n\n</details>\n"
+  }
+}

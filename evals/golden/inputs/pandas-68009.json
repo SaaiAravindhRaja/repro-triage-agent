@@ -1,0 +1,20 @@
+{
+  "id": "pandas-68009",
+  "kind": "historical",
+  "source": {
+    "repository": "pandas-dev/pandas",
+    "issue_number": 68009,
+    "url": "https://github.com/pandas-dev/pandas/issues/68009",
+    "api_url": "https://api.github.com/repos/pandas-dev/pandas/issues/68009",
+    "created_at": "2026-09-04T09:06:16Z",
+    "captured_at": "2026-10-22T05:03:52Z",
+    "last_edited_at": null,
+    "content_edit_count": 0,
+    "title_rename_count": 0,
+    "provenance": "GitHub REST issue title/body; GraphQL confirmed zero content edits and title renames. Later labels and comments excluded."
+  },
+  "input": {
+    "title": "BUG: addition of non-UTC DatetimeArray with large Timedelta returns None",
+    "body": "With tz-naive (or UTC), this works fine:\n```python\n>>> arr = pd.array([0, 86400], dtype=\"M8[s]\")\n>>> arr\n<DatetimeArray>\n['1970-01-01 00:00:00', '1970-01-02 00:00:00']\nLength: 2, dtype: datetime64[s]\n>>> arr + np.timedelta64(10**13, \"s\")\n<DatetimeArray>\n['318857-05-20 17:46:40', '318857-05-21 17:46:40']\nLength: 2, dtype: datetime64[s]\n```\n\nBut when the array has a non-UTC timezone, it just returns nothing (`None`):\n```python\n>>> arr = pd.array([0, 86400], dtype=\"M8[s, Europe/Brussels]\")\n>>> arr + np.timedelta64(10**13, \"s\")\n>>> arr + pd.Timedelta(np.timedelta64(10**13, \"s\"))\n```\n\nThis happens on main, and also on 3.0.5, but worked fine on 2.3. So this seems a regression compared to 2.x."
+  }
+}

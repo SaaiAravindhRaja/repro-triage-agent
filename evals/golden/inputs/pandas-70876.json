@@ -1,0 +1,20 @@
+{
+  "id": "pandas-70876",
+  "kind": "historical",
+  "source": {
+    "repository": "pandas-dev/pandas",
+    "issue_number": 70876,
+    "url": "https://github.com/pandas-dev/pandas/issues/70876",
+    "api_url": "https://api.github.com/repos/pandas-dev/pandas/issues/70876",
+    "created_at": "2026-10-09T12:28:59Z",
+    "captured_at": "2026-10-22T05:03:56Z",
+    "last_edited_at": null,
+    "content_edit_count": 0,
+    "title_rename_count": 0,
+    "provenance": "GitHub REST issue title/body; GraphQL confirmed zero content edits and title renames. Later labels and comments excluded."
+  },
+  "input": {
+    "title": "ENH: Support automatic date and datetime conversion when reading SAS XPORT files",
+    "body": "### Feature Type\n\n- [x] Adding new functionality to pandas\n\n- [x] Changing existing functionality in pandas\n\n- [ ] Removing existing functionality in pandas\n\n\n### Problem Description\n\nThe `read_sas()` function does not automatically convert date and datetime variables when reading SAS XPORT files. Numeric values are returned as numeric data even when the variable metadata identifies a SAS date or datetime format (e.g. `DATE9.` often used in `.xpt` files containing clinical data).\n\nIt would be useful to support automatic date and datetime conversionfor XPORT files, similar to the existing functionality for SAS7BDAT files.\n\n### Feature Description\n\nThe implementation could reuse or adapt the existing date and datetime format recognition and conversion logic used by the SAS7BDAT reader, where applicable.\n\n### Alternative Solutions\n\nThe `pyreadstat` library (https://github.com/Roche/pyreadstat) solves this problem correctly using the `read_xport()` function, and creates `pandas` `DataFrame` objects with properly formatted dates. On the other hand, it would be great if `pandas.read_sas()` could also recognize columns containing dates natively, without the need to install the additional package.\n\n\n\n### Additional Context\n\nDate and datetime variables are common in clinical datasets, including datasets prepared according to CDISC standards. Without automatic conversion, users may need to identify these variables and convert them manually after importing the data.\n\nSupporting this functionality would make importing XPORT datasets more convenient and provide more consistent behavior across the two SAS file formats."
+  }
+}

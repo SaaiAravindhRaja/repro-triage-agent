@@ -1,0 +1,20 @@
+{
+  "id": "pandas-70256",
+  "kind": "historical",
+  "source": {
+    "repository": "pandas-dev/pandas",
+    "issue_number": 70256,
+    "url": "https://github.com/pandas-dev/pandas/issues/70256",
+    "api_url": "https://api.github.com/repos/pandas-dev/pandas/issues/70256",
+    "created_at": "2026-10-03T22:15:55Z",
+    "captured_at": "2026-10-22T05:03:48Z",
+    "last_edited_at": null,
+    "content_edit_count": 0,
+    "title_rename_count": 0,
+    "provenance": "GitHub REST issue title/body; GraphQL confirmed zero content edits and title renames. Later labels and comments excluded."
+  },
+  "input": {
+    "title": "BUG: setitem with a 0-d ndarray key raises in iloc/loc",
+    "body": "### Pandas version checks\n\n- [X] I have checked that this issue has not already been reported.\n- [X] I have confirmed this bug exists on the [latest version](https://pandas.pydata.org/docs/whatsnew/index.html) of pandas.\n- [X] I have confirmed this bug exists on the [main branch](https://pandas.pydata.org/docs/dev/getting_started/install.html#installing-the-development-version-of-pandas) of pandas.\n\n### Reproducible Example\n\n```python\nimport numpy as np\nimport pandas as pd\n\nkey = np.array(1)\n\ndf = pd.DataFrame({\"a\": [1, 2, 3], \"b\": [4, 5, 6]}, dtype=\"Int64\")\ndf.iloc[key] = 9\n# TypeError: len() of unsized object\ndf.iloc[key, 0] = 9\n# TypeError: len() of unsized object\n\ndf = pd.DataFrame({\"a\": [1, 2, 3], \"b\": [4.0, 5.0, 6.0]})\ndf.iloc[key] = 9\n# TypeError: len() of unsized object\n\ndf = pd.DataFrame(\n    {\"a\": pd.date_range(\"2000\", periods=3), \"b\": pd.date_range(\"2001\", periods=3)}\n)\ndf.iloc[key, [0, 1]] = pd.Timestamp(\"2010\")\n# ValueError: Cross index must be 1 dimensional\ndf.loc[key] = pd.Timestamp(\"2010\")\n# InvalidIndexError: 1\n```\n\n### Issue Description\n\nSetting with a 0-d ndarray key raises on these paths, while the same key works for getitem (GH-21946) and for setitem on a single-dtype numpy frame or a Series.\n\n### Expected Behavior\n\nA 0-d ndarray key behaves like the scalar it holds, e.g. `df.iloc[np.array(1)] = 9` is the same as `df.iloc[1] = 9`. Calling `lib.item_from_zerodim` on the key (and on each entry of a tuple key) at the top of `_LocationIndexer.__setitem__` fixes all of the above, as `_getitem_axis` already does for getitem.\n\nAI disclosure: found and reduced with Claude Code (`claude opus 5.5`).\n\n### Installed Versions\n\n<details>\n\n```\nINSTALLED VERSIONS\n------------------\ncommit                : 2905718b126579d2cf0fe5bae05bd75facb67d77\npython                : 3.13.11\npython-bits           : 64\nOS                    : Darwin\nOS-release            : 25.6.0\nmachine               : x86_64\nprocessor             : i386\nbyteorder             : little\nLC_ALL                : None\nLANG                  : en_US.UTF-8\nLOCALE                : en_US.UTF-8\n\npandas                : 3.0.6\nnumpy                 : 2.5.3\n```\n\n</details>\n"
+  }
+}

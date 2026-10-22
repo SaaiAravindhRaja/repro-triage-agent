@@ -1,0 +1,20 @@
+{
+  "id": "pandas-71034",
+  "kind": "historical",
+  "source": {
+    "repository": "pandas-dev/pandas",
+    "issue_number": 71034,
+    "url": "https://github.com/pandas-dev/pandas/issues/71034",
+    "api_url": "https://api.github.com/repos/pandas-dev/pandas/issues/71034",
+    "created_at": "2026-10-11T03:26:51Z",
+    "captured_at": "2026-10-22T05:03:45Z",
+    "last_edited_at": null,
+    "content_edit_count": 0,
+    "title_rename_count": 0,
+    "provenance": "GitHub REST issue title/body; GraphQL confirmed zero content edits and title renames. Later labels and comments excluded."
+  },
+  "input": {
+    "title": "BUG: read_csv(engine=\"pyarrow\") takes the column count from the first row, not from names",
+    "body": "### Pandas version checks\n\n- [x] I have checked that this issue has not already been reported.\n- [x] I have confirmed this bug exists on the latest version of pandas.\n- [x] I have confirmed this bug exists on the main branch of pandas.\n\n### Reproducible Example\n\n```python\nimport io\nimport pandas as pd\n\ndata = \"a,b\\n1,2,3,4\\n\"\nnames = [\"w\", \"x\", \"y\", \"z\"]\n\n# C engine: works, the short row is padded with NaN\nprint(pd.read_csv(io.StringIO(data), header=None, names=names))\n\n# pyarrow engine: fails\npd.read_csv(io.StringIO(data), header=None, names=names, engine=\"pyarrow\")\n# ParserError: CSV parse error: Expected 2 columns, got 4: 1,2,3,4\n\npd.read_csv(io.StringIO(data), header=None, names=names, engine=\"pyarrow\", on_bad_lines=\"skip\")\n# ValueError: Length mismatch: Expected axis has 2 elements, new values have 4 elements\n```\n\n### Issue Description\n\nWith `engine=\"pyarrow\"`, `header=None` and `names`, the number of columns comes from the first row of the file, not from `names`.\n\n`names` is not passed to Arrow. pandas reads with `autogenerate_column_names=True` and sets `names` after the read. So Arrow decides the width from the first row. Here the first row has 2 fields:\n\n- without `on_bad_lines`, the 4-field row is an error;\n- with `on_bad_lines=\"skip\"`, the 4-field row (the real data) is skipped, then setting 4 names on 2 columns fails.\n\nThis happens with real files that mix record types, where the first row is shorter than the data rows (for example the AEMO DISPATCHLOAD CSV files). The C engine reads them correctly.\n\n### Expected Behavior\n\n`names` sets the number of columns, as with the C engine. At least, a row with `len(names)` fields is not treated as a bad line.\n\n### Installed Versions\n\nSame result on:\n- pandas 3.0.6, pyarrow 26.0.0, Python 3.12, Linux\n- pandas 3.2.0.dev0+161.g1623e21c7a (nightly wheel), pyarrow 26.0.0, Python 3.12, Linux\n"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "id": "pandas-69462",
+  "kind": "historical",
+  "source": {
+    "repository": "pandas-dev/pandas",
+    "issue_number": 69462,
+    "url": "https://github.com/pandas-dev/pandas/issues/69462",
+    "api_url": "https://api.github.com/repos/pandas-dev/pandas/issues/69462",
+    "created_at": "2026-09-25T15:08:42Z",
+    "captured_at": "2026-10-22T05:03:47Z",
+    "last_edited_at": null,
+    "content_edit_count": 0,
+    "title_rename_count": 0,
+    "provenance": "GitHub REST issue title/body; GraphQL confirmed zero content edits and title renames. Later labels and comments excluded."
+  },
+  "input": {
+    "title": "BUG: .str and .dt accessors raise on dictionary-encoded ArrowDtype",
+    "body": "On current main, the `.str` and `.dt` accessors reject Series backed by dictionary-encoded `ArrowDtype`, even though the equivalent plain `ArrowDtype` (and `Categorical`, for `.str`) work fine.\n\nRepro:\n\n```python\nimport pandas as pd\nimport pyarrow as pa\nimport datetime\n\n# .str on dictionary-encoded strings\ns = pd.Series(\n    pd.array(['a', 'b', 'a'],\n             dtype=pd.ArrowDtype(pa.dictionary(pa.int32(), pa.string())))\n)\ns.str.upper()\n# AttributeError: Can only use .str accessor with string values, not unknown-array\n\n# .dt on dictionary-encoded timestamps\narr = pa.DictionaryArray.from_arrays(\n    pa.array([0, 1, 0], type=pa.int32()),\n    pa.array([datetime.datetime(2020, 1, 1), datetime.datetime(2020, 1, 2)],\n             type=pa.timestamp('us')),\n)\ns2 = pd.Series(pd.arrays.ArrowExtensionArray(arr))\ns2.dt.year\n# AttributeError: Can only use .dt accessor with datetimelike values\n```\n\nExpected: both accessors work, decoding through the dictionary the way `Categorical` does (`pd.Series(pd.Categorical(['a', 'b', 'a'])).str.upper()` works fine).\n\nWhat I found reading the code:\n\n- `.str`: `StringMethods._validate` does `values = getattr(data, \"categories\", data)` to blow up categoricals before inferring. `ArrowExtensionArray` has no `.categories`, so `lib.infer_dtype` sees the raw arrow array and returns `\"unknown-array\"`, which is not in the allowed list.\n- `.dt`: `CombinedDatetimelikeProperties.__init__` gates the arrow path on `data.dtype.kind in \"Mm\"`. `ArrowDtype.kind` only returns `\"M\"` when `pa.types.is_timestamp(self.pyarrow_dtype)` is true, which is false for dictionary types, so it falls back to the numpy object kind `\"O\"`.\n\nSo both accessors need to look through dictionary encoding to the value type, similar to how categoricals are handled.\n\nEnvironment: pandas main (3.2.0.dev1), pyarrow 25.0.1, Python 3.12, Linux.\n"
+  }
+}
