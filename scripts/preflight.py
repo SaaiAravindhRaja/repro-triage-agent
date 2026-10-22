@@ -79,12 +79,11 @@ def main() -> None:
     labels = issue.get("labels")
     if not isinstance(labels, list):
         raise RuntimeError("issue labels are unavailable")
-    if any(isinstance(item, dict) and item.get("name") == "needs-repro" for item in labels):
-        no_action(f"No action: issue #{number} already has needs-repro")
-        return
+    has_label = any(
+        isinstance(item, dict) and item.get("name") == "needs-repro" for item in labels
+    )
 
-    # Only our own workflow's bot comment counts as previous triage. A reporter
-    # cannot suppress triage by copying the marker into their issue body.
+    prior_comment = False
     for page in range(1, 21):
         comments = api_get(f"issues/{number}/comments?per_page=100&page={page}")
         if not isinstance(comments, list):
@@ -100,11 +99,17 @@ def main() -> None:
                 and isinstance(body, str)
                 and WORKFLOW_MARKER in body
             ):
-                no_action(f"No action: issue #{number} already has a triage comment")
-                return
-        if len(comments) < 100:
-            return
-    raise RuntimeError("too many comments to rule out prior triage")
+                prior_comment = True
+                break
+        if prior_comment or len(comments) < 100:
+            break
+    else:
+        raise RuntimeError("too many comments to rule out prior triage")
+
+    if prior_comment and has_label:
+        no_action(f"No action: issue #{number} already has a triage comment and label")
+    elif prior_comment or has_label:
+        raise RuntimeError(f"issue #{number} has a partial triage state; manual review is needed")
 
 
 if __name__ == "__main__":

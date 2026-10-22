@@ -34,15 +34,25 @@ class PreflightTests(unittest.TestCase):
         self.run_case({"number": 41, "state": "open", "labels": []}, [])
         self.assertFalse(self.output.exists())
 
-    def test_existing_label_short_circuits_agent(self) -> None:
-        self.run_case(
-            {"number": 41, "state": "open", "labels": [{"name": "needs-repro"}]}
-        )
-        self.assertEqual(json.loads(self.output.read_text())["type"], "noop")
+    def test_label_without_bot_comment_fails_visibly(self) -> None:
+        with self.assertRaisesRegex(RuntimeError, "partial triage state"):
+            self.run_case(
+                {"number": 41, "state": "open", "labels": [{"name": "needs-repro"}]},
+                [],
+            )
+        self.assertFalse(self.output.exists())
 
-    def test_own_prior_comment_short_circuits_agent(self) -> None:
+    def test_prior_comment_without_label_fails_visibly(self) -> None:
+        with self.assertRaisesRegex(RuntimeError, "partial triage state"):
+            self.run_case(
+                {"number": 41, "state": "open", "labels": []},
+                [{"user": {"login": "github-actions[bot]"}, "body": preflight.WORKFLOW_MARKER}],
+            )
+        self.assertFalse(self.output.exists())
+
+    def test_completed_prior_triage_short_circuits_agent(self) -> None:
         self.run_case(
-            {"number": 41, "state": "open", "labels": []},
+            {"number": 41, "state": "open", "labels": [{"name": "needs-repro"}]},
             [{"user": {"login": "github-actions[bot]"}, "body": preflight.WORKFLOW_MARKER}],
         )
         self.assertEqual(json.loads(self.output.read_text())["type"], "noop")
