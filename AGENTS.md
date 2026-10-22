@@ -20,8 +20,9 @@ agent comments only on incomplete bug reports in this repository.
 
 ## Conventions
 
-Use one sandbox issue per evaluation input. Record expected outcomes before
-running the agent. Cite the upstream issue as evidence, but never write to it.
+Use a fresh sandbox issue for each independent evaluation run. Record expected
+outcomes before running the agent. Cite the upstream issue as evidence, but
+never write to it.
 Keep source and compiled workflow in sync; inspect the compiled permissions
 and safe-output targets after each compile.
 

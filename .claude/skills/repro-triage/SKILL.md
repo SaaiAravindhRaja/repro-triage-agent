@@ -32,6 +32,10 @@ suggested. Do not ask for information the reporter already supplied. Make
 the request short and specific. Do not claim that the code actually reproduces
 a bug unless you ran it; this is a first-pass completeness check.
 
+Do not assert that a named pandas API is absent or invalid. This sandbox has
+no pandas source checkout to check the relevant version. If the example is
+not self-contained, ask for a runnable one without guessing why it fails.
+
 If the issue or this skill is unavailable, or a tool response is inconsistent,
 call `report_incomplete`. Never invent the missing content. An absent body
 field means the issue read failed; a present null body is an empty report.
