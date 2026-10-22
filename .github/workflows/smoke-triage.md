@@ -2,6 +2,7 @@
 on:
   issues:
     types: [opened]
+  roles: all
   workflow_dispatch:
     inputs:
       issue_number:
