@@ -68,6 +68,11 @@ safe-outputs:
     continue-on-error: false
     report-as-issue: false
     max-ai-credits: 10
+    engine:
+      runtime:
+        id: codex
+      provider:
+        model: gpt-5-mini
   add-comment:
     target: ${{ github.event.issue.number || github.event.inputs.issue_number }}
     max: 1
