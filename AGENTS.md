@@ -17,6 +17,8 @@ agent comments only on incomplete bug reports in this repository.
   evidence of an LLM run.
 - Check source syntax with `gh aw compile smoke-triage --no-emit`. No package
   build or installation is needed for this repository.
+- Run local tests with `python3 -B -m unittest discover -s tests -v`.
+- Recheck the saved evaluation with `python3 -B evals/reproduce.py`.
 
 ## Conventions
 
