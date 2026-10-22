@@ -30,7 +30,7 @@ class PreflightTests(unittest.TestCase):
             with patch.object(preflight, "api_get", side_effect=responses):
                 preflight.main()
 
-    def test_fresh_issue_passes_to_agent_without_output(self) -> None:
+    def test_fresh_issue_produces_no_preflight_output(self) -> None:
         self.run_case({"number": 41, "state": "open", "labels": []}, [])
         self.assertFalse(self.output.exists())
 
@@ -50,7 +50,7 @@ class PreflightTests(unittest.TestCase):
             )
         self.assertFalse(self.output.exists())
 
-    def test_completed_prior_triage_short_circuits_agent(self) -> None:
+    def test_completed_prior_triage_records_noop(self) -> None:
         self.run_case(
             {"number": 41, "state": "open", "labels": [{"name": "needs-repro"}]},
             [{"user": {"login": "github-actions[bot]"}, "body": preflight.WORKFLOW_MARKER}],

@@ -1,27 +1,10 @@
 #!/usr/bin/env python3
-"""Semantic reference classifier for reproducibility triage.
+"""Retired regex prototype, not a live agent evaluation.
 
-This implements the SAME three-criterion judgement the repro-triage SKILL.md
-tells the live agent to apply, as a transparent, inspectable reference:
-
-  1. Runnable minimal example  — a fenced block that actually imports/exercises
-     the library (not pseudo-code, not a screenshot-only reference).
-  2. Expected vs actual        — the report states what was expected and what
-     actually happened.
-  3. Real version block        — concrete versions, NOT placeholders
-     (`x.y.z`, `latest`, `<paste ...>`).
-
-Crucially, it also classifies INTENT: a feature request or a usage question is
-not a bug report, so it gets NO `needs-repro` label even if a code block is
-present. That intent step is exactly what the field-presence baseline cannot do.
-
-The LIVE gh-aw agent (OpenAI Codex engine) was confirmed to follow this same
-logic end to end on issue #5: it posted the REPRO-TRIAGE-SKILL-LOADED marker and
-correctly flagged the placeholder version + missing runtime. This file makes the
-decision rule auditable and runs it over the whole gold set; `results.md`
-records the run URL that grounds it in a real model call.
-
-Verdict space: "needs-repro" (inadequate bug repro) | "ok" (adequate / not a bug).
+It guesses report intent and completeness from string patterns. It cannot
+establish that code runs or that a request is truly a bug. The fixtures in
+this directory were partly rewritten and are not the submitted historical
+set. See ../evals/golden/ for actual workflow runs.
 """
 from __future__ import annotations
 
@@ -81,9 +64,9 @@ def main() -> int:
         ok = res["verdict"] == truth
         correct += ok
         rows.append({"id": case["id"], "class": case["class"], "source_url": case["source_url"],
-                     "agent_verdict": res["verdict"], "intent": res["intent"],
+                     "prototype_verdict": res["verdict"], "intent": res["intent"],
                      "reason": res["reason"], "ground_truth": truth, "correct": ok})
-    out = {"tool": "semantic-agent-reference", "n": len(rows), "correct": correct,
+    out = {"tool": "retired-regex-prototype", "n": len(rows), "correct": correct,
            "accuracy": round(correct / len(rows), 3), "cases": rows}
     print(json.dumps(out, indent=2))
     return 0

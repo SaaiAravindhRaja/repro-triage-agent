@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """Deterministic field-presence baseline for reproducibility triage.
 
-This is the NON-LLM baseline the agent is measured against. It does exactly what
+This was the NON-LLM baseline in the retired prototype. It does exactly what
 a naive template linter does: it checks whether the issue body contains the
 expected template sections and whether they are non-empty. It does NOT reason
-about whether the content is semantically an adequate reproduction -- that gap is
-the whole point of the comparison.
+about whether the content is semantically an adequate reproduction. The saved
+prototype score is not a comparison against live agent runs.
 
 Verdict: "needs-repro" if any required field looks empty/missing, else "ok".
 """

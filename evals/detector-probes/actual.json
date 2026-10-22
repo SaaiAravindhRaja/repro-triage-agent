@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "id": "pandas-71034",
+      "sandbox_issue_number": 51,
+      "sandbox_issue_url": "https://github.com/SaaiAravindhRaja/repro-triage-agent/issues/51",
+      "sandbox_input_matches_fixture": true,
+      "run_id": 39730488990,
+      "run_url": "https://github.com/SaaiAravindhRaja/repro-triage-agent/actions/runs/39730488990",
+      "run_created_at": "2026-10-22T05:52:12Z",
+      "run_updated_at": "2026-10-22T05:56:28Z",
+      "run_attempt": 1,
+      "run_workflow_id": 390537521,
+      "run_workflow_path": ".github/workflows/smoke-triage.lock.yml",
+      "run_head_sha": "4453905fb15b4e4f830536a7cf6ebb9e48bb3c7c",
+      "run_event": "workflow_dispatch",
+      "run_branch": "assignment3-submission",
+      "run_conclusion": "failure",
+      "observed_action": "no_action",
+      "observed_labels": [],
+      "label_events_during_run": [],
+      "bot_comments": [],
+      "log_capture_exit_code": 0,
+      "evidence": {
+        "skill_read": true,
+        "issue_read": true,
+        "decision_recorded": true
+      },
+      "tool_sequence": [
+        "github.get_file_contents",
+        "github.get_file_contents",
+        "github.issue_read",
+        "safeoutputs.noop"
+      ],
+      "usage": {
+        "agent_ai_credits": 5.6279,
+        "detector_ai_credits": null
+      },
+      "human_review": {
+        "correct_decision": null,
+        "notes": "Pending transcript and comment review"
+      }
+    },
+    {
+      "id": "pandas-71173",
+      "sandbox_issue_number": 40,
+      "sandbox_issue_url": "https://github.com/SaaiAravindhRaja/repro-triage-agent/issues/40",
+      "sandbox_input_matches_fixture": true,
+      "run_id": 39730920772,
+      "run_url": "https://github.com/SaaiAravindhRaja/repro-triage-agent/actions/runs/39730920772",
+      "run_created_at": "2026-10-22T05:56:41Z",
+      "run_updated_at": "2026-10-22T06:00:56Z",
+      "run_attempt": 1,
+      "run_workflow_id": 390537521,
+      "run_workflow_path": ".github/workflows/smoke-triage.lock.yml",
+      "run_head_sha": "4453905fb15b4e4f830536a7cf6ebb9e48bb3c7c",
+      "run_event": "workflow_dispatch",
+      "run_branch": "assignment3-submission",
+      "run_conclusion": "success",
+      "observed_action": "no_action",
+      "observed_labels": [],
+      "label_events_during_run": [],
+      "bot_comments": [],
+      "log_capture_exit_code": 0,
+      "evidence": {
+        "skill_read": true,
+        "issue_read": true,
+        "decision_recorded": true
+      },
+      "tool_sequence": [
+        "github.get_file_contents",
+        "github.issue_read",
+        "safeoutputs.noop"
+      ],
+      "usage": {
+        "agent_ai_credits": 4.482825,
+        "detector_ai_credits": 0.642895
+      },
+      "human_review": {
+        "correct_decision": null,
+        "notes": "Pending transcript and comment review"
+      }
+    }
+  ],
+  "collected_at": "2026-10-22T06:01:09.595695+00:00"
+}

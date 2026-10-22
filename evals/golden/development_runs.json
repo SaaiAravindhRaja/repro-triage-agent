@@ -1,0 +1,18 @@
+[
+  {
+    "case_id": "pandas-69436",
+    "issue": "https://github.com/SaaiAravindhRaja/repro-triage-agent/issues/14",
+    "run": "https://github.com/SaaiAravindhRaja/repro-triage-agent/actions/runs/39726535010",
+    "source_sha": "41ed70c5a63cfb16137aea849a7ae9dedd183e02",
+    "conclusion": "success",
+    "observation": "The bot posted the right missing-information comment, but add_labels sent suggest: true; the safe-output job added zero labels. This run is a failed behavior test, not part of the final evaluation score."
+  },
+  {
+    "case_id": "pandas-71034",
+    "issue": "https://github.com/SaaiAravindhRaja/repro-triage-agent/issues/39",
+    "run": "https://github.com/SaaiAravindhRaja/repro-triage-agent/actions/runs/39729812028",
+    "source_sha": "a439c74d9439a58928b4eecb289b1d7babaff21e",
+    "conclusion": "success",
+    "observation": "No public action, as expected. This isolated run is not in the final score because the subsequent role-gate correction changed the workflow configuration."
+  }
+]

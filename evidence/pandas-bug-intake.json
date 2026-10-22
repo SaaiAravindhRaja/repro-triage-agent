@@ -1,0 +1,1087 @@
+{
+  "query": "repo:pandas-dev/pandas is:issue created:2026-07-22..2026-10-20 label:Bug",
+  "collected_at": "2026-10-22T05:03:33.416872+00:00",
+  "total_count": 111,
+  "limitation": "Labels reflect collection time, not creation time; GitHub search is mutable.",
+  "issues": [
+    {
+      "number": 71378,
+      "url": "https://github.com/pandas-dev/pandas/issues/71378",
+      "created_at": "2026-10-20T12:33:35Z",
+      "labels_at_collection": [
+        "Bug",
+        "Indexing",
+        "Deprecate",
+        "Needs Discussion"
+      ]
+    },
+    {
+      "number": 71376,
+      "url": "https://github.com/pandas-dev/pandas/issues/71376",
+      "created_at": "2026-10-20T10:06:48Z",
+      "labels_at_collection": [
+        "Bug",
+        "Needs Triage"
+      ]
+    },
+    {
+      "number": 71371,
+      "url": "https://github.com/pandas-dev/pandas/issues/71371",
+      "created_at": "2026-10-20T06:17:39Z",
+      "labels_at_collection": [
+        "Bug",
+        "Needs Triage"
+      ]
+    },
+    {
+      "number": 71305,
+      "url": "https://github.com/pandas-dev/pandas/issues/71305",
+      "created_at": "2026-10-19T08:21:45Z",
+      "labels_at_collection": [
+        "Bug",
+        "Styler"
+      ]
+    },
+    {
+      "number": 71298,
+      "url": "https://github.com/pandas-dev/pandas/issues/71298",
+      "created_at": "2026-10-18T23:55:12Z",
+      "labels_at_collection": [
+        "Bug",
+        "Error Reporting",
+        "IO CSV",
+        "Arrow"
+      ]
+    },
+    {
+      "number": 71295,
+      "url": "https://github.com/pandas-dev/pandas/issues/71295",
+      "created_at": "2026-10-18T19:43:24Z",
+      "labels_at_collection": [
+        "Bug",
+        "Needs Triage"
+      ]
+    },
+    {
+      "number": 71288,
+      "url": "https://github.com/pandas-dev/pandas/issues/71288",
+      "created_at": "2026-10-18T11:39:54Z",
+      "labels_at_collection": [
+        "Bug",
+        "Interval",
+        "Numeric stability"
+      ]
+    },
+    {
+      "number": 71282,
+      "url": "https://github.com/pandas-dev/pandas/issues/71282",
+      "created_at": "2026-10-17T22:46:46Z",
+      "labels_at_collection": [
+        "Bug",
+        "cut"
+      ]
+    },
+    {
+      "number": 71281,
+      "url": "https://github.com/pandas-dev/pandas/issues/71281",
+      "created_at": "2026-10-17T19:23:20Z",
+      "labels_at_collection": [
+        "Bug",
+        "Styler"
+      ]
+    },
+    {
+      "number": 71280,
+      "url": "https://github.com/pandas-dev/pandas/issues/71280",
+      "created_at": "2026-10-17T19:22:54Z",
+      "labels_at_collection": [
+        "Bug",
+        "IO Stata"
+      ]
+    },
+    {
+      "number": 71279,
+      "url": "https://github.com/pandas-dev/pandas/issues/71279",
+      "created_at": "2026-10-17T19:22:27Z",
+      "labels_at_collection": [
+        "Bug",
+        "IO SAS"
+      ]
+    },
+    {
+      "number": 71278,
+      "url": "https://github.com/pandas-dev/pandas/issues/71278",
+      "created_at": "2026-10-17T19:22:00Z",
+      "labels_at_collection": [
+        "Bug",
+        "IO HDF5"
+      ]
+    },
+    {
+      "number": 71277,
+      "url": "https://github.com/pandas-dev/pandas/issues/71277",
+      "created_at": "2026-10-17T19:21:34Z",
+      "labels_at_collection": [
+        "Bug",
+        "IO HDF5",
+        "expressions"
+      ]
+    },
+    {
+      "number": 71276,
+      "url": "https://github.com/pandas-dev/pandas/issues/71276",
+      "created_at": "2026-10-17T19:21:07Z",
+      "labels_at_collection": [
+        "Bug",
+        "IO HDF5"
+      ]
+    },
+    {
+      "number": 71275,
+      "url": "https://github.com/pandas-dev/pandas/issues/71275",
+      "created_at": "2026-10-17T19:20:41Z",
+      "labels_at_collection": [
+        "Bug",
+        "IO XML"
+      ]
+    },
+    {
+      "number": 71272,
+      "url": "https://github.com/pandas-dev/pandas/issues/71272",
+      "created_at": "2026-10-17T19:19:21Z",
+      "labels_at_collection": [
+        "Bug",
+        "Numeric Operations",
+        "Numeric stability"
+      ]
+    },
+    {
+      "number": 71264,
+      "url": "https://github.com/pandas-dev/pandas/issues/71264",
+      "created_at": "2026-10-17T06:20:29Z",
+      "labels_at_collection": [
+        "Bug",
+        "Numeric Operations",
+        "Timedelta"
+      ]
+    },
+    {
+      "number": 71263,
+      "url": "https://github.com/pandas-dev/pandas/issues/71263",
+      "created_at": "2026-10-17T06:19:23Z",
+      "labels_at_collection": [
+        "Bug",
+        "Needs Triage"
+      ]
+    },
+    {
+      "number": 71254,
+      "url": "https://github.com/pandas-dev/pandas/issues/71254",
+      "created_at": "2026-10-16T13:23:51Z",
+      "labels_at_collection": [
+        "Bug",
+        "Windows",
+        "Segfault",
+        "Sorting",
+        "Python 3.15"
+      ]
+    },
+    {
+      "number": 71253,
+      "url": "https://github.com/pandas-dev/pandas/issues/71253",
+      "created_at": "2026-10-16T13:08:29Z",
+      "labels_at_collection": [
+        "Bug",
+        "Needs Triage"
+      ]
+    },
+    {
+      "number": 71197,
+      "url": "https://github.com/pandas-dev/pandas/issues/71197",
+      "created_at": "2026-10-15T09:40:39Z",
+      "labels_at_collection": [
+        "Bug",
+        "Needs Triage"
+      ]
+    },
+    {
+      "number": 71189,
+      "url": "https://github.com/pandas-dev/pandas/issues/71189",
+      "created_at": "2026-10-15T03:18:49Z",
+      "labels_at_collection": [
+        "Bug",
+        "Arrow"
+      ]
+    },
+    {
+      "number": 71173,
+      "url": "https://github.com/pandas-dev/pandas/issues/71173",
+      "created_at": "2026-10-14T21:13:58Z",
+      "labels_at_collection": [
+        "Bug",
+        "Python 3.15"
+      ]
+    },
+    {
+      "number": 71172,
+      "url": "https://github.com/pandas-dev/pandas/issues/71172",
+      "created_at": "2026-10-14T20:57:31Z",
+      "labels_at_collection": [
+        "Bug",
+        "Compat",
+        "Needs Discussion"
+      ]
+    },
+    {
+      "number": 71159,
+      "url": "https://github.com/pandas-dev/pandas/issues/71159",
+      "created_at": "2026-10-14T09:43:48Z",
+      "labels_at_collection": [
+        "Bug",
+        "Missing-data",
+        "Regression",
+        "Copy / view semantics"
+      ]
+    },
+    {
+      "number": 71158,
+      "url": "https://github.com/pandas-dev/pandas/issues/71158",
+      "created_at": "2026-10-14T06:58:51Z",
+      "labels_at_collection": [
+        "Bug",
+        "IO CSV"
+      ]
+    },
+    {
+      "number": 71128,
+      "url": "https://github.com/pandas-dev/pandas/issues/71128",
+      "created_at": "2026-10-13T03:41:12Z",
+      "labels_at_collection": [
+        "Bug",
+        "Needs Triage"
+      ]
+    },
+    {
+      "number": 71109,
+      "url": "https://github.com/pandas-dev/pandas/issues/71109",
+      "created_at": "2026-10-12T23:13:17Z",
+      "labels_at_collection": [
+        "Bug",
+        "ExtensionArray",
+        "Index",
+        "ufuncs"
+      ]
+    },
+    {
+      "number": 71022,
+      "url": "https://github.com/pandas-dev/pandas/issues/71022",
+      "created_at": "2026-10-10T18:33:26Z",
+      "labels_at_collection": [
+        "Bug",
+        "Numeric Operations",
+        "Index"
+      ]
+    },
+    {
+      "number": 70991,
+      "url": "https://github.com/pandas-dev/pandas/issues/70991",
+      "created_at": "2026-10-10T13:33:45Z",
+      "labels_at_collection": [
+        "Bug",
+        "Strings",
+        "Arrow"
+      ]
+    },
+    {
+      "number": 70811,
+      "url": "https://github.com/pandas-dev/pandas/issues/70811",
+      "created_at": "2026-10-07T21:17:50Z",
+      "labels_at_collection": [
+        "Bug",
+        "Strings"
+      ]
+    },
+    {
+      "number": 70770,
+      "url": "https://github.com/pandas-dev/pandas/issues/70770",
+      "created_at": "2026-10-07T02:07:13Z",
+      "labels_at_collection": [
+        "Bug",
+        "Strings",
+        "API - Consistency"
+      ]
+    },
+    {
+      "number": 70685,
+      "url": "https://github.com/pandas-dev/pandas/issues/70685",
+      "created_at": "2026-10-06T19:28:20Z",
+      "labels_at_collection": [
+        "Bug",
+        "Reduction Operations",
+        "Arrow"
+      ]
+    },
+    {
+      "number": 70487,
+      "url": "https://github.com/pandas-dev/pandas/issues/70487",
+      "created_at": "2026-10-05T19:46:40Z",
+      "labels_at_collection": [
+        "Bug",
+        "NA - MaskedArrays",
+        "Reduction Operations"
+      ]
+    },
+    {
+      "number": 70256,
+      "url": "https://github.com/pandas-dev/pandas/issues/70256",
+      "created_at": "2026-10-03T22:15:55Z",
+      "labels_at_collection": [
+        "Bug",
+        "Indexing"
+      ]
+    },
+    {
+      "number": 70082,
+      "url": "https://github.com/pandas-dev/pandas/issues/70082",
+      "created_at": "2026-10-01T12:18:40Z",
+      "labels_at_collection": [
+        "Bug",
+        "CI"
+      ]
+    },
+    {
+      "number": 69959,
+      "url": "https://github.com/pandas-dev/pandas/issues/69959",
+      "created_at": "2026-09-30T02:06:19Z",
+      "labels_at_collection": [
+        "Bug",
+        "MultiIndex",
+        "Needs Tests"
+      ]
+    },
+    {
+      "number": 69923,
+      "url": "https://github.com/pandas-dev/pandas/issues/69923",
+      "created_at": "2026-09-29T19:35:24Z",
+      "labels_at_collection": [
+        "Bug",
+        "Groupby"
+      ]
+    },
+    {
+      "number": 69749,
+      "url": "https://github.com/pandas-dev/pandas/issues/69749",
+      "created_at": "2026-09-28T03:02:34Z",
+      "labels_at_collection": [
+        "Bug",
+        "Strings",
+        "Arrow"
+      ]
+    },
+    {
+      "number": 69486,
+      "url": "https://github.com/pandas-dev/pandas/issues/69486",
+      "created_at": "2026-09-26T19:12:39Z",
+      "labels_at_collection": [
+        "Bug",
+        "Regression",
+        "Strings",
+        "Arrow"
+      ]
+    },
+    {
+      "number": 69462,
+      "url": "https://github.com/pandas-dev/pandas/issues/69462",
+      "created_at": "2026-09-25T15:08:42Z",
+      "labels_at_collection": [
+        "Bug",
+        "Arrow"
+      ]
+    },
+    {
+      "number": 69448,
+      "url": "https://github.com/pandas-dev/pandas/issues/69448",
+      "created_at": "2026-09-24T13:55:30Z",
+      "labels_at_collection": [
+        "Bug",
+        "Deprecate"
+      ]
+    },
+    {
+      "number": 69443,
+      "url": "https://github.com/pandas-dev/pandas/issues/69443",
+      "created_at": "2026-09-24T08:19:00Z",
+      "labels_at_collection": [
+        "Bug",
+        "Indexing",
+        "Arrow"
+      ]
+    },
+    {
+      "number": 69436,
+      "url": "https://github.com/pandas-dev/pandas/issues/69436",
+      "created_at": "2026-09-23T20:29:55Z",
+      "labels_at_collection": [
+        "Bug",
+        "Dtype Conversions",
+        "Numeric Operations",
+        "Arrow"
+      ]
+    },
+    {
+      "number": 69412,
+      "url": "https://github.com/pandas-dev/pandas/issues/69412",
+      "created_at": "2026-09-22T21:30:16Z",
+      "labels_at_collection": [
+        "Bug",
+        "Indexing"
+      ]
+    },
+    {
+      "number": 69037,
+      "url": "https://github.com/pandas-dev/pandas/issues/69037",
+      "created_at": "2026-09-19T13:39:13Z",
+      "labels_at_collection": [
+        "Bug",
+        "Regression",
+        "Window"
+      ]
+    },
+    {
+      "number": 69014,
+      "url": "https://github.com/pandas-dev/pandas/issues/69014",
+      "created_at": "2026-09-18T12:24:57Z",
+      "labels_at_collection": [
+        "Bug",
+        "Testing"
+      ]
+    },
+    {
+      "number": 69011,
+      "url": "https://github.com/pandas-dev/pandas/issues/69011",
+      "created_at": "2026-09-18T10:13:47Z",
+      "labels_at_collection": [
+        "Bug",
+        "Datetime",
+        "Dtype Conversions",
+        "Needs Discussion",
+        "Astype"
+      ]
+    },
+    {
+      "number": 68597,
+      "url": "https://github.com/pandas-dev/pandas/issues/68597",
+      "created_at": "2026-09-13T14:33:41Z",
+      "labels_at_collection": [
+        "Bug",
+        "Needs Triage"
+      ]
+    },
+    {
+      "number": 68505,
+      "url": "https://github.com/pandas-dev/pandas/issues/68505",
+      "created_at": "2026-09-12T15:14:39Z",
+      "labels_at_collection": [
+        "Bug",
+        "IO CSV"
+      ]
+    },
+    {
+      "number": 68354,
+      "url": "https://github.com/pandas-dev/pandas/issues/68354",
+      "created_at": "2026-09-09T16:35:40Z",
+      "labels_at_collection": [
+        "Bug",
+        "Missing-data",
+        "Sparse",
+        "Reduction Operations"
+      ]
+    },
+    {
+      "number": 68310,
+      "url": "https://github.com/pandas-dev/pandas/issues/68310",
+      "created_at": "2026-09-08T14:58:45Z",
+      "labels_at_collection": [
+        "Bug",
+        "Styler"
+      ]
+    },
+    {
+      "number": 68264,
+      "url": "https://github.com/pandas-dev/pandas/issues/68264",
+      "created_at": "2026-09-06T20:48:09Z",
+      "labels_at_collection": [
+        "Bug",
+        "Index",
+        "setops"
+      ]
+    },
+    {
+      "number": 68199,
+      "url": "https://github.com/pandas-dev/pandas/issues/68199",
+      "created_at": "2026-09-06T04:24:27Z",
+      "labels_at_collection": [
+        "Bug",
+        "replace"
+      ]
+    },
+    {
+      "number": 68041,
+      "url": "https://github.com/pandas-dev/pandas/issues/68041",
+      "created_at": "2026-09-04T22:29:23Z",
+      "labels_at_collection": [
+        "Bug",
+        "IO CSV",
+        "Arrow"
+      ]
+    },
+    {
+      "number": 68026,
+      "url": "https://github.com/pandas-dev/pandas/issues/68026",
+      "created_at": "2026-09-04T16:15:29Z",
+      "labels_at_collection": [
+        "Bug",
+        "IO XML"
+      ]
+    },
+    {
+      "number": 68009,
+      "url": "https://github.com/pandas-dev/pandas/issues/68009",
+      "created_at": "2026-09-04T09:06:16Z",
+      "labels_at_collection": [
+        "Bug",
+        "Datetime",
+        "Non-Nano"
+      ]
+    },
+    {
+      "number": 67949,
+      "url": "https://github.com/pandas-dev/pandas/issues/67949",
+      "created_at": "2026-09-03T08:16:31Z",
+      "labels_at_collection": [
+        "Bug",
+        "Dtype Conversions",
+        "Arrow"
+      ]
+    },
+    {
+      "number": 67755,
+      "url": "https://github.com/pandas-dev/pandas/issues/67755",
+      "created_at": "2026-09-01T16:53:27Z",
+      "labels_at_collection": [
+        "Bug",
+        "Visualization",
+        "Regression"
+      ]
+    },
+    {
+      "number": 67754,
+      "url": "https://github.com/pandas-dev/pandas/issues/67754",
+      "created_at": "2026-09-01T16:10:28Z",
+      "labels_at_collection": [
+        "Bug",
+        "Missing-data",
+        "Interval",
+        "Arrow"
+      ]
+    },
+    {
+      "number": 67753,
+      "url": "https://github.com/pandas-dev/pandas/issues/67753",
+      "created_at": "2026-09-01T16:10:26Z",
+      "labels_at_collection": [
+        "Bug",
+        "Interval",
+        "IO Parquet",
+        "Arrow"
+      ]
+    },
+    {
+      "number": 67727,
+      "url": "https://github.com/pandas-dev/pandas/issues/67727",
+      "created_at": "2026-09-01T07:04:43Z",
+      "labels_at_collection": [
+        "Bug",
+        "Visualization"
+      ]
+    },
+    {
+      "number": 67726,
+      "url": "https://github.com/pandas-dev/pandas/issues/67726",
+      "created_at": "2026-09-01T06:54:10Z",
+      "labels_at_collection": [
+        "Bug",
+        "Visualization"
+      ]
+    },
+    {
+      "number": 67470,
+      "url": "https://github.com/pandas-dev/pandas/issues/67470",
+      "created_at": "2026-08-30T16:25:19Z",
+      "labels_at_collection": [
+        "Bug",
+        "IO Excel",
+        "Warnings"
+      ]
+    },
+    {
+      "number": 67375,
+      "url": "https://github.com/pandas-dev/pandas/issues/67375",
+      "created_at": "2026-08-30T04:40:23Z",
+      "labels_at_collection": [
+        "Bug",
+        "Regression",
+        "IO CSV"
+      ]
+    },
+    {
+      "number": 67066,
+      "url": "https://github.com/pandas-dev/pandas/issues/67066",
+      "created_at": "2026-08-28T21:49:38Z",
+      "labels_at_collection": [
+        "Bug",
+        "Regression",
+        "Timestamp"
+      ]
+    },
+    {
+      "number": 67065,
+      "url": "https://github.com/pandas-dev/pandas/issues/67065",
+      "created_at": "2026-08-28T21:25:14Z",
+      "labels_at_collection": [
+        "Bug",
+        "Regression",
+        "IO HDF5"
+      ]
+    },
+    {
+      "number": 67055,
+      "url": "https://github.com/pandas-dev/pandas/issues/67055",
+      "created_at": "2026-08-28T09:21:47Z",
+      "labels_at_collection": [
+        "Bug",
+        "Copy / view semantics"
+      ]
+    },
+    {
+      "number": 67040,
+      "url": "https://github.com/pandas-dev/pandas/issues/67040",
+      "created_at": "2026-08-28T06:54:07Z",
+      "labels_at_collection": [
+        "Bug",
+        "Needs Triage"
+      ]
+    },
+    {
+      "number": 67024,
+      "url": "https://github.com/pandas-dev/pandas/issues/67024",
+      "created_at": "2026-08-27T12:55:16Z",
+      "labels_at_collection": [
+        "Bug",
+        "Strings",
+        "Arrow"
+      ]
+    },
+    {
+      "number": 67023,
+      "url": "https://github.com/pandas-dev/pandas/issues/67023",
+      "created_at": "2026-08-27T11:09:57Z",
+      "labels_at_collection": [
+        "Bug",
+        "Duplicate Report",
+        "cov/corr"
+      ]
+    },
+    {
+      "number": 67022,
+      "url": "https://github.com/pandas-dev/pandas/issues/67022",
+      "created_at": "2026-08-27T10:52:04Z",
+      "labels_at_collection": [
+        "Bug",
+        "Reduction Operations"
+      ]
+    },
+    {
+      "number": 67010,
+      "url": "https://github.com/pandas-dev/pandas/issues/67010",
+      "created_at": "2026-08-26T19:00:31Z",
+      "labels_at_collection": [
+        "Bug",
+        "IO CSV",
+        "Arrow"
+      ]
+    },
+    {
+      "number": 67008,
+      "url": "https://github.com/pandas-dev/pandas/issues/67008",
+      "created_at": "2026-08-26T18:34:36Z",
+      "labels_at_collection": [
+        "Bug",
+        "IO CSV"
+      ]
+    },
+    {
+      "number": 67005,
+      "url": "https://github.com/pandas-dev/pandas/issues/67005",
+      "created_at": "2026-08-26T13:58:30Z",
+      "labels_at_collection": [
+        "Bug",
+        "IO CSV",
+        "Needs Discussion",
+        "Name/Position Ambiguity"
+      ]
+    },
+    {
+      "number": 66893,
+      "url": "https://github.com/pandas-dev/pandas/issues/66893",
+      "created_at": "2026-08-21T01:27:54Z",
+      "labels_at_collection": [
+        "Bug",
+        "Groupby"
+      ]
+    },
+    {
+      "number": 66834,
+      "url": "https://github.com/pandas-dev/pandas/issues/66834",
+      "created_at": "2026-08-18T14:37:50Z",
+      "labels_at_collection": [
+        "Bug",
+        "Arrow"
+      ]
+    },
+    {
+      "number": 66774,
+      "url": "https://github.com/pandas-dev/pandas/issues/66774",
+      "created_at": "2026-08-15T07:02:34Z",
+      "labels_at_collection": [
+        "Bug",
+        "Testing"
+      ]
+    },
+    {
+      "number": 66709,
+      "url": "https://github.com/pandas-dev/pandas/issues/66709",
+      "created_at": "2026-08-10T19:27:37Z",
+      "labels_at_collection": [
+        "Bug",
+        "IO JSON"
+      ]
+    },
+    {
+      "number": 66703,
+      "url": "https://github.com/pandas-dev/pandas/issues/66703",
+      "created_at": "2026-08-10T16:54:51Z",
+      "labels_at_collection": [
+        "Bug",
+        "Segfault",
+        "Arrow"
+      ]
+    },
+    {
+      "number": 66697,
+      "url": "https://github.com/pandas-dev/pandas/issues/66697",
+      "created_at": "2026-08-10T15:30:03Z",
+      "labels_at_collection": [
+        "Bug",
+        "Timezones"
+      ]
+    },
+    {
+      "number": 66673,
+      "url": "https://github.com/pandas-dev/pandas/issues/66673",
+      "created_at": "2026-08-09T18:21:29Z",
+      "labels_at_collection": [
+        "Bug",
+        "Reshaping"
+      ]
+    },
+    {
+      "number": 66672,
+      "url": "https://github.com/pandas-dev/pandas/issues/66672",
+      "created_at": "2026-08-09T18:21:12Z",
+      "labels_at_collection": [
+        "Bug",
+        "Reshaping"
+      ]
+    },
+    {
+      "number": 66657,
+      "url": "https://github.com/pandas-dev/pandas/issues/66657",
+      "created_at": "2026-08-08T12:17:23Z",
+      "labels_at_collection": [
+        "Bug",
+        "IO CSV",
+        "Segfault"
+      ]
+    },
+    {
+      "number": 66656,
+      "url": "https://github.com/pandas-dev/pandas/issues/66656",
+      "created_at": "2026-08-08T01:35:13Z",
+      "labels_at_collection": [
+        "Bug",
+        "Indexing",
+        "rename"
+      ]
+    },
+    {
+      "number": 66639,
+      "url": "https://github.com/pandas-dev/pandas/issues/66639",
+      "created_at": "2026-08-06T16:58:16Z",
+      "labels_at_collection": [
+        "Bug",
+        "Regression",
+        "IO CSV"
+      ]
+    },
+    {
+      "number": 66622,
+      "url": "https://github.com/pandas-dev/pandas/issues/66622",
+      "created_at": "2026-08-04T20:00:59Z",
+      "labels_at_collection": [
+        "Bug",
+        "IO CSV",
+        "Segfault"
+      ]
+    },
+    {
+      "number": 66615,
+      "url": "https://github.com/pandas-dev/pandas/issues/66615",
+      "created_at": "2026-08-04T02:48:38Z",
+      "labels_at_collection": [
+        "Bug",
+        "IO JSON",
+        "Closing Candidate"
+      ]
+    },
+    {
+      "number": 66608,
+      "url": "https://github.com/pandas-dev/pandas/issues/66608",
+      "created_at": "2026-08-03T13:53:55Z",
+      "labels_at_collection": [
+        "Bug",
+        "Timedelta"
+      ]
+    },
+    {
+      "number": 66593,
+      "url": "https://github.com/pandas-dev/pandas/issues/66593",
+      "created_at": "2026-08-01T18:41:35Z",
+      "labels_at_collection": [
+        "Bug",
+        "Strings",
+        "Index",
+        "Arrow"
+      ]
+    },
+    {
+      "number": 66579,
+      "url": "https://github.com/pandas-dev/pandas/issues/66579",
+      "created_at": "2026-08-01T14:24:42Z",
+      "labels_at_collection": [
+        "Bug",
+        "IO Excel"
+      ]
+    },
+    {
+      "number": 66571,
+      "url": "https://github.com/pandas-dev/pandas/issues/66571",
+      "created_at": "2026-07-31T22:49:25Z",
+      "labels_at_collection": [
+        "Bug",
+        "Indexing",
+        "Period"
+      ]
+    },
+    {
+      "number": 66552,
+      "url": "https://github.com/pandas-dev/pandas/issues/66552",
+      "created_at": "2026-07-30T16:54:25Z",
+      "labels_at_collection": [
+        "Bug",
+        "Datetime",
+        "Missing-data",
+        "Timedelta"
+      ]
+    },
+    {
+      "number": 66551,
+      "url": "https://github.com/pandas-dev/pandas/issues/66551",
+      "created_at": "2026-07-30T16:22:17Z",
+      "labels_at_collection": [
+        "Bug",
+        "Datetime",
+        "Missing-data",
+        "Timedelta",
+        "Numeric stability"
+      ]
+    },
+    {
+      "number": 66550,
+      "url": "https://github.com/pandas-dev/pandas/issues/66550",
+      "created_at": "2026-07-30T16:21:13Z",
+      "labels_at_collection": [
+        "Bug",
+        "Timezones"
+      ]
+    },
+    {
+      "number": 66549,
+      "url": "https://github.com/pandas-dev/pandas/issues/66549",
+      "created_at": "2026-07-30T16:16:20Z",
+      "labels_at_collection": [
+        "Bug",
+        "Datetime",
+        "Missing-data",
+        "Timedelta",
+        "Frequency"
+      ]
+    },
+    {
+      "number": 66542,
+      "url": "https://github.com/pandas-dev/pandas/issues/66542",
+      "created_at": "2026-07-30T06:21:14Z",
+      "labels_at_collection": [
+        "Bug",
+        "Needs Triage"
+      ]
+    },
+    {
+      "number": 66525,
+      "url": "https://github.com/pandas-dev/pandas/issues/66525",
+      "created_at": "2026-07-29T03:35:55Z",
+      "labels_at_collection": [
+        "Bug",
+        "IO CSV",
+        "Strings",
+        "Needs Discussion"
+      ]
+    },
+    {
+      "number": 66524,
+      "url": "https://github.com/pandas-dev/pandas/issues/66524",
+      "created_at": "2026-07-29T03:35:38Z",
+      "labels_at_collection": [
+        "Bug",
+        "IO CSV",
+        "Needs Discussion"
+      ]
+    },
+    {
+      "number": 66523,
+      "url": "https://github.com/pandas-dev/pandas/issues/66523",
+      "created_at": "2026-07-29T03:35:02Z",
+      "labels_at_collection": [
+        "Bug",
+        "Missing-data",
+        "Needs Discussion",
+        "Window",
+        "API - Consistency"
+      ]
+    },
+    {
+      "number": 66522,
+      "url": "https://github.com/pandas-dev/pandas/issues/66522",
+      "created_at": "2026-07-29T03:34:32Z",
+      "labels_at_collection": [
+        "Bug",
+        "Window",
+        "numba"
+      ]
+    },
+    {
+      "number": 66518,
+      "url": "https://github.com/pandas-dev/pandas/issues/66518",
+      "created_at": "2026-07-29T03:27:10Z",
+      "labels_at_collection": [
+        "Bug",
+        "Interval"
+      ]
+    },
+    {
+      "number": 66517,
+      "url": "https://github.com/pandas-dev/pandas/issues/66517",
+      "created_at": "2026-07-29T03:27:05Z",
+      "labels_at_collection": [
+        "Bug",
+        "Dtype Conversions"
+      ]
+    },
+    {
+      "number": 66514,
+      "url": "https://github.com/pandas-dev/pandas/issues/66514",
+      "created_at": "2026-07-28T21:37:45Z",
+      "labels_at_collection": [
+        "Bug",
+        "MultiIndex",
+        "Needs Discussion",
+        "isin"
+      ]
+    },
+    {
+      "number": 66510,
+      "url": "https://github.com/pandas-dev/pandas/issues/66510",
+      "created_at": "2026-07-28T21:09:24Z",
+      "labels_at_collection": [
+        "Bug",
+        "Timestamp"
+      ]
+    },
+    {
+      "number": 66509,
+      "url": "https://github.com/pandas-dev/pandas/issues/66509",
+      "created_at": "2026-07-28T20:49:39Z",
+      "labels_at_collection": [
+        "Bug",
+        "IO Parquet",
+        "Segfault"
+      ]
+    },
+    {
+      "number": 66501,
+      "url": "https://github.com/pandas-dev/pandas/issues/66501",
+      "created_at": "2026-07-28T08:31:15Z",
+      "labels_at_collection": [
+        "Bug",
+        "expressions"
+      ]
+    },
+    {
+      "number": 66490,
+      "url": "https://github.com/pandas-dev/pandas/issues/66490",
+      "created_at": "2026-07-27T20:11:43Z",
+      "labels_at_collection": [
+        "Bug",
+        "Algos",
+        "Arrow"
+      ]
+    },
+    {
+      "number": 66489,
+      "url": "https://github.com/pandas-dev/pandas/issues/66489",
+      "created_at": "2026-07-27T18:49:03Z",
+      "labels_at_collection": [
+        "Bug",
+        "Needs Triage"
+      ]
+    },
+    {
+      "number": 66443,
+      "url": "https://github.com/pandas-dev/pandas/issues/66443",
+      "created_at": "2026-07-23T15:45:12Z",
+      "labels_at_collection": [
+        "Bug",
+        "Needs Triage"
+      ]
+    },
+    {
+      "number": 66436,
+      "url": "https://github.com/pandas-dev/pandas/issues/66436",
+      "created_at": "2026-07-23T11:14:20Z",
+      "labels_at_collection": [
+        "Bug",
+        "Python 3.15"
+      ]
+    }
+  ]
+}

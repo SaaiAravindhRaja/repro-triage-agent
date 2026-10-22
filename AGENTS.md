@@ -10,8 +10,9 @@ agent comments only on incomplete bug reports in this repository.
 - `.claude/skills/repro-triage/SKILL.md` is the triage procedure. It is read at
   the explicit `source_sha` on manual runs, or from the default branch on issue
   events. Preflight checks that the manual SHA matches the checkout.
-- `scripts/preflight.py` validates the target and skips repeat triage without
-  model inference. It uses only the Python standard library.
+- `scripts/preflight.py` validates the target and records closed or previously
+  triaged issues. The workflow does not skip model execution on that result.
+  The script uses only the Python standard library.
 - `evals/golden/` holds historical inputs, expected decisions, actual outputs,
   and run evidence. Do not use the older `eval/agent_eval.py` classifier as
   evidence of an LLM run.

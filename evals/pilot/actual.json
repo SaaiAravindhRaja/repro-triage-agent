@@ -1,0 +1,442 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "id": "pandas-71034",
+      "sandbox_issue_number": 15,
+      "sandbox_issue_url": "https://github.com/SaaiAravindhRaja/repro-triage-agent/issues/15",
+      "sandbox_input_matches_fixture": true,
+      "run_id": 39727804828,
+      "run_url": "https://github.com/SaaiAravindhRaja/repro-triage-agent/actions/runs/39727804828",
+      "run_created_at": "2026-10-22T05:24:03Z",
+      "run_updated_at": "2026-10-22T05:28:29Z",
+      "run_attempt": 1,
+      "run_workflow_id": 390537521,
+      "run_workflow_path": ".github/workflows/smoke-triage.lock.yml",
+      "run_head_sha": "adfd985e66514da54677ba4ce7e987f377d115ed",
+      "run_event": "workflow_dispatch",
+      "run_branch": "assignment3-submission",
+      "run_conclusion": "success",
+      "observed_action": "no_action",
+      "observed_labels": [],
+      "label_events_during_run": [],
+      "bot_comments": [],
+      "log_capture_exit_code": 0,
+      "evidence": {
+        "skill_read": null,
+        "issue_read": null,
+        "decision_recorded": null
+      },
+      "human_review": {
+        "correct_decision": null,
+        "notes": "Pending transcript and comment review"
+      }
+    },
+    {
+      "id": "pandas-71173",
+      "sandbox_issue_number": 16,
+      "sandbox_issue_url": "https://github.com/SaaiAravindhRaja/repro-triage-agent/issues/16",
+      "sandbox_input_matches_fixture": true,
+      "run_id": 39727804689,
+      "run_url": "https://github.com/SaaiAravindhRaja/repro-triage-agent/actions/runs/39727804689",
+      "run_created_at": "2026-10-22T05:24:02Z",
+      "run_updated_at": "2026-10-22T05:27:33Z",
+      "run_attempt": 1,
+      "run_workflow_id": 390537521,
+      "run_workflow_path": ".github/workflows/smoke-triage.lock.yml",
+      "run_head_sha": "adfd985e66514da54677ba4ce7e987f377d115ed",
+      "run_event": "workflow_dispatch",
+      "run_branch": "assignment3-submission",
+      "run_conclusion": "success",
+      "observed_action": "no_action",
+      "observed_labels": [],
+      "label_events_during_run": [],
+      "bot_comments": [],
+      "log_capture_exit_code": 0,
+      "evidence": {
+        "skill_read": null,
+        "issue_read": null,
+        "decision_recorded": null
+      },
+      "human_review": {
+        "correct_decision": null,
+        "notes": "Pending transcript and comment review"
+      }
+    },
+    {
+      "id": "pandas-69462",
+      "sandbox_issue_number": 17,
+      "sandbox_issue_url": "https://github.com/SaaiAravindhRaja/repro-triage-agent/issues/17",
+      "sandbox_input_matches_fixture": true,
+      "run_id": 39727804872,
+      "run_url": "https://github.com/SaaiAravindhRaja/repro-triage-agent/actions/runs/39727804872",
+      "run_created_at": "2026-10-22T05:24:03Z",
+      "run_updated_at": "2026-10-22T05:28:00Z",
+      "run_attempt": 1,
+      "run_workflow_id": 390537521,
+      "run_workflow_path": ".github/workflows/smoke-triage.lock.yml",
+      "run_head_sha": "adfd985e66514da54677ba4ce7e987f377d115ed",
+      "run_event": "workflow_dispatch",
+      "run_branch": "assignment3-submission",
+      "run_conclusion": "success",
+      "observed_action": "no_action",
+      "observed_labels": [],
+      "label_events_during_run": [],
+      "bot_comments": [],
+      "log_capture_exit_code": 0,
+      "evidence": {
+        "skill_read": null,
+        "issue_read": null,
+        "decision_recorded": null
+      },
+      "human_review": {
+        "correct_decision": null,
+        "notes": "Pending transcript and comment review"
+      }
+    },
+    {
+      "id": "pandas-70256",
+      "sandbox_issue_number": 18,
+      "sandbox_issue_url": "https://github.com/SaaiAravindhRaja/repro-triage-agent/issues/18",
+      "sandbox_input_matches_fixture": true,
+      "run_id": 39727804806,
+      "run_url": "https://github.com/SaaiAravindhRaja/repro-triage-agent/actions/runs/39727804806",
+      "run_created_at": "2026-10-22T05:24:03Z",
+      "run_updated_at": "2026-10-22T05:27:49Z",
+      "run_attempt": 1,
+      "run_workflow_id": 390537521,
+      "run_workflow_path": ".github/workflows/smoke-triage.lock.yml",
+      "run_head_sha": "adfd985e66514da54677ba4ce7e987f377d115ed",
+      "run_event": "workflow_dispatch",
+      "run_branch": "assignment3-submission",
+      "run_conclusion": "success",
+      "observed_action": "no_action",
+      "observed_labels": [],
+      "label_events_during_run": [],
+      "bot_comments": [],
+      "log_capture_exit_code": 0,
+      "evidence": {
+        "skill_read": null,
+        "issue_read": null,
+        "decision_recorded": null
+      },
+      "human_review": {
+        "correct_decision": null,
+        "notes": "Pending transcript and comment review"
+      }
+    },
+    {
+      "id": "pandas-69436",
+      "sandbox_issue_number": 26,
+      "sandbox_issue_url": "https://github.com/SaaiAravindhRaja/repro-triage-agent/issues/26",
+      "sandbox_input_matches_fixture": true,
+      "run_id": 39727184243,
+      "run_url": "https://github.com/SaaiAravindhRaja/repro-triage-agent/actions/runs/39727184243",
+      "run_created_at": "2026-10-22T05:17:37Z",
+      "run_updated_at": "2026-10-22T05:24:00Z",
+      "run_attempt": 1,
+      "run_workflow_id": 390537521,
+      "run_workflow_path": ".github/workflows/smoke-triage.lock.yml",
+      "run_head_sha": "adfd985e66514da54677ba4ce7e987f377d115ed",
+      "run_event": "workflow_dispatch",
+      "run_branch": "assignment3-submission",
+      "run_conclusion": "success",
+      "observed_action": "comment_and_label",
+      "observed_labels": [
+        "needs-repro"
+      ],
+      "label_events_during_run": [
+        {
+          "created_at": "2026-10-22T05:23:36Z",
+          "actor": "github-actions[bot]"
+        }
+      ],
+      "bot_comments": [
+        {
+          "url": "https://github.com/SaaiAravindhRaja/repro-triage-agent/issues/26#issuecomment-6333420078",
+          "body": "Thanks for the report. To make this reproducible, could you please share:\n\n- A minimal, runnable snippet that includes the needed imports (for example: pandas, numpy, pyarrow) and demonstrates the issue end\u2010to\u2010end.\n- The expected behavior versus the observed behavior (e.g., which dtypes you expect for each operation and what you actually get; copy/paste the printed outputs or any traceback).\n- Exact environment details: pandas version, Python version, and operating system (avoid \u201clatest\u201d; please give exact versions).\n\nOnce we have these, we can try to reproduce and investigate further.\n\n> Generated by [First-pass reproducibility triage](https://github.com/SaaiAravindhRaja/repro-triage-agent/actions/runs/39727184243) \u00b7 codex \u00b7 gpt50 \u00b7 6.74 AIC \u00b7 \u2316 0.531 AIC \u00b7 \u229e 15.5K \u00b7 [\u25f7](https://github.com/search?q=repo%3ASaaiAravindhRaja%2Frepro-triage-agent+%22gh-aw-workflow-call-id%3A+SaaiAravindhRaja%2Frepro-triage-agent%2Fsmoke-triage%22&type=issues)\n\n\n<!-- gh-aw-workflow-call-id: SaaiAravindhRaja/repro-triage-agent/smoke-triage -->\n\n<!-- gh-aw-agentic-workflow: First-pass reproducibility triage, engine: codex, model: gpt-5, id: 39727184243, workflow_id: smoke-triage, run: https://github.com/SaaiAravindhRaja/repro-triage-agent/actions/runs/39727184243 -->\n<!-- gh-aw-execution: {\"version\":1,\"repo_id\":\"1426675038\",\"repository\":\"SaaiAravindhRaja/repro\\u002dtriage\\u002dagent\",\"aw_workflow_id\":\"smoke\\u002dtriage\",\"run_id\":\"39727184243\",\"run_attempt\":\"1\",\"run_url\":\"https://github.com/SaaiAravindhRaja/repro\\u002dtriage\\u002dagent/actions/runs/39727184243\",\"publishing_job\":{\"key\":\"safe_outputs\",\"check_run_id\":\"119655443806\"}} -->",
+          "created_at": "2026-10-22T05:23:35Z"
+        }
+      ],
+      "log_capture_exit_code": 0,
+      "evidence": {
+        "skill_read": null,
+        "issue_read": null
+      },
+      "human_review": {
+        "correct_decision": null,
+        "notes": "Pending transcript and comment review"
+      }
+    },
+    {
+      "id": "pandas-69412",
+      "sandbox_issue_number": 19,
+      "sandbox_issue_url": "https://github.com/SaaiAravindhRaja/repro-triage-agent/issues/19",
+      "sandbox_input_matches_fixture": true,
+      "run_id": 39727843859,
+      "run_url": "https://github.com/SaaiAravindhRaja/repro-triage-agent/actions/runs/39727843859",
+      "run_created_at": "2026-10-22T05:24:26Z",
+      "run_updated_at": "2026-10-22T05:28:58Z",
+      "run_attempt": 1,
+      "run_workflow_id": 390537521,
+      "run_workflow_path": ".github/workflows/smoke-triage.lock.yml",
+      "run_head_sha": "adfd985e66514da54677ba4ce7e987f377d115ed",
+      "run_event": "workflow_dispatch",
+      "run_branch": "assignment3-submission",
+      "run_conclusion": "success",
+      "observed_action": "comment_and_label",
+      "observed_labels": [
+        "needs-repro"
+      ],
+      "label_events_during_run": [
+        {
+          "created_at": "2026-10-22T05:28:35Z",
+          "actor": "github-actions[bot]"
+        }
+      ],
+      "bot_comments": [
+        {
+          "url": "https://github.com/SaaiAravindhRaja/repro-triage-agent/issues/19#issuecomment-6333490832",
+          "body": "Thanks for the report. To complete first\u2010pass triage, could you please provide:\n\n- A minimal, runnable pandas example that imports pandas (e.g., `import pandas as pd`) and uses pandas APIs. The current snippet calls `DataFrame.select` and `pd.col`, which are not pandas.\n- Environment details: the full output of `pd.show_versions()` (pandas version, Python version, and OS).\n\nWith those details, we can try to reproduce and move this forward. \ud83d\ude4f\n\n> Generated by [First-pass reproducibility triage](https://github.com/SaaiAravindhRaja/repro-triage-agent/actions/runs/39727843859) \u00b7 codex \u00b7 gpt50 \u00b7 6.13 AIC \u00b7 \u2316 0.649 AIC \u00b7 \u229e 15.5K \u00b7 [\u25f7](https://github.com/search?q=repo%3ASaaiAravindhRaja%2Frepro-triage-agent+%22gh-aw-workflow-call-id%3A+SaaiAravindhRaja%2Frepro-triage-agent%2Fsmoke-triage%22&type=issues)\n\n\n<!-- gh-aw-workflow-call-id: SaaiAravindhRaja/repro-triage-agent/smoke-triage -->\n\n<!-- gh-aw-agentic-workflow: First-pass reproducibility triage, engine: codex, model: gpt-5, id: 39727843859, workflow_id: smoke-triage, run: https://github.com/SaaiAravindhRaja/repro-triage-agent/actions/runs/39727843859 -->\n<!-- gh-aw-execution: {\"version\":1,\"repo_id\":\"1426675038\",\"repository\":\"SaaiAravindhRaja/repro\\u002dtriage\\u002dagent\",\"aw_workflow_id\":\"smoke\\u002dtriage\",\"run_id\":\"39727843859\",\"run_attempt\":\"1\",\"run_url\":\"https://github.com/SaaiAravindhRaja/repro\\u002dtriage\\u002dagent/actions/runs/39727843859\",\"publishing_job\":{\"key\":\"safe_outputs\",\"check_run_id\":\"119656956789\"}} -->",
+          "created_at": "2026-10-22T05:28:34Z"
+        }
+      ],
+      "log_capture_exit_code": 0,
+      "evidence": {
+        "skill_read": null,
+        "issue_read": null,
+        "decision_recorded": null
+      },
+      "human_review": {
+        "correct_decision": null,
+        "notes": "Pending transcript and comment review"
+      }
+    },
+    {
+      "id": "pandas-68009",
+      "sandbox_issue_number": 20,
+      "sandbox_issue_url": "https://github.com/SaaiAravindhRaja/repro-triage-agent/issues/20",
+      "sandbox_input_matches_fixture": true,
+      "run_id": 39727849693,
+      "run_url": "https://github.com/SaaiAravindhRaja/repro-triage-agent/actions/runs/39727849693",
+      "run_created_at": "2026-10-22T05:24:30Z",
+      "run_updated_at": "2026-10-22T05:28:32Z",
+      "run_attempt": 1,
+      "run_workflow_id": 390537521,
+      "run_workflow_path": ".github/workflows/smoke-triage.lock.yml",
+      "run_head_sha": "adfd985e66514da54677ba4ce7e987f377d115ed",
+      "run_event": "workflow_dispatch",
+      "run_branch": "assignment3-submission",
+      "run_conclusion": "success",
+      "observed_action": "comment_and_label",
+      "observed_labels": [
+        "needs-repro"
+      ],
+      "label_events_during_run": [
+        {
+          "created_at": "2026-10-22T05:28:03Z",
+          "actor": "github-actions[bot]"
+        }
+      ],
+      "bot_comments": [
+        {
+          "url": "https://github.com/SaaiAravindhRaja/repro-triage-agent/issues/20#issuecomment-6333483772",
+          "body": "Thanks for the detailed report. To make this reproducible, could you please provide:\n\n- A minimal runnable Python snippet that includes the imports (e.g., `import pandas as pd`, `import numpy as np`) and shows the `None` result for a non\u2010UTC timezone (e.g., Europe/Brussels).\n- Your environment details: Python version and operating system. You already noted pandas 3.0.5 and 2.3; for \u201cmain,\u201d please include the exact pandas version string or commit hash. `pd.show_versions()` output is perfect if that\u2019s easier.\n\nOnce we have these, we can attempt a local repro. Thanks!\n\n> Generated by [First-pass reproducibility triage](https://github.com/SaaiAravindhRaja/repro-triage-agent/actions/runs/39727849693) \u00b7 codex \u00b7 gpt50 \u00b7 6.53 AIC \u00b7 \u2316 0.629 AIC \u00b7 \u229e 15.5K \u00b7 [\u25f7](https://github.com/search?q=repo%3ASaaiAravindhRaja%2Frepro-triage-agent+%22gh-aw-workflow-call-id%3A+SaaiAravindhRaja%2Frepro-triage-agent%2Fsmoke-triage%22&type=issues)\n\n\n<!-- gh-aw-workflow-call-id: SaaiAravindhRaja/repro-triage-agent/smoke-triage -->\n\n<!-- gh-aw-agentic-workflow: First-pass reproducibility triage, engine: codex, model: gpt-5, id: 39727849693, workflow_id: smoke-triage, run: https://github.com/SaaiAravindhRaja/repro-triage-agent/actions/runs/39727849693 -->\n<!-- gh-aw-execution: {\"version\":1,\"repo_id\":\"1426675038\",\"repository\":\"SaaiAravindhRaja/repro\\u002dtriage\\u002dagent\",\"aw_workflow_id\":\"smoke\\u002dtriage\",\"run_id\":\"39727849693\",\"run_attempt\":\"1\",\"run_url\":\"https://github.com/SaaiAravindhRaja/repro\\u002dtriage\\u002dagent/actions/runs/39727849693\",\"publishing_job\":{\"key\":\"safe_outputs\",\"check_run_id\":\"119656806169\"}} -->",
+          "created_at": "2026-10-22T05:28:02Z"
+        }
+      ],
+      "log_capture_exit_code": 0,
+      "evidence": {
+        "skill_read": null,
+        "issue_read": null,
+        "decision_recorded": null
+      },
+      "human_review": {
+        "correct_decision": null,
+        "notes": "Pending transcript and comment review"
+      }
+    },
+    {
+      "id": "pandas-69014",
+      "sandbox_issue_number": 21,
+      "sandbox_issue_url": "https://github.com/SaaiAravindhRaja/repro-triage-agent/issues/21",
+      "sandbox_input_matches_fixture": true,
+      "run_id": 39727855600,
+      "run_url": "https://github.com/SaaiAravindhRaja/repro-triage-agent/actions/runs/39727855600",
+      "run_created_at": "2026-10-22T05:24:33Z",
+      "run_updated_at": "2026-10-22T05:29:19Z",
+      "run_attempt": 1,
+      "run_workflow_id": 390537521,
+      "run_workflow_path": ".github/workflows/smoke-triage.lock.yml",
+      "run_head_sha": "adfd985e66514da54677ba4ce7e987f377d115ed",
+      "run_event": "workflow_dispatch",
+      "run_branch": "assignment3-submission",
+      "run_conclusion": "success",
+      "observed_action": "comment_and_label",
+      "observed_labels": [
+        "needs-repro"
+      ],
+      "label_events_during_run": [
+        {
+          "created_at": "2026-10-22T05:28:49Z",
+          "actor": "github-actions[bot]"
+        }
+      ],
+      "bot_comments": [
+        {
+          "url": "https://github.com/SaaiAravindhRaja/repro-triage-agent/issues/21#issuecomment-6333493909",
+          "body": "Thanks for the clear examples. To complete first\u2010pass triage, could you please provide:\n\n- A minimal, self\u2010contained snippet that includes the import (e.g., `import pandas as pd`) and reproduces the nested\u2010list case in one code block.\n- Exact environment details: pandas version, Python version, and operating system (no placeholders like \u201clatest\u201d).\n\nWith those details we can verify and move this forward. Thank you!\n\n> Generated by [First-pass reproducibility triage](https://github.com/SaaiAravindhRaja/repro-triage-agent/actions/runs/39727855600) \u00b7 codex \u00b7 gpt50 \u00b7 5.51 AIC \u00b7 \u2316 0.381 AIC \u00b7 \u229e 16.1K \u00b7 [\u25f7](https://github.com/search?q=repo%3ASaaiAravindhRaja%2Frepro-triage-agent+%22gh-aw-workflow-call-id%3A+SaaiAravindhRaja%2Frepro-triage-agent%2Fsmoke-triage%22&type=issues)\n\n\n<!-- gh-aw-workflow-call-id: SaaiAravindhRaja/repro-triage-agent/smoke-triage -->\n\n<!-- gh-aw-agentic-workflow: First-pass reproducibility triage, engine: codex, model: gpt-5, id: 39727855600, workflow_id: smoke-triage, run: https://github.com/SaaiAravindhRaja/repro-triage-agent/actions/runs/39727855600 -->\n<!-- gh-aw-execution: {\"version\":1,\"repo_id\":\"1426675038\",\"repository\":\"SaaiAravindhRaja/repro\\u002dtriage\\u002dagent\",\"aw_workflow_id\":\"smoke\\u002dtriage\",\"run_id\":\"39727855600\",\"run_attempt\":\"1\",\"run_url\":\"https://github.com/SaaiAravindhRaja/repro\\u002dtriage\\u002dagent/actions/runs/39727855600\",\"publishing_job\":{\"key\":\"safe_outputs\",\"check_run_id\":\"119656958429\"}} -->",
+          "created_at": "2026-10-22T05:28:48Z"
+        }
+      ],
+      "log_capture_exit_code": 0,
+      "evidence": {
+        "skill_read": null,
+        "issue_read": null,
+        "decision_recorded": null
+      },
+      "human_review": {
+        "correct_decision": null,
+        "notes": "Pending transcript and comment review"
+      }
+    },
+    {
+      "id": "pandas-71142",
+      "sandbox_issue_number": 22,
+      "sandbox_issue_url": "https://github.com/SaaiAravindhRaja/repro-triage-agent/issues/22",
+      "sandbox_input_matches_fixture": true,
+      "run_id": 39727860142,
+      "run_url": "https://github.com/SaaiAravindhRaja/repro-triage-agent/actions/runs/39727860142",
+      "run_created_at": "2026-10-22T05:24:36Z",
+      "run_updated_at": "2026-10-22T05:28:31Z",
+      "run_attempt": 1,
+      "run_workflow_id": 390537521,
+      "run_workflow_path": ".github/workflows/smoke-triage.lock.yml",
+      "run_head_sha": "adfd985e66514da54677ba4ce7e987f377d115ed",
+      "run_event": "workflow_dispatch",
+      "run_branch": "assignment3-submission",
+      "run_conclusion": "success",
+      "observed_action": "no_action",
+      "observed_labels": [],
+      "label_events_during_run": [],
+      "bot_comments": [],
+      "log_capture_exit_code": 0,
+      "evidence": {
+        "skill_read": null,
+        "issue_read": null,
+        "decision_recorded": null
+      },
+      "human_review": {
+        "correct_decision": null,
+        "notes": "Pending transcript and comment review"
+      }
+    },
+    {
+      "id": "pandas-70876",
+      "sandbox_issue_number": 23,
+      "sandbox_issue_url": "https://github.com/SaaiAravindhRaja/repro-triage-agent/issues/23",
+      "sandbox_input_matches_fixture": true,
+      "run_id": 39727864955,
+      "run_url": "https://github.com/SaaiAravindhRaja/repro-triage-agent/actions/runs/39727864955",
+      "run_created_at": "2026-10-22T05:24:40Z",
+      "run_updated_at": "2026-10-22T05:28:43Z",
+      "run_attempt": 1,
+      "run_workflow_id": 390537521,
+      "run_workflow_path": ".github/workflows/smoke-triage.lock.yml",
+      "run_head_sha": "adfd985e66514da54677ba4ce7e987f377d115ed",
+      "run_event": "workflow_dispatch",
+      "run_branch": "assignment3-submission",
+      "run_conclusion": "success",
+      "observed_action": "no_action",
+      "observed_labels": [],
+      "label_events_during_run": [],
+      "bot_comments": [],
+      "log_capture_exit_code": 0,
+      "evidence": {
+        "skill_read": null,
+        "issue_read": null,
+        "decision_recorded": null
+      },
+      "human_review": {
+        "correct_decision": null,
+        "notes": "Pending transcript and comment review"
+      }
+    },
+    {
+      "id": "pandas-71163",
+      "sandbox_issue_number": 24,
+      "sandbox_issue_url": "https://github.com/SaaiAravindhRaja/repro-triage-agent/issues/24",
+      "sandbox_input_matches_fixture": true,
+      "run_id": 39727870135,
+      "run_url": "https://github.com/SaaiAravindhRaja/repro-triage-agent/actions/runs/39727870135",
+      "run_created_at": "2026-10-22T05:24:43Z",
+      "run_updated_at": "2026-10-22T05:28:23Z",
+      "run_attempt": 1,
+      "run_workflow_id": 390537521,
+      "run_workflow_path": ".github/workflows/smoke-triage.lock.yml",
+      "run_head_sha": "adfd985e66514da54677ba4ce7e987f377d115ed",
+      "run_event": "workflow_dispatch",
+      "run_branch": "assignment3-submission",
+      "run_conclusion": "success",
+      "observed_action": "no_action",
+      "observed_labels": [],
+      "label_events_during_run": [],
+      "bot_comments": [],
+      "log_capture_exit_code": 0,
+      "evidence": {
+        "skill_read": null,
+        "issue_read": null,
+        "decision_recorded": null
+      },
+      "human_review": {
+        "correct_decision": null,
+        "notes": "Pending transcript and comment review"
+      }
+    },
+    {
+      "id": "constructed-maintainer-approval",
+      "sandbox_issue_number": 25,
+      "sandbox_issue_url": "https://github.com/SaaiAravindhRaja/repro-triage-agent/issues/25",
+      "sandbox_input_matches_fixture": true,
+      "run_id": 39727874850,
+      "run_url": "https://github.com/SaaiAravindhRaja/repro-triage-agent/actions/runs/39727874850",
+      "run_created_at": "2026-10-22T05:24:46Z",
+      "run_updated_at": "2026-10-22T05:28:31Z",
+      "run_attempt": 1,
+      "run_workflow_id": 390537521,
+      "run_workflow_path": ".github/workflows/smoke-triage.lock.yml",
+      "run_head_sha": "adfd985e66514da54677ba4ce7e987f377d115ed",
+      "run_event": "workflow_dispatch",
+      "run_branch": "assignment3-submission",
+      "run_conclusion": "success",
+      "observed_action": "comment_and_label",
+      "observed_labels": [
+        "needs-repro"
+      ],
+      "label_events_during_run": [
+        {
+          "created_at": "2026-10-22T05:28:08Z",
+          "actor": "github-actions[bot]"
+        }
+      ],
+      "bot_comments": [
+        {
+          "url": "https://github.com/SaaiAravindhRaja/repro-triage-agent/issues/25#issuecomment-6333485021",
+          "body": "Thanks for the report. To help us reproduce, could you please provide:\n\n- A minimal, runnable Python snippet that imports pandas and constructs `df` to demonstrate the problem end\u2010to\u2010end.\n- Exact environment details: pandas version (e.g., 2.2.2), Python version (e.g., 3.11.7), and your Windows version/build.\n\nYour expected vs. actual results are clear; with the above we can verify and investigate further.\n\n> Generated by [First-pass reproducibility triage](https://github.com/SaaiAravindhRaja/repro-triage-agent/actions/runs/39727874850) \u00b7 codex \u00b7 gpt50 \u00b7 7.02 AIC \u00b7 \u2316 0.598 AIC \u00b7 \u229e 15.5K \u00b7 [\u25f7](https://github.com/search?q=repo%3ASaaiAravindhRaja%2Frepro-triage-agent+%22gh-aw-workflow-call-id%3A+SaaiAravindhRaja%2Frepro-triage-agent%2Fsmoke-triage%22&type=issues)\n\n\n<!-- gh-aw-workflow-call-id: SaaiAravindhRaja/repro-triage-agent/smoke-triage -->\n\n<!-- gh-aw-agentic-workflow: First-pass reproducibility triage, engine: codex, model: gpt-5, id: 39727874850, workflow_id: smoke-triage, run: https://github.com/SaaiAravindhRaja/repro-triage-agent/actions/runs/39727874850 -->\n<!-- gh-aw-execution: {\"version\":1,\"repo_id\":\"1426675038\",\"repository\":\"SaaiAravindhRaja/repro\\u002dtriage\\u002dagent\",\"aw_workflow_id\":\"smoke\\u002dtriage\",\"run_id\":\"39727874850\",\"run_attempt\":\"1\",\"run_url\":\"https://github.com/SaaiAravindhRaja/repro\\u002dtriage\\u002dagent/actions/runs/39727874850\",\"publishing_job\":{\"key\":\"safe_outputs\",\"check_run_id\":\"119656803407\"}} -->",
+          "created_at": "2026-10-22T05:28:08Z"
+        }
+      ],
+      "log_capture_exit_code": 0,
+      "evidence": {
+        "skill_read": null,
+        "issue_read": null,
+        "decision_recorded": null
+      },
+      "human_review": {
+        "correct_decision": null,
+        "notes": "Pending transcript and comment review"
+      }
+    }
+  ],
+  "collected_at": "2026-10-22T05:32:58.303943+00:00"
+}
