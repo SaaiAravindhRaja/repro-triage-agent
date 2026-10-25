@@ -47,10 +47,11 @@ copies were created to avoid firing an older configuration, then re-enabled.
 The configured branch workflow was manually dispatched with each issue number
 and the full source commit SHA, recorded in `dispatched.json`; the preflight
 checks that the SHA matches the checkout. The workflow's comment and label
-targets are the selected issue. This branch is not the default branch, so these
-runs do not test automatic issue-open activation or the external-author gate.
-The workflow was disabled after the last run, leaving the older default-branch
-version unable to start on new issues. To rerun a case, re-enable it deliberately.
+targets are the selected issue. At evaluation time `assignment3-submission`
+was not the default branch, so these runs do not test automatic issue-open
+activation or the external-author gate. The workflow was disabled after the
+last run; `main` therefore cannot start new issue runs until it is deliberately
+re-enabled.
 
 `actual.json` records each run URL/SHA/attempt/conclusion, output comment and
 label, and a separate judgment of whether a request asked for the right

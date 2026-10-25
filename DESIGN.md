@@ -26,7 +26,7 @@ used synthetic fixtures; its 12/12 is not agent accuracy.
 
 The [workflow](.github/workflows/smoke-triage.md) declares issue-open and
 manual triggers; Actions uses its [compiled lock file](.github/workflows/smoke-triage.lock.yml).
-This branch is not default, so I tested manual dispatch, not live issue-open.
+The branch was not default when I tested it. I used manual dispatch, not issue-open.
 The checkout makes [AGENTS.md](AGENTS.md) available to Codex; the workflow
 explicitly fetches the
 [skill](.claude/skills/repro-triage/SKILL.md) before the issue. The skill checks

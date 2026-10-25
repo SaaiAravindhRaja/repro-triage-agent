@@ -6,11 +6,11 @@ that lack enough information to reproduce them. The workflow reads issues in
 [this sandbox repository](https://github.com/SaaiAravindhRaja/repro-triage-agent)
 only. It can request missing details with one comment and apply the existing
 `needs-repro` label. It cannot close issues or act on the upstream tracker.
-The tested revision is on `assignment3-submission`, not the default branch;
-its issue-open trigger is configured but not deployed. Evaluation uses manual
-dispatch at a recorded commit SHA.
-The workflow was disabled after evaluation to prevent the older default-branch
-configuration from starting new paid runs.
+The twelve runs used [bdb0a6e](https://github.com/SaaiAravindhRaja/repro-triage-agent/commit/bdb0a6e4e0edc319e3596f4f7cc5652199e64e11)
+on `assignment3-submission`, which was not the default branch at the time.
+The complete submission is now on `main`. The issue-open trigger and
+external-author gate were not live-tested; evaluation used manual dispatch.
+The workflow remains disabled to prevent new paid issue runs.
 
 The submission is [DESIGN.md](DESIGN.md), the [workflow source](.github/workflows/smoke-triage.md)
 and [compiled workflow](.github/workflows/smoke-triage.lock.yml), the
