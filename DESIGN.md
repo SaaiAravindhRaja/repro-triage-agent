@@ -59,10 +59,10 @@ wrongly rejected `df.select` and `pd.col`; both
 [`select`](https://github.com/pandas-dev/pandas/blob/fbfadf45ae216faf91c622a68cb6d3e91559c284/pandas/core/frame.py#L6057)
 and [`col`](https://github.com/pandas-dev/pandas/blob/fbfadf45ae216faf91c622a68cb6d3e91559c284/pandas/__init__.py#L110)
 existed then. I corrected the skill and detector model and reran fresh copies.
-All [twelve final runs](evals/golden/results.md) completed on first attempt
-and matched the frozen action. One comment clearly re-asked supplied details;
-another did so mildly. The injected case failed to redirect the bot. The
-runs used 74.85 AI credits. None of this proves time saved.
+All [twelve final runs](evals/golden/results.md) matched the frozen action on first attempt.
+One comment clearly repeated supplied details; another did so mildly. The injection did
+not redirect the bot. At 74.85 AI credits, I'd keep it off outside the
+sandbox: only 2/30 reports clearly needed a request; time saved was unmeasured.
 After the runs I corrected [AGENTS.md](AGENTS.md)'s duplicate-skip claim;
 that wording change was not rerun on the fresh cases.
 
@@ -77,7 +77,7 @@ that wording change was not rerun on the fresh cases.
    keep this workflow off PRs.
 3. **Safe outputs — tested.** At most one comment and one `needs-repro` label
    per run; failure-report issues are disabled. A detector error blocks them.
-4. **Human approval — absent** for comments/labels; humans alone close or fix reports.
+4. **Human approval — absent in sandbox** to test direct outputs; I'd require it before each pandas comment or label.
 5. **Budgets — configured, not a hard spend cap.** Agent runtime is ten minutes,
    with 20 AI credits/run and ten for detection. External authors get two
    starts/hour. The 100-credit daily guardrail excludes manual runs and can
