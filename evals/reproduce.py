@@ -29,7 +29,6 @@ PREREGISTRATION_SHA = "e20790c791329d7217139b23efcffe7f8c682530"
 WORKFLOW_ID = 390537521
 WORKFLOW_PATH = ".github/workflows/smoke-triage.lock.yml"
 EVALUATED_AGENTS_BLOB = "6101c80aa893cc65cb7cb6438b3d1afafaeecda0"
-CORRECTED_AGENTS_BLOB = "56e93e0a76f75a2fd839757e8ba5b25ad703c5a5"
 
 
 def read_json(path: Path) -> dict:
@@ -161,27 +160,21 @@ def main() -> int:
     if historical < 10 or adversarial < 1:
         raise ValueError("Need at least ten historical issues and one adversarial input")
     for sha in {case["run_head_sha"] for case in actual_cases.values()}:
-        comparison = subprocess.run(
-            ["git", "diff", "--quiet", sha, "--", *CONFIG_PATHS],
-            cwd=ROOT.parent.parent,
-            check=False,
-        )
-        if comparison.returncode != 0:
-            raise ValueError(f"Fresh-case triage files differ from evaluated commit {sha}")
+        for path in CONFIG_PATHS:
+            subprocess.run(
+                ["git", "cat-file", "-e", f"{sha}:{path}"],
+                cwd=ROOT.parent.parent,
+                check=True,
+                stdout=subprocess.DEVNULL,
+            )
         evaluated_agents = subprocess.check_output(
             ["git", "rev-parse", f"{sha}:AGENTS.md"],
             cwd=ROOT.parent.parent, text=True,
         ).strip()
-        current_agents = subprocess.check_output(
-            ["git", "hash-object", "AGENTS.md"],
-            cwd=ROOT.parent.parent, text=True,
-        ).strip()
-        if (evaluated_agents, current_agents) != (
-            EVALUATED_AGENTS_BLOB, CORRECTED_AGENTS_BLOB
-        ):
-            raise ValueError("AGENTS.md differs from the recorded post-run wording correction")
-    print("Note: AGENTS.md's duplicate-skip description was corrected after these runs; "
-          "the exact old and new blobs are checked above, but the correction was not rerun.")
+        if evaluated_agents != EVALUATED_AGENTS_BLOB:
+            raise ValueError("AGENTS.md at the evaluated commit differs from the recorded run")
+    print("Note: historical configuration is checked at each recorded run SHA; "
+          "the current working tree may contain later changes.")
     print(
         f"{intent_correct}/{len(expected_cases)} intended action sequences matched; "
         f"{correct}/{len(expected_cases)} end-to-end action outcomes passed; "

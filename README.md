@@ -8,9 +8,10 @@ only. It can request missing details with one comment and apply the existing
 `needs-repro` label. It cannot close issues or act on the upstream tracker.
 The twelve runs used [bdb0a6e](https://github.com/SaaiAravindhRaja/repro-triage-agent/commit/bdb0a6e4e0edc319e3596f4f7cc5652199e64e11)
 on `assignment3-submission`, which was not the default branch at the time.
-The complete submission is now on `main`. The issue-open trigger and
-external-author gate were not live-tested; evaluation used manual dispatch.
-The workflow remains disabled to prevent new paid issue runs.
+The complete submission is on `main`. The current workflow is enabled there,
+but its issue trigger admits repository admins only. The issue-open event and
+role rejection were not exercised in the scored evaluation, which used manual
+dispatch. This remains a sandbox, not a deployment to pandas.
 
 The submission is [DESIGN.md](DESIGN.md), the [workflow source](.github/workflows/smoke-triage.md)
 and [compiled workflow](.github/workflows/smoke-triage.lock.yml), the
@@ -19,6 +20,14 @@ and the [historical evaluation](evals/golden/results.md). The latter contains th
 inputs, expectations fixed before any run on this frozen set, observed outputs,
 run links and reproduction instructions. `DESIGN.md` separates controls seen in
 a live run from controls checked only in configuration and proposed follow-up.
+
+The current workflow adds a post-agent approval job before safe outputs, and
+the compiled output and conclusion jobs explicitly require approval success. Its
+`triage-output-approval` GitHub Environment has a required reviewer, no admin
+bypass, and a `main`-only branch policy. The setting is configured, but the
+gate has not been exercised by a post-activation run. The historical twelve
+runs predate it. Admin-triggered runs can still consume model credits before
+approval. See the [deployment record](docs/production-readiness.md).
 
 Why try this? A read-only [search snapshot](evidence/pandas-bug-intake.json)
 found 111 pandas issues opened from 22 July to 20 October 2026 that carried a
@@ -29,6 +38,10 @@ a [preflight script](scripts/preflight.py) handles mechanical checks. A useful
 result is a specific request for missing information, not a decision about
 whether the bug is real.
 
+The preflight skips inference by writing gh-aw's supported `noop` record for a
+closed or previously triaged issue. Unit tests check the output record; the
+historical twelve cases did not exercise this path.
+
 In a fixed [30-issue consecutive slice](evidence/pandas-consecutive-30.json),
 only two were clear candidates for that request, 21 needed no action and seven
 could not be judged confidently. This short retrospective sample does not
@@ -38,9 +51,11 @@ the experiment narrow.
 In the [final comparison](evals/golden/results.md), all twelve first-attempt
 runs matched the frozen action. One comment clearly re-asked supplied details
 and another did so mildly. The runs used 74.85 AI credits, but did not show
-maintainer-time savings. A false duplicate-skip description in `AGENTS.md`
-was corrected after these runs; the evaluated source workflow, compiled lock,
-skill and preflight script are unchanged.
+maintainer-time savings. The evaluated `AGENTS.md` incorrectly said that the
+preflight no-op did not skip inference; I corrected it after those runs. I also
+added the approval gate after the evaluation. The run evidence remains pinned
+to its original commit; the replay script checks the evaluated files at that
+SHA instead of requiring the current working tree to stay frozen.
 
 The older `eval/` directory is retained as a prototype. Its `agent_eval.py`
 is a regex classifier, not an LLM run; its 12/12 result is **not** agent

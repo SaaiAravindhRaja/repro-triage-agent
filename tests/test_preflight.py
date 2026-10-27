@@ -55,7 +55,20 @@ class PreflightTests(unittest.TestCase):
             {"number": 41, "state": "open", "labels": [{"name": "needs-repro"}]},
             [{"user": {"login": "github-actions[bot]"}, "body": preflight.WORKFLOW_MARKER}],
         )
-        self.assertEqual(json.loads(self.output.read_text())["type"], "noop")
+        self.assertEqual(
+            json.loads(self.output.read_text()),
+            {
+                "type": "noop",
+                "message": "No action: issue #41 already has a triage comment and label",
+            },
+        )
+
+    def test_closed_issue_records_noop(self) -> None:
+        self.run_case({"number": 41, "state": "closed", "labels": []})
+        self.assertEqual(
+            json.loads(self.output.read_text()),
+            {"type": "noop", "message": "No action: issue #41 is not open"},
+        )
 
     def test_reporter_cannot_spoof_a_prior_bot_comment(self) -> None:
         self.run_case(

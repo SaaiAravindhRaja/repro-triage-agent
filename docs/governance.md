@@ -49,16 +49,29 @@ as a second version of the design.
   not unrestricted web access. The compiled firewall also permits the needed
   GitHub and OpenAI endpoints. Hosted web search and shell tools are not
   exposed to the agent; the domain filter does not validate issue content.
-- `on.roles: all` is necessary to accept issues from external reporters;
-  omitting it caused gh-aw to compile a write-role gate in `pre_activation`.
-  The compiled workflow no longer has that gate. Any public reporter can now
-  trigger a paid run, so the daily admission limit is a cost guardrail, not
-  protection against all spam or a fixed spending ceiling.
-- The experimental user-rate-limit adds a two-runs-per-hour gate for external
-  authors. The compiled pre-activation job now gates on that check, not the
-  former write-role membership check. It is compile-checked, not live-tested
-  with an external account; many accounts can still consume credits.
+- `on.roles: [admin]` is an exact allowlist. Only repository admins can start
+  issue or manual runs; ordinary reporters are skipped before model execution.
+  This limits sandbox spend but is not a usable pandas intake policy. The
+  compiled role gate is not live-tested.
+- The experimental user-rate-limit allows two starts per user per hour. It is
+  compile-checked, not live-tested. An admin can still start paid runs, and the
+  daily credit guardrail is not a hard provider billing cap.
 
 The configured model has only this repository in its GitHub-tool allowlist.
 That limits where it reads, but the issue and tool responses remain untrusted.
 No claim here treats prompt wording as a substitute for safe-output limits.
+
+## Post-evaluation approval gate
+
+After the twelve scored runs, the workflow gained a custom
+`triage-output-approval` job. The compiled lock puts it after `agent` and
+`detection`, gives it no token permissions, and makes both `safe_outputs` and
+`conclusion` require its success. GitHub Settings
+names the repository owner as reviewer, disables admin bypass, and limits the
+environment to `main`; self-review is allowed. This is configured but not
+exercised by a workflow run. Inspect the `agent` artifact, issue, and detector
+result before approving. A no-action run may wait too.
+
+The historical evaluation remains tied to its recorded commit and did not use
+this gate. The current workflow is enabled on `main` for admins only; this is
+not a deployment to pandas. See the [deployment record](production-readiness.md).

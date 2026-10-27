@@ -52,3 +52,11 @@ The [method and limitations](README.md), complete [observations](actual.json),
 and [Actions logs](logs/) support each row. Run `python3 -B evals/reproduce.py`
 to replay the saved comparison and `python3 -B evals/verify_trace.py` to
 recheck the visible tool sequence and credits. Neither command runs a model.
+
+These runs used the configuration at `bdb0a6e`. The current workflow adds a
+post-agent, post-detection approval job, but it was added after this evaluation
+and was not exercised. A later sandbox deployment restricted issue triggers to
+repository admins and configured a `main`-only GitHub Environment reviewer.
+Those controls were not part of this score and have not been exercised by a
+new live run. The current replay checks the configuration at each recorded
+run SHA; it does not treat later hardening as evidence from these twelve runs.

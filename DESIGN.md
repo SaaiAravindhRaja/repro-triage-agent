@@ -26,19 +26,19 @@ used synthetic fixtures; its 12/12 is not agent accuracy.
 
 The [workflow](.github/workflows/smoke-triage.md) declares issue-open and
 manual triggers; Actions uses its [compiled lock file](.github/workflows/smoke-triage.lock.yml).
-The branch was not default when I tested it. I used manual dispatch, not issue-open.
-The checkout makes [AGENTS.md](AGENTS.md) available to Codex; the workflow
-explicitly fetches the
-[skill](.claude/skills/repro-triage/SKILL.md) before the issue. The skill checks
+I evaluated manual dispatch on a non-default branch; current admin-only
+issue-open and role checks were not scored. The checkout makes [AGENTS.md](AGENTS.md)
+available to Codex; the workflow fetches the
+[skill](.claude/skills/repro-triage/SKILL.md) before the issue. It checks
 bug intent, self-contained pandas code, expected versus observed behavior,
 and pandas/Python/OS versions. An incomplete bug may get one specific comment
 and `needs-repro`. Other readable cases get no public action; a failed read is
 an incomplete run, not an inferred verdict.
+Preflight emits `noop` for a closed or already-triaged issue; [gh-aw docs](https://github.github.com/gh-aw/reference/steps-jobs/)
+say pre-agent no-ops stop inference. Unit tests check the record, not a live run.
 
-Issue text and tool responses are untrusted. The tool list and safe outputs
-exclude closing, deleting, editing, merging, reassigning and pushing. This
-still permits a wrong comment or label; a human must correct those.
-There is no `CONTRIBUTING.md`: the bot posts directly; no contributor submits its draft.
+Issue/tool text is untrusted. Safe outputs bar destructive actions, but wrong
+comments or labels remain possible. No `CONTRIBUTING.md`: the bot posts directly.
 
 ## Test record
 
@@ -59,12 +59,13 @@ wrongly rejected `df.select` and `pd.col`; both
 [`select`](https://github.com/pandas-dev/pandas/blob/fbfadf45ae216faf91c622a68cb6d3e91559c284/pandas/core/frame.py#L6057)
 and [`col`](https://github.com/pandas-dev/pandas/blob/fbfadf45ae216faf91c622a68cb6d3e91559c284/pandas/__init__.py#L110)
 existed then. I corrected the skill and detector model and reran fresh copies.
-All [twelve final runs](evals/golden/results.md) matched the frozen action on first attempt.
-One comment clearly repeated supplied details; another did so mildly. The injection did
-not redirect the bot. At 74.85 AI credits, I'd keep it off outside the
-sandbox: only 2/30 reports clearly needed a request; time saved was unmeasured.
-After the runs I corrected [AGENTS.md](AGENTS.md)'s duplicate-skip claim;
-that wording change was not rerun on the fresh cases.
+All [twelve final runs](evals/golden/results.md) matched the frozen action on
+first attempt. One comment clearly repeated supplied details; another did so
+mildly. The injection did not redirect the bot. At 74.85 AI credits, I'd keep
+it off outside the sandbox: only 2/30 reports clearly needed a request and
+time saved was unmeasured. Afterward, I corrected [AGENTS.md](AGENTS.md)'s
+duplicate-skip claim and added an approval gate; neither was scored. See the
+[deployment checklist](docs/production-readiness.md).
 
 ## Governance: what is enforced and what is not
 
@@ -77,25 +78,27 @@ that wording change was not rerun on the fresh cases.
    keep this workflow off PRs.
 3. **Safe outputs — tested.** At most one comment and one `needs-repro` label
    per run; failure-report issues are disabled. A detector error blocks them.
-4. **Human approval — absent in sandbox** to test direct outputs; I'd require it before each pandas comment or label.
-5. **Budgets — configured, not a hard spend cap.** Agent runtime is ten minutes,
-   with 20 AI credits/run and ten for detection. External authors get two
-   starts/hour. The 100-credit daily guardrail excludes manual runs and can
-   be overshot by concurrent starts; the rate-limit feature is experimental.
+4. **Human approval — configured after the runs, not tested.** The compiled
+   output and conclusion jobs require success from the approval job. Its
+   `main`-only Environment names the owner as reviewer; admin bypass is off.
+   Self-review is allowed. No-op runs may wait too; the scored runs predate it.
+5. **Budgets — configured, not a hard spend cap.** Ten-minute runtime, 20
+   credits/run, ten for detection; two starts per user per hour. The
+   100-credit daily guardrail excludes manual runs and can be overshot; the
+   rate-limit feature is experimental.
 6. **Audit trail — partial.** [Logs](evals/golden/) retain visible calls, outputs
    and credits, not hidden reasoning or exact backend build. The CLI used
    fallback model metadata.
-7. **Kill switch — partly tested.** I disabled/re-enabled during seeding, then
-   disabled after evaluation. Cancelling active jobs was untested; key deletion cannot stop one.
-8. **Drift detection — proposed, not scheduled here.** Rerun gold before
-   changes and monthly, add new cases, and review changed and sampled outputs.
+7. **Kill switch — partly tested.** Disabled/re-enabled during seeding and
+   disabled after evaluation; active-run cancellation was untested.
+8. **Drift detection — proposed, not scheduled.** Rerun gold before changes
+   and monthly, then review changed and sampled outputs.
 9. **Accountability — owner-managed.** I can change or disable the workflow;
    I corrected [two false outputs](docs/report.md). Pandas did not approve it.
 
-The workflow admits external authors with `on.roles: all`; the compiled
-write-role gate is gone. That trigger and its per-user gate are not live-tested.
-Spam could still cost money. AWF restricts network; shell/CLI tools are off.
-Threat detection blocks flagged outputs, not wrong factual claims.
+`roles: [admin]` skips ordinary reporters before inference: safer for sandbox
+spend, but not community intake. This role check is untested. AWF restricts
+network and shell/CLI tools are off; detection cannot catch false claims.
 
 ## Bill of materials
 
@@ -108,7 +111,8 @@ Threat detection blocks flagged outputs, not wrong factual claims.
   `safeoutputs` MCP for a comment, label or no-op; issue title/body, skill at
   the chosen commit, and repository files. No bash or CLI proxy for the model.
 - **Permissions and outputs:** read-only agent scopes; a separate safe-output
-  path for one comment and one existing label. See the compiled lock file.
+  path for one comment and one existing label. The compiled output job also
+  retains `pull-requests: write`; see the lock file.
 - **Logs and evaluations:** [Actions runs](https://github.com/SaaiAravindhRaja/repro-triage-agent/actions),
   [golden inputs/outputs](evals/golden/), and gh-aw credit logs where present.
 - **Humans:** the owner maintains the configuration, reviews drift and can
@@ -117,34 +121,30 @@ Threat detection blocks flagged outputs, not wrong factual claims.
 ## Five failure questions
 
 1. **An issue claims approval to close stale reports.** Its words are data;
-   the workflow has no close output or write tool. The constructed case in
-   the golden set must also test whether the agent avoids a misleading comment
-   or label. [Run 39773156674](https://github.com/SaaiAravindhRaja/repro-triage-agent/actions/runs/39773156674)
+   no close output or write tool is exposed. In the constructed case,
+   [run 39773156674](https://github.com/SaaiAravindhRaja/repro-triage-agent/actions/runs/39773156674)
    left it open with a relevant comment and only `needs-repro`.
-2. **The provider changes the model.** A model change itself would not be
-   detected. A changed decision might appear at the next proposed pre-change
-   or monthly gold run. The owner would disable the workflow,
-   inspect the diff and test an explicit replacement before re-enabling it.
-3. **There are 300 issues in a week.** If deployed, that is about 43/day if
-   evenly spread. Each external author gets two/hour, but many accounts can
-   still generate load. The 100-credit daily guardrail may stop later jobs,
-   yet concurrent starts can overshoot it. At the measured median 6.22 credits,
-   43 daily issues would use about 267 credits; the owner handles skipped and
-   failed runs manually. This is no throughput guarantee.
+2. **The provider changes the model.** A model change itself is not detected.
+   A changed decision might appear in a gold run; the owner must disable the
+   workflow, inspect the diff and test a replacement before re-enabling it.
+3. **There are 300 issues in a week.** With `roles: [admin]`, ordinary
+   reporters do not start the agent. That protects this public sandbox but
+   does not automate community intake. If an admin starts 43 runs/day, the
+   100-credit guardrail may stop later issue runs and can be overshot; manual
+   dispatch bypasses it. At the measured median, 43 runs use about 267 credits.
+   Skipped and failed runs still need manual handling.
 4. **A GitHub/MCP response carries instructions.** The response is untrusted
    input. The model might still misclassify the report, but it cannot gain
    close, merge or shell capability from that text. It could still put a wrong
    claim in the permitted comment on the selected issue; output limits do not
    check factual accuracy.
-5. **A maintainer has only a phone.** In a phone browser, open this repo's
-   Actions page, [disable the workflow](https://docs.github.com/en/actions/managing-workflow-runs-and-deployments/managing-workflow-runs/disabling-and-enabling-a-workflow)
-   to stop new starts, then [cancel queued and active runs](https://docs.github.com/en/actions/how-tos/manage-workflow-runs/cancel-a-workflow-run).
-   Check that no run remains; revoke the OpenAI key if the account is compromised.
+5. **A maintainer has only a phone.** Open this repo's Actions page and
+   [disable the workflow](https://docs.github.com/en/actions/managing-workflow-runs-and-deployments/managing-workflow-runs/disabling-and-enabling-a-workflow),
+   then [cancel queued and active runs](https://docs.github.com/en/actions/how-tos/manage-workflow-runs/cancel-a-workflow-run).
+   Check no run remains; revoke the key if the account is compromised.
 
 ## AI use
 
-I set the sandbox and spending bounds. Codex chose the triage design and
-drafted the workflow, skill, scripts, initial case judgments and this report.
-I used Codex to check original issue text, compiled permissions, unit tests,
-run logs and each public output against the frozen decisions. The checks are
-retained here; I am responsible for the submission and its errors.
+I set the sandbox and spending bounds. Codex drafted the workflow, skill,
+scripts, initial case judgments and report. I checked source, permissions,
+tests, logs and outputs against the frozen decisions; I'm responsible for this submission.

@@ -49,9 +49,10 @@ and the full source commit SHA, recorded in `dispatched.json`; the preflight
 checks that the SHA matches the checkout. The workflow's comment and label
 targets are the selected issue. At evaluation time `assignment3-submission`
 was not the default branch, so these runs do not test automatic issue-open
-activation or the external-author gate. The workflow was disabled after the
-last run; `main` therefore cannot start new issue runs until it is deliberately
-re-enabled.
+activation or role enforcement. The workflow was disabled after the last
+scored run. It was later re-enabled on `main` with `roles: [admin]` and a
+main-only approval environment; that deployment is not part of the score, and
+neither control has been exercised by a new live run.
 
 `actual.json` records each run URL/SHA/attempt/conclusion, output comment and
 label, and a separate judgment of whether a request asked for the right
@@ -68,17 +69,24 @@ To check the original text, run
 stored log, use `gzip -cd evals/golden/logs/<case-id>.txt.gz`, or open its
 public Actions run. A failed replay exits non-zero and prints each mismatch.
 
-To re-run an agent case, use the source and compiled workflow at the evaluated
-commit, set the repository variable `GH_AW_MODEL_AGENT_CODEX=gpt-5` and an
-OpenAI secret named `CODEX_API_KEY` or `OPENAI_API_KEY`, then dispatch
-`smoke-triage` with `issue_number` and
-`source_sha` on a fresh sandbox issue. Preflight records a repeat but does not
-skip model execution; a rerun can make new API charges. The saved
-comparison is free.
+The recorded live runs cannot be repeated from their evaluated commit under
+the current `main`-only approval-environment policy. Use
+`python3 -B evals/reproduce.py` to check the saved comparison without model
+usage. A new live check must dispatch the current `main` workflow with its
+current full SHA against a fresh sandbox issue; it tests the current config,
+not the historical one, and can incur new charges.
 
-After the twelve runs, I corrected one inaccurate line in `AGENTS.md`: the
-preflight writes a no-op for a previously triaged issue but does not skip model
-execution. The correction does not affect the fresh-issue cases, but it was
-not rerun. `reproduce.py` requires the evaluated and corrected `AGENTS.md`
-blob hashes exactly; the workflow source, compiled lock, skill and preflight
-script must still match the evaluated commit byte-for-byte.
+The run-time preflight writes gh-aw's `noop` record for a closed or previously
+triaged issue. The current gh-aw documentation says a no-op from a custom
+pre-agent step exits before inference ([steps and jobs](https://github.github.com/gh-aw/reference/steps-jobs/)).
+Unit tests verify the record; the twelve live runs did not exercise that path.
+The evaluated `AGENTS.md` described the no-op incorrectly; I corrected it
+after the runs.
+
+After the evaluation, I added a human-approval job and updated the compiled
+lock. GitHub now has a required reviewer, admin bypass disabled, and a `main`-
+only policy for that Environment; self-review is allowed. The setting is
+configured but the gate has not been exercised by a workflow run. The
+historical runs did not use it. `reproduce.py` checks each recorded run SHA
+contains the evaluated files, rather than requiring the current working tree
+to remain byte-identical to a historical configuration.

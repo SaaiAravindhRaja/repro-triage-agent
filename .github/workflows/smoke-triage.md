@@ -2,7 +2,7 @@
 on:
   issues:
     types: [opened]
-  roles: all
+  roles: [admin]
   workflow_dispatch:
     inputs:
       issue_number:
@@ -59,7 +59,22 @@ steps:
       GH_AW_SAFE_OUTPUTS: ${{ runner.temp }}/gh-aw/safeoutputs/outputs.jsonl
       GH_TOKEN: ${{ github.token }}
 
+jobs:
+  safe_outputs:
+    if: needs.triage-output-approval.result == 'success'
+  conclusion:
+    if: needs.triage-output-approval.result == 'success'
+  triage-output-approval:
+    runs-on: ubuntu-latest
+    needs: [agent, detection]
+    environment: triage-output-approval
+    permissions: {}
+    steps:
+      - name: Confirm environment approval released the job
+        run: echo "GitHub Environment protection released this job."
+
 safe-outputs:
+  needs: [triage-output-approval]
   report-failure-as-issue: false
   report-failed-jobs: false
   report-incomplete:
