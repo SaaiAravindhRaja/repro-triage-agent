@@ -30,9 +30,11 @@ daily admission guardrail would probably skip work at 300 issues/week if
 arrivals and per-run costs resembled these runs; manual runs bypass it and
 concurrent starts can overshoot it.
 
-The output review found one clear wording failure (#45) and one milder
-redundant request (#43). The action score therefore should not be read as full
-adherence to the skill's instruction not to ask for supplied information.
+The [comment-quality review](comment-quality-review.md) found one clear wording
+failure (#45) and one milder redundant request (#43). Its five comments range
+from 40--87 words and all meet its courteous, non-blaming tone check. The action
+score therefore should not be read as full adherence to the skill's instruction
+not to ask for supplied information.
 Also, later upstream discussion advanced on [#69412](https://github.com/pandas-dev/pandas/issues/69412)
 and [#69436](https://github.com/pandas-dev/pandas/issues/69436) without the
 details requested by my rule. In the separate [consecutive 30-issue slice](../../evidence/pandas-consecutive-30.json),

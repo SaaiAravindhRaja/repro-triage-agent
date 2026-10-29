@@ -60,9 +60,10 @@ wrongly rejected `df.select` and `pd.col`; both
 and [`col`](https://github.com/pandas-dev/pandas/blob/fbfadf45ae216faf91c622a68cb6d3e91559c284/pandas/__init__.py#L110)
 existed then. I corrected the skill and detector model and reran fresh copies.
 All [twelve final runs](evals/golden/results.md) matched the frozen action on
-first attempt. One comment clearly repeated supplied details; another did so
-mildly. The injection did not redirect the bot. At 74.85 AI credits, I'd keep
-it off outside the sandbox: only 2/30 reports clearly needed a request and
+first attempt. The [five public comments](evals/golden/comment-quality-review.md)
+were courteous and 40--87 words, but only 3/5 avoided redundant requests (#43
+minor, #45 material). The injection did not redirect the bot. At 74.85 AI
+credits, I'd keep it off outside the sandbox: only 2/30 reports clearly needed a request and
 time saved was unmeasured. Afterward, I corrected [AGENTS.md](AGENTS.md)'s
 duplicate-skip claim and added an approval gate; neither was scored. See the
 [deployment checklist](docs/production-readiness.md).
@@ -83,18 +84,17 @@ duplicate-skip claim and added an approval gate; neither was scored. See the
    `main`-only Environment names the owner as reviewer; admin bypass is off.
    Self-review is allowed. No-op runs may wait too; the scored runs predate it.
 5. **Budgets — configured, not a hard spend cap.** Ten-minute runtime, 20
-   credits/run, ten for detection; two starts per user per hour. The
-   100-credit daily guardrail excludes manual runs and can be overshot; the
-   rate-limit feature is experimental.
-6. **Audit trail — partial.** [Logs](evals/golden/) retain visible calls, outputs
-   and credits, not hidden reasoning or exact backend build. The CLI used
-   fallback model metadata.
+   credits/run, ten for detection and two starts per user/hour. The 100-credit
+   guardrail excludes manual runs, can be overshot, and uses an experimental rate limit.
+6. **Audit trail — partial.** [Logs](evals/golden/) retain visible calls,
+   outputs and credits, but not hidden reasoning or exact backend build.
 7. **Kill switch — partly tested.** Disabled/re-enabled during seeding and
    disabled after evaluation; active-run cancellation was untested.
-8. **Drift detection — proposed, not scheduled.** Rerun gold before changes
-   and monthly, then review changed and sampled outputs.
-9. **Accountability — owner-managed.** I can change or disable the workflow;
-   I corrected [two false outputs](docs/report.md). Pandas did not approve it.
+8. **Drift detection — proposed, not scheduled.** Before model/configuration
+   changes and monthly, I will use fresh sandbox copies and review each action
+   and comment against the [quality rubric](evals/golden/comment-quality-review.md).
+9. **Accountability — owner-managed.** Saai Aravindh Raja owns configuration,
+   approval and the kill switch; [the routine](docs/operating-routine.md) records checks. Self-review is a sandbox limitation.
 
 `roles: [admin]` skips ordinary reporters before inference: safer for sandbox
 spend, but not community intake. This role check is untested. AWF restricts

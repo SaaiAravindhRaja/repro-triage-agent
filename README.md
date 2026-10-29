@@ -49,8 +49,9 @@ justify broad deployment or show maintainer time saved; it is a reason to keep
 the experiment narrow.
 
 In the [final comparison](evals/golden/results.md), all twelve first-attempt
-runs matched the frozen action. One comment clearly re-asked supplied details
-and another did so mildly. The runs used 74.85 AI credits, but did not show
+runs matched the frozen action. A [manual quality audit](evals/golden/comment-quality-review.md)
+found courteous comments ranging from 40--87 words, but two redundant requests:
+one mild and one material. The runs used 74.85 AI credits, but did not show
 maintainer-time savings. The evaluated `AGENTS.md` incorrectly said that the
 preflight no-op did not skip inference; I corrected it after those runs. I also
 added the approval gate after the evaluation. The run evidence remains pinned

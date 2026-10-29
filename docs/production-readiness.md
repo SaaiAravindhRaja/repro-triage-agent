@@ -31,9 +31,9 @@ This is a bounded live demo, not production approval for upstream use.
   issue runs can overshoot it, and the per-user limit is experimental. Model
   cost is incurred before a reviewer approves or rejects output.
 - **Model drift:** `gpt-5` and `gpt-5-mini` are aliases, not immutable pins.
-  There is no scheduled golden-set drift check. A named owner must review
-  output changes before each model/configuration change and on a regular
-  schedule.
+  The owner has a documented manual [drift routine](operating-routine.md),
+  but there is no scheduled golden-set run. A live check consumes credits and
+  must use fresh issues under the current configuration.
 - **Unverified paths:** issue-open role enforcement, the rate limit, environment
   approval/rejection, and phone-based cancellation have not been tested
   end-to-end. The twelve scored runs predate these controls.

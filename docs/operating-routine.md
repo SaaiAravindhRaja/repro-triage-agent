@@ -1,0 +1,45 @@
+# Sandbox operating routine
+
+This is the current operating plan for the personal CS467 sandbox. It is not a
+deployment plan for pandas and does not make the untested controls tested.
+
+## Owner and separation of duties
+
+Saai Aravindh Raja is the repository owner, workflow configuration owner and
+current Environment reviewer. He can change or disable the workflow, cancel a
+run, rotate the repository secret, and decide whether to approve a safe output.
+The current sandbox permits self-review because it has one owner. That is a
+known limitation: any community deployment should use a separately named
+maintainer to approve outputs and changes to the agent configuration.
+
+## Before approving an output
+
+The owner checks the issue, the agent artifact, the detector result, and the
+proposed comment/label. Approve only a request that identifies missing details
+from that issue and stays within the one-comment, one-`needs-repro` limit.
+Reject a redundant, unsupported or misleading request. The Environment gate is
+after inference, so rejection prevents publication but does not refund credits.
+
+## Before a model or configuration change
+
+The owner first disables the workflow, reviews the source and compiled lock,
+and runs `gh aw compile smoke-triage --no-emit`, the unit suite, and the saved
+evaluation replay. A new live comparison uses fresh sandbox issues and the
+current `main` SHA; it is not a rerun of the historical score and incurs model
+credits. Review every resulting action and comment against
+[`comment-quality-review.md`](../evals/golden/comment-quality-review.md) before
+re-enabling the workflow.
+
+## Monthly check and incident response
+
+The same fresh-copy comparison is the proposed monthly drift check. It is
+manual and deliberately unscheduled because the current workflow is a bounded
+course sandbox with paid inference. Record the model alias, commit SHA, action
+result, credit cost, and any wording failure; pause the workflow if a decision,
+tool sequence, or output quality changes materially.
+
+For an incident, disable the workflow in GitHub Actions, cancel queued and
+running jobs, inspect the affected issue and run artifacts, then rotate the
+secret if account or token compromise is suspected. The configuration and
+documentation describe this path, but phone-based cancellation and active-run
+cancellation have not been exercised end to end.
