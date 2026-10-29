@@ -36,10 +36,10 @@ This is a bounded live demo, not production approval for upstream use.
   The owner has a documented manual [drift routine](operating-routine.md),
   but there is no scheduled golden-set run. A live check consumes credits and
   must use fresh issues under the current configuration.
-- **Unverified paths:** non-admin role rejection, the rate limit, environment
-  rejection, manual dispatch, and phone-based cancellation have not been
-  tested end-to-end. The twelve scored runs predate these controls. The owner
-  issue-open path, approval and rerun rejection were tested separately on #54.
+- **Unverified paths:** non-admin role rejection, rate-limit rejection,
+  environment rejection, and phone-based cancellation have not been tested
+  end-to-end. The twelve scored runs predate these controls. The owner issue-open
+  path, approval, rerun rejection and manual no-op path were tested separately on #54.
   A rejected rerun is deliberate: recovery is a new manual dispatch after the
   owner checks the issue for partial output.
 - **Residual permissions:** gh-aw 0.92.0's compiled safe-output and conclusion

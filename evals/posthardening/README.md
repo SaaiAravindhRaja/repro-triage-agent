@@ -26,4 +26,11 @@ I then used GitHub's rerun control. In [attempt 2](https://github.com/SaaiAravin
 preflight with `TRIAGE_RUN_ATTEMPT=2`; `Execute Codex CLI`, safe outputs,
 approval, and conclusion were skipped. This confirms the rerun block before
 model work or a second public output. It does not test a non-admin reporter,
-rate-limit rejection, approval rejection, cancellation, or manual dispatch.
+rate-limit rejection, approval rejection, or cancellation.
+
+A separate [manual dispatch](https://github.com/SaaiAravindhRaja/repro-triage-agent/actions/runs/40853359145)
+used the current full `source_sha` and the already-triaged issue #54. It passed
+preflight, recorded a no-op, and the gh-aw harness skipped the model: the
+artifact has no usage record or tool calls. After Environment approval it
+completed successfully with the issue still having one comment and one label.
+This tests the manual SHA check and no-op path, but not rate-limit rejection.

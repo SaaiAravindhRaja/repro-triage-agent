@@ -57,11 +57,12 @@ as a second version of the design.
   per user per hour. It is compile-checked, not live-tested. An admin can still
   start paid runs, and the daily credit guardrail is not a hard provider billing cap.
 - Preflight rejects reruns before inference. [The rerun of #54](https://github.com/SaaiAravindhRaja/repro-triage-agent/actions/runs/40834047322)
-  failed at that check with the model step skipped. Recover a failed run with a
-  new manual dispatch after checking its issue for partial output. Missing-tool
-  reports cannot create issues; missing-data reports flow only through the
-  disabled failure-issue path; those paths have unit and compiled-workflow
-  coverage, not a live run.
+  failed at that check with the model step skipped. A [manual no-op run](https://github.com/SaaiAravindhRaja/repro-triage-agent/actions/runs/40853359145)
+  also accepted the current SHA and skipped the model after detecting completed
+  triage. Recover a failed run with a new manual dispatch after checking its
+  issue for partial output. Missing-tool reports cannot create issues;
+  missing-data reports flow only through the disabled failure-issue path;
+  those paths have unit and compiled-workflow coverage, not a live run.
 
 The configured model has only this repository in its GitHub-tool allowlist.
 That limits where it reads, but the issue and tool responses remain untrusted.

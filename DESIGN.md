@@ -67,8 +67,8 @@ credits, I'd keep it off outside the sandbox: only 2/30 reports clearly needed a
 time saved was unmeasured. Afterward, I corrected [AGENTS.md](AGENTS.md)'s
 duplicate-skip claim and added approval, an all-user rate limit, a two-read repository-file budget,
 rerun rejection and diagnostic-only failure reports; none was scored. See the [deployment checklist](docs/production-readiness.md).
-The separate [post-hardening check](evals/posthardening/) exercised the current
-issue trigger, skill loading, approval gate, bounded output and rerun block.
+The separate [post-hardening checks](evals/posthardening/) exercised the issue
+trigger, skill loading, approval, manual SHA/no-op path, bounded output and rerun block.
 ## Governance: what is enforced and what is not
 1. **Identity — tested.** Comments come from `github-actions[bot]` with a run link.
 2. **Least privilege — configured, compile checked.** The agent job has

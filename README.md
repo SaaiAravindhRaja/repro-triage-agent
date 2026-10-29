@@ -11,9 +11,9 @@ on `assignment3-submission`, which was not the default branch at the time.
 The complete submission is on `main`. The current workflow is enabled there,
 but its issue trigger admits repository admins only. The issue-open event and
 role rejection were not exercised in the scored evaluation, which used manual
-dispatch. A later [post-hardening control check](evals/posthardening/) exercised
-the owner path, the Environment approval gate and the rerun block. This remains
-a sandbox, not a deployment to pandas.
+dispatch. Later [post-hardening control checks](evals/posthardening/) exercised
+the owner path, Environment approval, the rerun block, and a manual no-op. This
+remains a sandbox, not a deployment to pandas.
 
 The submission is [DESIGN.md](DESIGN.md), the [workflow source](.github/workflows/smoke-triage.md)
 and [compiled workflow](.github/workflows/smoke-triage.lock.yml), the
