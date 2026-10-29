@@ -29,7 +29,9 @@ def gh_api(endpoint: str, *args: str) -> dict:
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--execute", action="store_true", help="create missing sandbox issues")
+    parser.add_argument(
+        "--execute", action="store_true", help="create missing sandbox issues"
+    )
     parser.add_argument("--case", help="create or preview one case ID")
     args = parser.parse_args()
 
@@ -59,9 +61,12 @@ def main() -> None:
         source = json.loads(source_path.read_text(encoding="utf-8"))
         issue = gh_api(
             f"repos/{REPO}/issues",
-            "--method", "POST",
-            "-f", f"title={source['input']['title']}",
-            "-f", f"body={source['input']['body']}",
+            "--method",
+            "POST",
+            "-f",
+            f"title={source['input']['title']}",
+            "-f",
+            f"body={source['input']['body']}",
         )
         mapping[case_id] = {"number": issue["number"], "url": issue["html_url"]}
         MAP.write_text(json.dumps(mapping, indent=2) + "\n", encoding="utf-8")

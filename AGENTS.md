@@ -11,7 +11,8 @@ agent comments only on incomplete bug reports in this repository.
   the explicit `source_sha` on manual runs, or from the default branch on issue
   events. Preflight checks that the manual SHA matches the checkout.
 - `scripts/preflight.py` rejects reruns, validates the target and writes a `noop` for closed
-  or already-triaged issues. In gh-aw 0.92.0, a no-op written by a pre-agent
+  or already-triaged issues. Recover a failed run with a new manual dispatch only after
+  checking its issue for partial output. In gh-aw 0.92.0, a no-op written by a pre-agent
   step short-circuits inference. This path has unit coverage, not a live run.
   Partial triage states fail closed. The script uses only the Python standard
   library.

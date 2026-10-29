@@ -32,7 +32,10 @@ def agent_calls(log: str) -> list[dict]:
             continue
         event = json.loads(payload)
         item = event.get("item", {})
-        if event.get("type") == "item.completed" and item.get("type") == "mcp_tool_call":
+        if (
+            event.get("type") == "item.completed"
+            and item.get("type") == "mcp_tool_call"
+        ):
             calls.append(item)
     return calls
 
@@ -49,12 +52,16 @@ def credit(log: str, job: str) -> float | None:
 
 
 def validate_file_reads(calls: list[dict]) -> None:
+    file_reads = []
     for item in calls:
         if item.get("server") != "github" or item.get("tool") != "get_file_contents":
             continue
+        file_reads.append(item)
         path = (item.get("arguments") or {}).get("path")
         if path not in ALLOWED_FILE_READ_PATHS:
             raise ValueError(f"Unexpected repository file read: {path!r}")
+    if len(file_reads) > 2:
+        raise ValueError(f"Too many repository file reads: {len(file_reads)}")
 
 
 def inspect(case: dict) -> dict:
@@ -72,7 +79,9 @@ def inspect(case: dict) -> dict:
     fixture = json.loads(fixture_path.read_text(encoding="utf-8"))
     expected_skill = subprocess.run(
         ["git", "show", f"{case['run_head_sha']}:{SKILL}"],
-        check=True, capture_output=True, text=True,
+        check=True,
+        capture_output=True,
+        text=True,
     ).stdout
     calls = agent_calls(log)
     validate_file_reads(calls)
@@ -83,10 +92,20 @@ def inspect(case: dict) -> dict:
         args = item.get("arguments") or {}
         complete = item.get("status") == "completed" and item.get("error") is None
         if item.get("server") == "github" and item.get("tool") == "get_file_contents":
-            if args.get("path") == SKILL and args.get("sha") == case["run_head_sha"] and complete:
+            if (
+                args.get("path") == SKILL
+                and args.get("sha") == case["run_head_sha"]
+                and complete
+            ):
                 document = json.loads(result_text(item))[0]
-                resources = [entry["resource"] for entry in document["content"] if entry.get("type") == "resource"]
-                if not skill_read and any(resource.get("text") == expected_skill for resource in resources):
+                resources = [
+                    entry["resource"]
+                    for entry in document["content"]
+                    if entry.get("type") == "resource"
+                ]
+                if not skill_read and any(
+                    resource.get("text") == expected_skill for resource in resources
+                ):
                     skill_read = True
                     skill_position = position
         if item.get("server") == "github" and item.get("tool") == "issue_read":
@@ -107,15 +126,17 @@ def inspect(case: dict) -> dict:
     if names == ["noop"]:
         decision_recorded = True
     elif names == ["add_comment", "add_labels"]:
-        decision_recorded = (
-            safe_calls[1][1].get("arguments", {}).get("labels")
-            == [{"name": "needs-repro", "suggest": False}]
-        )
+        decision_recorded = safe_calls[1][1].get("arguments", {}).get("labels") == [
+            {"name": "needs-repro", "suggest": False}
+        ]
     else:
         decision_recorded = False
     decision_recorded = bool(
         decision_recorded
-        and all(item.get("status") == "completed" and item.get("error") is None for _, item in safe_calls)
+        and all(
+            item.get("status") == "completed" and item.get("error") is None
+            for _, item in safe_calls
+        )
         and skill_position is not None
         and issue_position is not None
         and skill_position < issue_position
@@ -135,9 +156,14 @@ def main() -> None:
     data = json.loads(ACTUAL.read_text(encoding="utf-8"))
     for case in data["cases"]:
         details = inspect(case)
-        case["evidence"] = {key: details[key] for key in ("skill_read", "issue_read", "decision_recorded")}
+        case["evidence"] = {
+            key: details[key]
+            for key in ("skill_read", "issue_read", "decision_recorded")
+        }
         case["tool_sequence"] = details["tool_sequence"]
-        case["usage"] = {key: details[key] for key in ("agent_ai_credits", "detector_ai_credits")}
+        case["usage"] = {
+            key: details[key] for key in ("agent_ai_credits", "detector_ai_credits")
+        }
         print(case["id"], case["evidence"], case["usage"])
     ACTUAL.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
 

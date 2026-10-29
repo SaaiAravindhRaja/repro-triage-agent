@@ -47,14 +47,24 @@ class PreflightTests(unittest.TestCase):
         with self.assertRaisesRegex(RuntimeError, "partial triage state"):
             self.run_case(
                 {"number": 41, "state": "open", "labels": []},
-                [{"user": {"login": "github-actions[bot]"}, "body": preflight.WORKFLOW_MARKER}],
+                [
+                    {
+                        "user": {"login": "github-actions[bot]"},
+                        "body": preflight.WORKFLOW_MARKER,
+                    }
+                ],
             )
         self.assertFalse(self.output.exists())
 
     def test_completed_prior_triage_records_noop(self) -> None:
         self.run_case(
             {"number": 41, "state": "open", "labels": [{"name": "needs-repro"}]},
-            [{"user": {"login": "github-actions[bot]"}, "body": preflight.WORKFLOW_MARKER}],
+            [
+                {
+                    "user": {"login": "github-actions[bot]"},
+                    "body": preflight.WORKFLOW_MARKER,
+                }
+            ],
         )
         self.assertEqual(
             json.loads(self.output.read_text()),
@@ -93,7 +103,9 @@ class PreflightTests(unittest.TestCase):
             }
         )
         with patch.dict(os.environ, self.environment, clear=True):
-            with patch.object(preflight.subprocess, "check_output", return_value="b" * 40):
+            with patch.object(
+                preflight.subprocess, "check_output", return_value="b" * 40
+            ):
                 with self.assertRaisesRegex(RuntimeError, "does not match"):
                     preflight.main()
 
@@ -107,7 +119,9 @@ class PreflightTests(unittest.TestCase):
 
     def test_preflight_api_failure_has_no_public_output(self) -> None:
         with patch.dict(os.environ, self.environment, clear=True):
-            with patch.object(preflight, "api_get", side_effect=RuntimeError("API unavailable")):
+            with patch.object(
+                preflight, "api_get", side_effect=RuntimeError("API unavailable")
+            ):
                 with self.assertRaisesRegex(RuntimeError, "API unavailable"):
                     preflight.main()
         self.assertFalse(self.output.exists())

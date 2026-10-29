@@ -6,7 +6,6 @@ from __future__ import annotations
 import argparse
 import gzip
 import json
-from pathlib import Path
 
 from verify_trace import ROOT, agent_calls
 
@@ -34,12 +33,17 @@ def main() -> None:
                 log = stream.read()
         decisions = [
             (item["tool"], item.get("arguments", {}))
-            for item in agent_calls(log) if item.get("server") == "safeoutputs"
+            for item in agent_calls(log)
+            if item.get("server") == "safeoutputs"
         ]
-        print(f"\n=== {case_id} | {case['run_conclusion']} | {case['observed_action']} ===")
+        print(
+            f"\n=== {case_id} | {case['run_conclusion']} | {case['observed_action']} ==="
+        )
         print(f"Title: {fixture['input']['title']}")
         print(f"Original body:\n{fixture['input']['body']}")
-        print(f"Expected: {gold[case_id]['expected_action']} — {gold[case_id]['rationale']}")
+        print(
+            f"Expected: {gold[case_id]['expected_action']} — {gold[case_id]['rationale']}"
+        )
         for tool, arguments in decisions:
             print(f"Agent {tool}: {json.dumps(arguments, ensure_ascii=False)}")
         print(f"Run: {case['run_url']}")

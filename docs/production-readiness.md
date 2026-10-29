@@ -25,7 +25,7 @@ This is a bounded live demo, not production approval for upstream use.
   reviewer capacity, and a new threat and cost review.
 - **Input and integrity:** `min-integrity: none` lets admin-authored issues
   reach the model, including malicious text. Safe outputs constrain actions,
-  but allowed comments can still be wrong. The one-file-read cap does not
+  but allowed comments can still be wrong. The two-file-read cap does not
   restrict its path; the required skill path/ref is only prompt-enforced.
 - **Spend:** per-run and daily AI-credit settings are guardrails, not a hard
   provider billing cap. Manual runs bypass the daily guardrail, concurrent
@@ -38,6 +38,8 @@ This is a bounded live demo, not production approval for upstream use.
 - **Unverified paths:** issue-open role enforcement, the rate limit, rerun
   rejection, environment approval/rejection, and phone-based cancellation have
   not been tested end-to-end. The twelve scored runs predate these controls.
+  A rejected rerun is deliberate: recovery is a new manual dispatch after the
+  owner checks the issue for partial output.
 - **Residual permissions:** gh-aw 0.92.0's compiled safe-output and conclusion
   jobs include `pull-requests: write` even though the configured actions are
   issue-scoped. The agent itself remains read-only, but review the generated

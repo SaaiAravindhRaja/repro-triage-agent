@@ -56,13 +56,14 @@ as a second version of the design.
 - The experimental user-rate-limit applies to every role and allows two starts
   per user per hour. It is compile-checked, not live-tested. An admin can still
   start paid runs, and the daily credit guardrail is not a hard provider billing cap.
-- Preflight rejects reruns before inference. Missing-tool reports cannot create
+- Preflight rejects reruns before inference. Recover a failed run with a new
+  manual dispatch after checking its issue for partial output. Missing-tool reports cannot create
   issues; missing-data reports flow only through the disabled failure-issue path.
   Those post-evaluation controls have unit and compiled-workflow coverage, not a live run.
 
 The configured model has only this repository in its GitHub-tool allowlist.
 That limits where it reads, but the issue and tool responses remain untrusted.
-The one-file-read and two-issue-read budgets do not bind those reads to the
+The two-file-read and two-issue-read budgets do not bind those reads to the
 skill path/ref or selected issue number. The workflow prompt requests them and
 the historical trace verifies them, but a future model could read another
 sandbox file or issue. No claim here treats prompt wording as a substitute for

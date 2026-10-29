@@ -32,7 +32,7 @@ tools:
     toolsets: [repos, issues]
     allowed:
       - name: get_file_contents
-        max-calls: 1
+        max-calls: 2
       - name: issue_read
         max-calls: 2
     allowed-repos: [saaiaravindhraja/repro-triage-agent]

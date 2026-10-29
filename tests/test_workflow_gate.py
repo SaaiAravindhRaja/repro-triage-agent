@@ -51,7 +51,8 @@ class WorkflowGateTests(unittest.TestCase):
     @classmethod
     def active_lines(cls, text: str) -> str:
         return "\n".join(
-            cleaned for line in text.splitlines()
+            cleaned
+            for line in text.splitlines()
             if (cleaned := cls.strip_comment(line)).strip()
         )
 
@@ -90,8 +91,12 @@ class WorkflowGateTests(unittest.TestCase):
                 source_job,
                 rf"(?m)^    if: {re.escape(APPROVAL_CONDITION)}$",
             )
-            needs = re.search(r"(?ms)^    needs:\n(.*?)(?=^    [A-Za-z0-9_-]+:|\Z)", lock_job)
-            condition = re.search(r"(?ms)^    if:\s*(.*?)(?=^    [A-Za-z0-9_-]+:|\Z)", lock_job)
+            needs = re.search(
+                r"(?ms)^    needs:\n(.*?)(?=^    [A-Za-z0-9_-]+:|\Z)", lock_job
+            )
+            condition = re.search(
+                r"(?ms)^    if:\s*(.*?)(?=^    [A-Za-z0-9_-]+:|\Z)", lock_job
+            )
             self.assertIsNotNone(needs, f"compiled {name} dependencies are missing")
             self.assertIsNotNone(condition, f"compiled {name} condition is missing")
             assert needs is not None and condition is not None
@@ -101,7 +106,9 @@ class WorkflowGateTests(unittest.TestCase):
                 condition_value = condition_value[1:]
             self.assertEqual(" ".join(condition_value.split()), LOCK_CONDITIONS[name])
 
-    def test_source_and_compiled_workflow_restrict_issue_trigger_to_admins(self) -> None:
+    def test_source_and_compiled_workflow_restrict_issue_trigger_to_admins(
+        self,
+    ) -> None:
         source = SOURCE.read_text(encoding="utf-8")
         lock = LOCK.read_text(encoding="utf-8")
         frontmatter = re.search(r"(?s)\A---\s*\n(.*?)\n---\s*", source)
@@ -127,14 +134,14 @@ class WorkflowGateTests(unittest.TestCase):
             r"(?m)^    if: needs\.pre_activation\.outputs\.activated == 'true'$",
         )
 
-    def test_source_limits_repository_file_reads_to_one(self) -> None:
+    def test_source_limits_repository_file_reads_to_two(self) -> None:
         source = SOURCE.read_text(encoding="utf-8")
         frontmatter = re.search(r"(?s)\A---\s*\n(.*?)\n---\s*", source)
         self.assertIsNotNone(frontmatter, "workflow frontmatter is missing")
         assert frontmatter is not None
         self.assertRegex(
             frontmatter.group(1),
-            r"(?m)^      - name: get_file_contents\n        max-calls: 1$",
+            r"(?m)^      - name: get_file_contents\n        max-calls: 2$",
         )
 
     def test_source_and_lock_disable_diagnostic_issue_creation(self) -> None:
@@ -150,8 +157,12 @@ class WorkflowGateTests(unittest.TestCase):
                 rf"(?m)^  {re.escape(key)}:\n    create-issue: false$",
             )
         conclusion = self.job_block(lock, "conclusion")
-        self.assertRegex(conclusion, r'(?m)^          GH_AW_MISSING_TOOL_CREATE_ISSUE: "false"$')
-        self.assertRegex(conclusion, r'(?m)^          GH_AW_FAILURE_REPORT_AS_ISSUE: "false"$')
+        self.assertRegex(
+            conclusion, r'(?m)^          GH_AW_MISSING_TOOL_CREATE_ISSUE: "false"$'
+        )
+        self.assertRegex(
+            conclusion, r'(?m)^          GH_AW_FAILURE_REPORT_AS_ISSUE: "false"$'
+        )
 
 
 if __name__ == "__main__":

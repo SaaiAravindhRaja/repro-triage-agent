@@ -54,8 +54,8 @@ found courteous comments ranging from 40--87 words, but two redundant requests:
 one mild and one material. The runs used 74.85 AI credits, but did not show
 maintainer-time savings. The evaluated `AGENTS.md` incorrectly said that the
 preflight no-op did not skip inference; I corrected it after those runs. I also
-added output approval, rate limiting that includes admins, a single skill-file
-read, and a rerun check after the evaluation. The run evidence remains pinned
+added output approval, rate limiting that includes admins, a two-read repository-file
+budget, and a rerun check after the evaluation. The run evidence remains pinned
 to its original commit; the replay script checks the evaluated files at that
 SHA instead of requiring the current working tree to stay frozen.
 

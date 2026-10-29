@@ -16,7 +16,9 @@ from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
 
-WORKFLOW_MARKER = "gh-aw-workflow-call-id: SaaiAravindhRaja/repro-triage-agent/smoke-triage"
+WORKFLOW_MARKER = (
+    "gh-aw-workflow-call-id: SaaiAravindhRaja/repro-triage-agent/smoke-triage"
+)
 BOT_LOGIN = "github-actions[bot]"
 REPOSITORY = "saaiaravindhraja/repro-triage-agent"
 
@@ -36,9 +38,13 @@ def api_get(path: str) -> object:
         with urlopen(request, timeout=15) as response:
             return json.load(response)
     except HTTPError as error:
-        raise RuntimeError(f"GitHub API returned HTTP {error.code} for {path}") from None
+        raise RuntimeError(
+            f"GitHub API returned HTTP {error.code} for {path}"
+        ) from None
     except URLError as error:
-        raise RuntimeError(f"GitHub API unavailable for {path}: {error.reason}") from None
+        raise RuntimeError(
+            f"GitHub API unavailable for {path}: {error.reason}"
+        ) from None
 
 
 def no_action(reason: str) -> None:
@@ -62,7 +68,9 @@ def main() -> None:
         source_sha = os.environ.get("TRIAGE_SOURCE_SHA", "")
         if not re.fullmatch(r"[0-9a-f]{40}", source_sha):
             raise RuntimeError("manual dispatch requires a full lowercase commit SHA")
-        checkout_sha = subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip()
+        checkout_sha = subprocess.check_output(
+            ["git", "rev-parse", "HEAD"], text=True
+        ).strip()
         if source_sha != checkout_sha or source_sha != os.environ.get("GITHUB_SHA"):
             raise RuntimeError("manual source SHA does not match the workflow checkout")
 
@@ -111,7 +119,9 @@ def main() -> None:
     if prior_comment and has_label:
         no_action(f"No action: issue #{number} already has a triage comment and label")
     elif prior_comment or has_label:
-        raise RuntimeError(f"issue #{number} has a partial triage state; manual review is needed")
+        raise RuntimeError(
+            f"issue #{number} has a partial triage state; manual review is needed"
+        )
 
 
 if __name__ == "__main__":

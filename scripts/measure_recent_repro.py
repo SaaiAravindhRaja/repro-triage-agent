@@ -31,7 +31,9 @@ def frame_rows() -> list[dict]:
     issues = frame["issues"]
     if frame["total_count"] != len(issues):
         raise ValueError("The saved search frame is incomplete")
-    ordered = sorted(issues, key=lambda row: (row["created_at"], row["number"]), reverse=True)
+    ordered = sorted(
+        issues, key=lambda row: (row["created_at"], row["number"]), reverse=True
+    )
     if len({row["number"] for row in ordered}) != len(ordered):
         raise ValueError("The saved search frame contains duplicate issues")
     return ordered[:30]
@@ -39,10 +41,12 @@ def frame_rows() -> list[dict]:
 
 def query_batch(batch: list[dict]) -> dict:
     fields = " ".join(
-        f'i{row["number"]}: issue(number: {row["number"]}) {{{ISSUE_FIELDS}}}'
+        f"i{row['number']}: issue(number: {row['number']}) {{{ISSUE_FIELDS}}}"
         for row in batch
     )
-    query = f'query {{ repository(owner: "pandas-dev", name: "pandas") {{ {fields} }} }}'
+    query = (
+        f'query {{ repository(owner: "pandas-dev", name: "pandas") {{ {fields} }} }}'
+    )
     result = subprocess.run(
         ["gh", "api", "graphql", "-f", f"query={query}"],
         check=True,
@@ -73,7 +77,9 @@ def collect() -> dict:
             raise RuntimeError(f"URL changed for #{number}")
         edit_count = issue["userContentEdits"]["totalCount"]
         rename_count = issue["timelineItems"]["totalCount"]
-        unchanged = issue["lastEditedAt"] is None and edit_count == 0 and rename_count == 0
+        unchanged = (
+            issue["lastEditedAt"] is None and edit_count == 0 and rename_count == 0
+        )
         rows.append(
             {
                 "number": number,
@@ -101,7 +107,9 @@ def collect() -> dict:
 
 def checked_rows(source: dict, annotations: dict) -> tuple[list[dict], Counter]:
     rows = source["issues"]
-    if len(rows) != 30 or [row["number"] for row in rows] != [row["number"] for row in frame_rows()]:
+    if len(rows) != 30 or [row["number"] for row in rows] != [
+        row["number"] for row in frame_rows()
+    ]:
         raise ValueError("Source is not the fixed 30-issue consecutive slice")
     notes = annotations["issues"]
     if set(map(int, notes)) != {row["number"] for row in rows}:
@@ -115,13 +123,17 @@ def checked_rows(source: dict, annotations: dict) -> tuple[list[dict], Counter]:
             and row["title_rename_count"] == 0
         )
         if row["opening_text_status"] != ("unchanged" if unchanged else "unknown"):
-            raise ValueError(f"Edit status disagrees with public history for #{row['number']}")
+            raise ValueError(
+                f"Edit status disagrees with public history for #{row['number']}"
+            )
         note = notes[str(row["number"])]
         decision = note["decision"]
         if decision not in {"ask", "no_action", "unknown"}:
             raise ValueError(f"Invalid decision for #{row['number']}: {decision}")
         if row["opening_text_status"] != "unchanged" and decision != "unknown":
-            raise ValueError(f"Edited or renamed issue #{row['number']} cannot be classified")
+            raise ValueError(
+                f"Edited or renamed issue #{row['number']} cannot be classified"
+            )
         if not note["reason"].strip():
             raise ValueError(f"Missing reason for #{row['number']}")
         counts[decision] += 1
@@ -144,12 +156,20 @@ def checked_rows(source: dict, annotations: dict) -> tuple[list[dict], Counter]:
 def summarize(source: dict, annotations: dict, output: Path | None) -> None:
     report_rows, counts = checked_rows(source, annotations)
     authors = Counter(row["author_login"] for row in report_rows)
-    edited_or_renamed = sum(row["opening_text_status"] != "unchanged" for row in report_rows)
+    edited_or_renamed = sum(
+        row["opening_text_status"] != "unchanged" for row in report_rows
+    )
     print(f"Frame: {source['frame_collected_at']}; read: {source['collected_at']}")
-    print(f"Consecutive 30: ask={counts['ask']}; no_action={counts['no_action']}; unknown={counts['unknown']}")
-    print(f"Opening text unknown after edit/rename: {edited_or_renamed}; other uncertain judgments: {counts['unknown'] - edited_or_renamed}")
+    print(
+        f"Consecutive 30: ask={counts['ask']}; no_action={counts['no_action']}; unknown={counts['unknown']}"
+    )
+    print(
+        f"Opening text unknown after edit/rename: {edited_or_renamed}; other uncertain judgments: {counts['unknown'] - edited_or_renamed}"
+    )
     print(f"Authors: {len(authors)}; largest author share: {authors.most_common(1)[0]}")
-    print("Decisions apply the committed skill to recoverable opening text, not observed maintainer actions.")
+    print(
+        "Decisions apply the committed skill to recoverable opening text, not observed maintainer actions."
+    )
     if output:
         if output.exists():
             raise FileExistsError(f"Refusing to overwrite saved report: {output}")
@@ -186,15 +206,31 @@ def summarize(source: dict, annotations: dict, output: Path | None) -> None:
             ],
             "issues": report_rows,
         }
-        output.write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+        output.write_text(
+            json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
+        )
         print(f"Saved report to {output}")
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--collect", type=Path, metavar="OUTPUT", help="read GitHub and write a source snapshot")
-    parser.add_argument("--summarize", action="store_true", help="check saved source and manual annotations")
-    parser.add_argument("--report", type=Path, metavar="OUTPUT", help="write a concise joined report (also summarizes)")
+    parser.add_argument(
+        "--collect",
+        type=Path,
+        metavar="OUTPUT",
+        help="read GitHub and write a source snapshot",
+    )
+    parser.add_argument(
+        "--summarize",
+        action="store_true",
+        help="check saved source and manual annotations",
+    )
+    parser.add_argument(
+        "--report",
+        type=Path,
+        metavar="OUTPUT",
+        help="write a concise joined report (also summarizes)",
+    )
     args = parser.parse_args()
     if not args.collect and not args.summarize and not args.report:
         parser.error("choose --collect, --summarize, or --report")
@@ -203,7 +239,9 @@ def main() -> None:
         if output.exists():
             raise FileExistsError(f"Refusing to overwrite saved evidence: {output}")
         source = collect()
-        output.write_text(json.dumps(source, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+        output.write_text(
+            json.dumps(source, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
+        )
         print(f"Saved {len(source['issues'])} issues to {output}")
     if args.summarize or args.report:
         source = json.loads(DEFAULT_OUTPUT.read_text(encoding="utf-8"))

@@ -42,7 +42,9 @@ def main() -> None:
         parser.error(f"case has no sandbox issue: {args.case_id}")
     dispatched = json.loads((ROOT / "dispatched.json").read_text(encoding="utf-8"))
     if dispatched["runs"].get(args.case_id) != args.run_id:
-        raise RuntimeError(f"Run {args.run_id} is not the recorded dispatch for {args.case_id}")
+        raise RuntimeError(
+            f"Run {args.run_id} is not the recorded dispatch for {args.case_id}"
+        )
     source_path = ROOT / "inputs" / f"{args.case_id}.json"
     if not source_path.exists():
         source_path = ROOT / "adversarial" / f"{args.case_id}.json"
@@ -50,7 +52,10 @@ def main() -> None:
 
     issue_number = mapping[args.case_id]["number"]
     issue = api(f"issues/{issue_number}")
-    if issue["title"] != source["input"]["title"] or issue["body"] != source["input"]["body"]:
+    if (
+        issue["title"] != source["input"]["title"]
+        or issue["body"] != source["input"]["body"]
+    ):
         raise RuntimeError(f"Sandbox issue #{issue_number} differs from frozen input")
     comments = api(f"issues/{issue_number}/comments?per_page=100")
     if len(comments) == 100:
@@ -70,15 +75,26 @@ def main() -> None:
         raise RuntimeError(f"Run {args.run_id} did not use the recorded source commit")
     started = datetime.fromisoformat(result["created_at"].replace("Z", "+00:00"))
     finished = datetime.fromisoformat(result["updated_at"].replace("Z", "+00:00"))
-    log = run("gh", "run", "view", str(args.run_id), "--repo", REPO, "--log", check=False)
-    if log.returncode == 0 and f"Triage only issue #{issue_number} in" not in log.stdout:
-        raise RuntimeError(f"Run {args.run_id} does not target sandbox issue #{issue_number}")
+    log = run(
+        "gh", "run", "view", str(args.run_id), "--repo", REPO, "--log", check=False
+    )
+    if (
+        log.returncode == 0
+        and f"Triage only issue #{issue_number} in" not in log.stdout
+    ):
+        raise RuntimeError(
+            f"Run {args.run_id} does not target sandbox issue #{issue_number}"
+        )
     log_path = ROOT / "logs" / f"{args.case_id}.txt"
     log_path.parent.mkdir(parents=True, exist_ok=True)
     log_path.write_text(log.stdout + log.stderr, encoding="utf-8")
 
     all_bot_comments = [
-        {"url": item["html_url"], "body": item["body"], "created_at": item["created_at"]}
+        {
+            "url": item["html_url"],
+            "body": item["body"],
+            "created_at": item["created_at"],
+        }
         for item in comments
         if item["user"]["login"] == "github-actions[bot]"
     ]
@@ -87,7 +103,9 @@ def main() -> None:
         posted = datetime.fromisoformat(item["created_at"].replace("Z", "+00:00"))
         match = re.search(r"<!-- gh-aw-execution: (.*?) -->", item["body"])
         if not (started <= posted <= finished and match):
-            raise RuntimeError("Bot comment is outside this run or lacks execution metadata")
+            raise RuntimeError(
+                "Bot comment is outside this run or lacks execution metadata"
+            )
         execution = json.loads(match.group(1))
         if (
             execution.get("repository") != REPO
@@ -103,7 +121,9 @@ def main() -> None:
         if item.get("event") == "labeled"
         and (item.get("label") or {}).get("name") == "needs-repro"
         and (item.get("actor") or {}).get("login") == "github-actions[bot]"
-        and started <= datetime.fromisoformat(item["created_at"].replace("Z", "+00:00")) <= finished
+        and started
+        <= datetime.fromisoformat(item["created_at"].replace("Z", "+00:00"))
+        <= finished
     ]
     has_label = bool(label_events)
     if len(bot_comments) == 0:
@@ -113,10 +133,20 @@ def main() -> None:
     else:
         action = "multiple_comments"
 
-    data = json.loads(ACTUAL.read_text(encoding="utf-8")) if ACTUAL.exists() else {"schema_version": 1, "cases": []}
+    data = (
+        json.loads(ACTUAL.read_text(encoding="utf-8"))
+        if ACTUAL.exists()
+        else {"schema_version": 1, "cases": []}
+    )
     old = next((case for case in data["cases"] if case["id"] == args.case_id), None)
-    if old and old["run_id"] != args.run_id and old["sandbox_issue_number"] == issue_number:
-        raise RuntimeError("A second run on the same issue cannot be scored independently")
+    if (
+        old
+        and old["run_id"] != args.run_id
+        and old["sandbox_issue_number"] == issue_number
+    ):
+        raise RuntimeError(
+            "A second run on the same issue cannot be scored independently"
+        )
     same_run = old is not None and old["run_id"] == args.run_id
     same_output = (
         same_run
@@ -146,16 +176,25 @@ def main() -> None:
         "label_events_during_run": label_events,
         "bot_comments": bot_comments,
         "log_capture_exit_code": log.returncode,
-        "evidence": old["evidence"] if same_run else {
+        "evidence": old["evidence"]
+        if same_run
+        else {
             "skill_read": None,
             "issue_read": None,
             "decision_recorded": None,
         },
         "tool_sequence": old.get("tool_sequence") if same_run else None,
         "usage": old.get("usage") if same_run else None,
-        "human_review": old["human_review"] if same_output else {"correct_decision": None, "notes": "Pending transcript and comment review"},
+        "human_review": old["human_review"]
+        if same_output
+        else {
+            "correct_decision": None,
+            "notes": "Pending transcript and comment review",
+        },
     }
-    data["cases"] = [case for case in data["cases"] if case["id"] != args.case_id] + [row]
+    data["cases"] = [case for case in data["cases"] if case["id"] != args.case_id] + [
+        row
+    ]
     data["collected_at"] = datetime.now(timezone.utc).isoformat()
     ACTUAL.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
     print(f"{args.case_id}: {action}, {result['conclusion']}, {result['html_url']}")

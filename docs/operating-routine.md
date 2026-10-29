@@ -30,6 +30,11 @@ credits. Review every resulting action and comment against
 [`comment-quality-review.md`](../evals/golden/comment-quality-review.md) before
 re-enabling the workflow.
 
+Do not use GitHub's **Re-run jobs** button after a failed attempt. Preflight
+deliberately rejects any attempt after the first so that a replay cannot inherit
+the original actor's admission. After checking the issue for partial output,
+recover with a new admin manual dispatch at the current `main` SHA instead.
+
 ## Monthly check and incident response
 
 The same fresh-copy comparison is the proposed monthly drift check. It is

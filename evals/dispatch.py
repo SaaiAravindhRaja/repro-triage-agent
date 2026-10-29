@@ -36,7 +36,11 @@ def wait_for_completion(run_id: int) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--execute", action="store_true")
-    parser.add_argument("--serial", action="store_true", help="wait for each run before starting the next")
+    parser.add_argument(
+        "--serial",
+        action="store_true",
+        help="wait for each run before starting the next",
+    )
     parser.add_argument("--case", help="dispatch or preview one case ID")
     args = parser.parse_args()
 
@@ -48,7 +52,8 @@ def main() -> None:
     issues = json.loads((ROOT / "sandbox_issues.json").read_text(encoding="utf-8"))
     manifest = (
         json.loads(MANIFEST.read_text(encoding="utf-8"))
-        if MANIFEST.exists() else {"source_sha": source_sha, "runs": {}}
+        if MANIFEST.exists()
+        else {"source_sha": source_sha, "runs": {}}
     )
     if manifest["source_sha"] != source_sha:
         raise RuntimeError("Dispatch manifest belongs to another configuration commit")
@@ -66,16 +71,28 @@ def main() -> None:
             continue
         result = subprocess.run(
             [
-                "gh", "aw", "run", "smoke-triage", "--ref", BRANCH,
-                "--raw-field", f"issue_number={number}",
-                "--raw-field", f"source_sha={source_sha}", "--json",
+                "gh",
+                "aw",
+                "run",
+                "smoke-triage",
+                "--ref",
+                BRANCH,
+                "--raw-field",
+                f"issue_number={number}",
+                "--raw-field",
+                f"source_sha={source_sha}",
+                "--json",
             ],
-            check=True, capture_output=True, text=True,
+            check=True,
+            capture_output=True,
+            text=True,
         )
         output = result.stdout + result.stderr
         run_ids = set(re.findall(r"/actions/runs/(\d+)", output))
         if len(run_ids) != 1:
-            raise RuntimeError(f"Could not uniquely identify run for {case_id}: {output}")
+            raise RuntimeError(
+                f"Could not uniquely identify run for {case_id}: {output}"
+            )
         run_id = int(run_ids.pop())
         manifest["runs"][case_id] = run_id
         MANIFEST.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")

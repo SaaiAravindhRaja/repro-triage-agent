@@ -65,7 +65,7 @@ were courteous and 40--87 words, but only 3/5 avoided redundant requests (#43
 minor, #45 material). The injection did not redirect the bot. At 74.85 AI
 credits, I'd keep it off outside the sandbox: only 2/30 reports clearly needed a request and
 time saved was unmeasured. Afterward, I corrected [AGENTS.md](AGENTS.md)'s
-duplicate-skip claim and added approval, an all-user rate limit, one skill read,
+duplicate-skip claim and added approval, an all-user rate limit, a two-read repository-file budget,
 rerun rejection and diagnostic-only failure reports; none was scored. See the [deployment checklist](docs/production-readiness.md).
 
 ## Governance: what is enforced and what is not
@@ -97,7 +97,7 @@ rerun rejection and diagnostic-only failure reports; none was scored. See the [d
    approval and the kill switch; [the routine](docs/operating-routine.md) records checks. Self-review is a sandbox limitation.
 
 `roles: [admin]` skips ordinary reporters before inference: safer for sandbox
-spend, but not community intake. A rerun is rejected in preflight. These gates
+spend, but not community intake. A rerun is rejected in preflight; recovery is a new admin manual dispatch after checking for partial output. These gates
 are untested live. AWF restricts network and shell/CLI tools are off; detection cannot catch false claims.
 
 ## Bill of materials
@@ -106,7 +106,7 @@ are untested live. AWF restricts network and shell/CLI tools are off; detection 
   Final logs show `gpt-5-2025-08-07` and `gpt-5-mini-2025-08-07` and their credit costs.
 - **Instructions:** [AGENTS.md](AGENTS.md), [workflow](.github/workflows/smoke-triage.md),
   and [skill](.claude/skills/repro-triage/SKILL.md).
-- **Tools and data:** sandbox-only GitHub MCP: one repository-file read and up to two issue reads.
+- **Tools and data:** sandbox-only GitHub MCP: up to two repository-file reads and two issue reads.
   The prompt directs them to the skill at the chosen commit and selected issue, but cannot enforce path/ref/number. `safeoutputs` permits a
   comment, label or no-op. No bash or CLI proxy is available to the model.
 - **Permissions and outputs:** read-only agent scopes; a separate safe-output

@@ -33,7 +33,9 @@ def main() -> None:
     for page in range(2, (count + 99) // 100 + 1):
         issues.extend(search(page)["items"])
     if len(issues) != count:
-        raise RuntimeError(f"Search count changed during collection: {count} vs {len(issues)}")
+        raise RuntimeError(
+            f"Search count changed during collection: {count} vs {len(issues)}"
+        )
     rows = [
         {
             "number": issue["number"],
