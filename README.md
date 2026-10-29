@@ -11,7 +11,9 @@ on `assignment3-submission`, which was not the default branch at the time.
 The complete submission is on `main`. The current workflow is enabled there,
 but its issue trigger admits repository admins only. The issue-open event and
 role rejection were not exercised in the scored evaluation, which used manual
-dispatch. This remains a sandbox, not a deployment to pandas.
+dispatch. A later [post-hardening control check](evals/posthardening/) exercised
+the owner path, the Environment approval gate and the rerun block. This remains
+a sandbox, not a deployment to pandas.
 
 The submission is [DESIGN.md](DESIGN.md), the [workflow source](.github/workflows/smoke-triage.md)
 and [compiled workflow](.github/workflows/smoke-triage.lock.yml), the
@@ -24,10 +26,9 @@ a live run from controls checked only in configuration and proposed follow-up.
 The current workflow adds a post-agent approval job before safe outputs, and
 the compiled output and conclusion jobs explicitly require approval success. Its
 `triage-output-approval` GitHub Environment has a required reviewer, no admin
-bypass, and a `main`-only branch policy. The setting is configured, but the
-gate has not been exercised by a post-activation run. The historical twelve
-runs predate it. Admin-triggered runs can still consume model credits before
-approval. See the [deployment record](docs/production-readiness.md).
+bypass, and a `main`-only branch policy. The post-hardening check exercised an
+approval; the historical twelve runs predate the gate. Admin-triggered runs can
+still consume model credits before approval. See the [deployment record](docs/production-readiness.md).
 
 Why try this? A read-only [search snapshot](evidence/pandas-bug-intake.json)
 found 111 pandas issues opened from 22 July to 20 October 2026 that carried a

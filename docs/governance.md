@@ -51,15 +51,17 @@ as a second version of the design.
   exposed to the agent; the domain filter does not validate issue content.
 - `on.roles: [admin]` is an exact allowlist. Only repository admins can start
   issue or manual runs; ordinary reporters are skipped before model execution.
-  This limits sandbox spend but is not a usable pandas intake policy. The
-  compiled role gate is not live-tested.
+  This limits sandbox spend but is not a usable pandas intake policy. The owner
+  path ran live on #54; a non-admin rejection has not been tested.
 - The experimental user-rate-limit applies to every role and allows two starts
   per user per hour. It is compile-checked, not live-tested. An admin can still
   start paid runs, and the daily credit guardrail is not a hard provider billing cap.
-- Preflight rejects reruns before inference. Recover a failed run with a new
-  manual dispatch after checking its issue for partial output. Missing-tool reports cannot create
-  issues; missing-data reports flow only through the disabled failure-issue path.
-  Those post-evaluation controls have unit and compiled-workflow coverage, not a live run.
+- Preflight rejects reruns before inference. [The rerun of #54](https://github.com/SaaiAravindhRaja/repro-triage-agent/actions/runs/40834047322)
+  failed at that check with the model step skipped. Recover a failed run with a
+  new manual dispatch after checking its issue for partial output. Missing-tool
+  reports cannot create issues; missing-data reports flow only through the
+  disabled failure-issue path; those paths have unit and compiled-workflow
+  coverage, not a live run.
 
 The configured model has only this repository in its GitHub-tool allowlist.
 That limits where it reads, but the issue and tool responses remain untrusted.
@@ -76,9 +78,10 @@ After the twelve scored runs, the workflow gained a custom
 `detection`, gives it no token permissions, and makes both `safe_outputs` and
 `conclusion` require its success. GitHub Settings
 names the repository owner as reviewer, disables admin bypass, and limits the
-environment to `main`; self-review is allowed. This is configured but not
-exercised by a workflow run. Inspect the `agent` artifact, issue, and detector
-result before approving. A no-action run may wait too.
+environment to `main`; self-review is allowed. [Issue #54](https://github.com/SaaiAravindhRaja/repro-triage-agent/issues/54)
+exercised this gate: the agent and detector succeeded, the owner reviewed their
+artifact and approved, and the single staged comment and label were published.
+A no-action run may wait too.
 
 The historical evaluation remains tied to its recorded commit and did not use
 this gate. The current workflow is enabled on `main` for admins only; this is

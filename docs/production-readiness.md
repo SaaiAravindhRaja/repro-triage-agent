@@ -14,8 +14,9 @@ This is a bounded live demo, not production approval for upstream use.
   `safe_outputs` and `conclusion` require its success; it does not prevent
   inference cost. Inspect the issue, detector result, and `agent_output.json`
   artifact before approving; reject unsupported output or missing evidence.
-- These settings are confirmed through GitHub's repository environment API.
-  The gate has not yet been exercised in a workflow run. A no-action run may
+- These settings are confirmed through GitHub's repository environment API and
+  by the approved [post-hardening run](https://github.com/SaaiAravindhRaja/repro-triage-agent/actions/runs/40834047322)
+  on issue #54. That run exercised approval, not rejection; a no-action run may
   wait for review too.
 
 ## Remaining release blockers
@@ -35,9 +36,10 @@ This is a bounded live demo, not production approval for upstream use.
   The owner has a documented manual [drift routine](operating-routine.md),
   but there is no scheduled golden-set run. A live check consumes credits and
   must use fresh issues under the current configuration.
-- **Unverified paths:** issue-open role enforcement, the rate limit, rerun
-  rejection, environment approval/rejection, and phone-based cancellation have
-  not been tested end-to-end. The twelve scored runs predate these controls.
+- **Unverified paths:** non-admin role rejection, the rate limit, environment
+  rejection, manual dispatch, and phone-based cancellation have not been
+  tested end-to-end. The twelve scored runs predate these controls. The owner
+  issue-open path, approval and rerun rejection were tested separately on #54.
   A rejected rerun is deliberate: recovery is a new manual dispatch after the
   owner checks the issue for partial output.
 - **Residual permissions:** gh-aw 0.92.0's compiled safe-output and conclusion
@@ -48,5 +50,5 @@ This is a bounded live demo, not production approval for upstream use.
 
 The historical 12-case evaluation remains useful for its stated scope: action
 agreement on frozen inputs, with visible failures in comment quality. It does
-not establish production safety, maintainer-time savings, live enforcement of
-these new gates, or safe throughput under an issue burst.
+not establish production safety, maintainer-time savings, safe throughput
+under an issue burst, or live enforcement for non-admin reporters.

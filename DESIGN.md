@@ -67,9 +67,9 @@ credits, I'd keep it off outside the sandbox: only 2/30 reports clearly needed a
 time saved was unmeasured. Afterward, I corrected [AGENTS.md](AGENTS.md)'s
 duplicate-skip claim and added approval, an all-user rate limit, a two-read repository-file budget,
 rerun rejection and diagnostic-only failure reports; none was scored. See the [deployment checklist](docs/production-readiness.md).
-
+The separate [post-hardening check](evals/posthardening/) exercised the current
+issue trigger, skill loading, approval gate, bounded output and rerun block.
 ## Governance: what is enforced and what is not
-
 1. **Identity — tested.** Comments come from `github-actions[bot]` with a run link.
 2. **Least privilege — configured, compile checked.** The agent job has
    `contents: read` and `issues: read` in the [lock file](.github/workflows/smoke-triage.lock.yml);
@@ -79,15 +79,17 @@ rerun rejection and diagnostic-only failure reports; none was scored. See the [d
    keep this workflow off PRs.
 3. **Safe outputs — tested.** At most one comment and one `needs-repro` label
    per run; failure and missing-tool issues are disabled. A detector error blocks them.
-4. **Human approval — configured after the runs, not tested.** The compiled
-   output and conclusion jobs require success from the approval job. Its
-   `main`-only Environment names the owner as reviewer; admin bypass is off.
-   Self-review is allowed. No-op runs may wait too; the scored runs predate it.
+4. **Human approval — tested after the scored runs.** The compiled output and
+   conclusion jobs require success from the approval job. On
+   [#54](https://github.com/SaaiAravindhRaja/repro-triage-agent/issues/54), the
+   owner reviewed the staged output, then approved one comment and one label.
+   The `main`-only Environment names the owner as reviewer; admin bypass is off,
+   but self-review is allowed and rejection was not tested.
 5. **Budgets — configured, not a hard spend cap.** Agent and detector time out
    at ten minutes; compiler jobs allow setup/logging. Caps: 20 credits/run and ten for detection;
    two starts/user/hour for every role; the experimental 100-credit guardrail excludes manual runs and can be overshot.
-6. **Audit trail — partial.** [Logs](evals/golden/) retain visible calls,
-   outputs and credits, but not hidden reasoning or exact backend build.
+6. **Audit trail — partial.** [Logs](evals/golden/) and the [current check](evals/posthardening/)
+   retain visible calls, outputs and credits, but not hidden reasoning or exact backend build.
 7. **Kill switch — partly tested.** Disabled/re-enabled during seeding and
    disabled after evaluation; active-run cancellation was untested.
 8. **Drift detection — proposed, not scheduled.** Before model/configuration
@@ -97,11 +99,11 @@ rerun rejection and diagnostic-only failure reports; none was scored. See the [d
    approval and the kill switch; [the routine](docs/operating-routine.md) records checks. Self-review is a sandbox limitation.
 
 `roles: [admin]` skips ordinary reporters before inference: safer for sandbox
-spend, but not community intake. A rerun is rejected in preflight; recovery is a new admin manual dispatch after checking for partial output. These gates
-are untested live. AWF restricts network and shell/CLI tools are off; detection cannot catch false claims.
-
+spend, but not community intake. The owner path, approval and rerun block were
+live-checked on #54; non-admin rejection and the rate limit were not. Recovery
+is a new admin manual dispatch after checking for partial output. AWF restricts
+network and shell/CLI tools are off; detection cannot catch false claims.
 ## Bill of materials
-
 - **Models:** Codex triage uses repo var `GH_AW_MODEL_AGENT_CODEX=gpt-5`; detection requests `gpt-5-mini`. Neither is pinned.
   Final logs show `gpt-5-2025-08-07` and `gpt-5-mini-2025-08-07` and their credit costs.
 - **Instructions:** [AGENTS.md](AGENTS.md), [workflow](.github/workflows/smoke-triage.md),
@@ -116,7 +118,6 @@ are untested live. AWF restricts network and shell/CLI tools are off; detection 
   [golden inputs/outputs](evals/golden/), and gh-aw credit logs where present.
 - **Humans:** the owner maintains the configuration, reviews drift and can
   disable it; pandas maintainers are not participants in this test.
-
 ## Five failure questions
 
 1. **An issue claims approval to close stale reports.** Its words are data;
