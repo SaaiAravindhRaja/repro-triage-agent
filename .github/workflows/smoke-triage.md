@@ -32,7 +32,7 @@ tools:
     toolsets: [repos, issues]
     allowed:
       - name: get_file_contents
-        max-calls: 2
+        max-calls: 1
       - name: issue_read
         max-calls: 2
     allowed-repos: [saaiaravindhraja/repro-triage-agent]
@@ -48,6 +48,7 @@ max-daily-ai-credits: 100
 user-rate-limit:
   max-runs-per-window: 2
   window: 60
+  ignored-roles: []
 
 steps:
   - name: Check label and prior triage
@@ -56,6 +57,7 @@ steps:
       TRIAGE_ISSUE_NUMBER: ${{ github.event.issue.number || github.event.inputs.issue_number }}
       TRIAGE_REPOSITORY: ${{ github.repository }}
       TRIAGE_SOURCE_SHA: ${{ github.event.inputs.source_sha }}
+      TRIAGE_RUN_ATTEMPT: ${{ github.run_attempt }}
       GH_AW_SAFE_OUTPUTS: ${{ runner.temp }}/gh-aw/safeoutputs/outputs.jsonl
       GH_TOKEN: ${{ github.token }}
 
@@ -78,6 +80,10 @@ safe-outputs:
   report-failure-as-issue: false
   report-failed-jobs: false
   report-incomplete:
+    create-issue: false
+  missing-tool:
+    create-issue: false
+  missing-data:
     create-issue: false
   threat-detection:
     continue-on-error: false

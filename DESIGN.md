@@ -32,8 +32,8 @@ available to Codex; the workflow fetches the
 [skill](.claude/skills/repro-triage/SKILL.md) before the issue. It checks
 bug intent, self-contained pandas code, expected versus observed behavior,
 and pandas/Python/OS versions. An incomplete bug may get one specific comment
-and `needs-repro`. Other readable cases get no public action; a failed read is
-an incomplete run, not an inferred verdict.
+and `needs-repro`. Other readable cases get no public action. A model-tool read
+failure is incomplete; a preflight API failure exits before inference or output.
 Preflight emits `noop` for a closed or already-triaged issue; [gh-aw docs](https://github.github.com/gh-aw/reference/steps-jobs/)
 say pre-agent no-ops stop inference. Unit tests check the record, not a live run.
 
@@ -65,8 +65,8 @@ were courteous and 40--87 words, but only 3/5 avoided redundant requests (#43
 minor, #45 material). The injection did not redirect the bot. At 74.85 AI
 credits, I'd keep it off outside the sandbox: only 2/30 reports clearly needed a request and
 time saved was unmeasured. Afterward, I corrected [AGENTS.md](AGENTS.md)'s
-duplicate-skip claim and added an approval gate; neither was scored. See the
-[deployment checklist](docs/production-readiness.md).
+duplicate-skip claim and added approval, an all-user rate limit, one skill read,
+rerun rejection and diagnostic-only failure reports; none was scored. See the [deployment checklist](docs/production-readiness.md).
 
 ## Governance: what is enforced and what is not
 
@@ -78,14 +78,14 @@ duplicate-skip claim and added an approval gate; neither was scored. See the
    the fixed issue target and disabled failure reports, not token scope alone,
    keep this workflow off PRs.
 3. **Safe outputs — tested.** At most one comment and one `needs-repro` label
-   per run; failure-report issues are disabled. A detector error blocks them.
+   per run; failure and missing-tool issues are disabled. A detector error blocks them.
 4. **Human approval — configured after the runs, not tested.** The compiled
    output and conclusion jobs require success from the approval job. Its
    `main`-only Environment names the owner as reviewer; admin bypass is off.
    Self-review is allowed. No-op runs may wait too; the scored runs predate it.
-5. **Budgets — configured, not a hard spend cap.** Ten-minute runtime, 20
-   credits/run, ten for detection and two starts per user/hour. The 100-credit
-   guardrail excludes manual runs, can be overshot, and uses an experimental rate limit.
+5. **Budgets — configured, not a hard spend cap.** Agent and detector time out
+   at ten minutes; compiler jobs allow setup/logging. Caps: 20 credits/run and ten for detection;
+   two starts/user/hour for every role; the experimental 100-credit guardrail excludes manual runs and can be overshot.
 6. **Audit trail — partial.** [Logs](evals/golden/) retain visible calls,
    outputs and credits, but not hidden reasoning or exact backend build.
 7. **Kill switch — partly tested.** Disabled/re-enabled during seeding and
@@ -97,19 +97,18 @@ duplicate-skip claim and added an approval gate; neither was scored. See the
    approval and the kill switch; [the routine](docs/operating-routine.md) records checks. Self-review is a sandbox limitation.
 
 `roles: [admin]` skips ordinary reporters before inference: safer for sandbox
-spend, but not community intake. This role check is untested. AWF restricts
-network and shell/CLI tools are off; detection cannot catch false claims.
+spend, but not community intake. A rerun is rejected in preflight. These gates
+are untested live. AWF restricts network and shell/CLI tools are off; detection cannot catch false claims.
 
 ## Bill of materials
 
-- **Models:** Codex triage uses repo var `GH_AW_MODEL_AGENT_CODEX=gpt-5`;
-  detection requests `gpt-5-mini`. Neither is pinned. Final logs show
-  `gpt-5-2025-08-07` and `gpt-5-mini-2025-08-07` and their credit costs.
+- **Models:** Codex triage uses repo var `GH_AW_MODEL_AGENT_CODEX=gpt-5`; detection requests `gpt-5-mini`. Neither is pinned.
+  Final logs show `gpt-5-2025-08-07` and `gpt-5-mini-2025-08-07` and their credit costs.
 - **Instructions:** [AGENTS.md](AGENTS.md), [workflow](.github/workflows/smoke-triage.md),
   and [skill](.claude/skills/repro-triage/SKILL.md).
-- **Tools and data:** GitHub MCP `repos`/`issues`, restricted to this sandbox;
-  `safeoutputs` MCP for a comment, label or no-op; issue title/body, skill at
-  the chosen commit, and repository files. No bash or CLI proxy for the model.
+- **Tools and data:** sandbox-only GitHub MCP: one repository-file read and up to two issue reads.
+  The prompt directs them to the skill at the chosen commit and selected issue, but cannot enforce path/ref/number. `safeoutputs` permits a
+  comment, label or no-op. No bash or CLI proxy is available to the model.
 - **Permissions and outputs:** read-only agent scopes; a separate safe-output
   path for one comment and one existing label. The compiled output job also
   retains `pull-requests: write`; see the lock file.

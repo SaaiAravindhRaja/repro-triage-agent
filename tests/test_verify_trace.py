@@ -8,7 +8,7 @@ from pathlib import Path
 
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "evals"))
-from verify_trace import agent_calls, credit  # noqa: E402
+from verify_trace import agent_calls, credit, validate_file_reads  # noqa: E402
 
 
 class TraceParserTests(unittest.TestCase):
@@ -29,6 +29,17 @@ class TraceParserTests(unittest.TestCase):
         )
         self.assertEqual(credit(log, "agent"), 4.4962)
         self.assertEqual(credit(log, "detection"), 0.546725)
+
+    def test_fixture_read_is_rejected(self) -> None:
+        calls = [
+            {
+                "server": "github",
+                "tool": "get_file_contents",
+                "arguments": {"path": "evals/golden/expected.json"},
+            }
+        ]
+        with self.assertRaisesRegex(ValueError, "Unexpected repository file read"):
+            validate_file_reads(calls)
 
 
 if __name__ == "__main__":

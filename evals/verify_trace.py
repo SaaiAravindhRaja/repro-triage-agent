@@ -14,6 +14,8 @@ ROOT = Path(__file__).resolve().parent / "golden"
 FIXTURES = Path(__file__).resolve().parent / "golden"
 ACTUAL = ROOT / "actual.json"
 SKILL = ".claude/skills/repro-triage/SKILL.md"
+SKILL_DIRECTORY = ".claude/skills/repro-triage"
+ALLOWED_FILE_READ_PATHS = {SKILL_DIRECTORY, SKILL}
 
 
 def result_text(item: dict) -> str:
@@ -46,6 +48,15 @@ def credit(log: str, job: str) -> float | None:
     return values[-1] if values else None
 
 
+def validate_file_reads(calls: list[dict]) -> None:
+    for item in calls:
+        if item.get("server") != "github" or item.get("tool") != "get_file_contents":
+            continue
+        path = (item.get("arguments") or {}).get("path")
+        if path not in ALLOWED_FILE_READ_PATHS:
+            raise ValueError(f"Unexpected repository file read: {path!r}")
+
+
 def inspect(case: dict) -> dict:
     case_id = case["id"]
     raw_path = ROOT / "logs" / f"{case_id}.txt"
@@ -64,6 +75,7 @@ def inspect(case: dict) -> dict:
         check=True, capture_output=True, text=True,
     ).stdout
     calls = agent_calls(log)
+    validate_file_reads(calls)
     skill_position = issue_position = None
     skill_read = issue_read = False
     safe_calls = []

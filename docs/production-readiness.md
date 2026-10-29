@@ -25,18 +25,19 @@ This is a bounded live demo, not production approval for upstream use.
   reviewer capacity, and a new threat and cost review.
 - **Input and integrity:** `min-integrity: none` lets admin-authored issues
   reach the model, including malicious text. Safe outputs constrain actions,
-  but allowed comments can still be wrong.
+  but allowed comments can still be wrong. The one-file-read cap does not
+  restrict its path; the required skill path/ref is only prompt-enforced.
 - **Spend:** per-run and daily AI-credit settings are guardrails, not a hard
   provider billing cap. Manual runs bypass the daily guardrail, concurrent
-  issue runs can overshoot it, and the per-user limit is experimental. Model
-  cost is incurred before a reviewer approves or rejects output.
+  issue runs can overshoot it, and the all-user rate limit is experimental.
+  Model cost is incurred before a reviewer approves or rejects output.
 - **Model drift:** `gpt-5` and `gpt-5-mini` are aliases, not immutable pins.
   The owner has a documented manual [drift routine](operating-routine.md),
   but there is no scheduled golden-set run. A live check consumes credits and
   must use fresh issues under the current configuration.
-- **Unverified paths:** issue-open role enforcement, the rate limit, environment
-  approval/rejection, and phone-based cancellation have not been tested
-  end-to-end. The twelve scored runs predate these controls.
+- **Unverified paths:** issue-open role enforcement, the rate limit, rerun
+  rejection, environment approval/rejection, and phone-based cancellation have
+  not been tested end-to-end. The twelve scored runs predate these controls.
 - **Residual permissions:** gh-aw 0.92.0's compiled safe-output and conclusion
   jobs include `pull-requests: write` even though the configured actions are
   issue-scoped. The agent itself remains read-only, but review the generated

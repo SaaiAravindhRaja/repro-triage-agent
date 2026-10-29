@@ -1,8 +1,9 @@
 # Failure modes and limits
 
-- **Unreadable issue or skill:** The agent should report an incomplete run,
-  with no comment or label. [An early run](https://github.com/SaaiAravindhRaja/repro-triage-agent/actions/runs/39466414624)
-  could not read an issue body. That was not a successful triage.
+- **Unreadable issue or skill:** A failed model-tool read should report an
+  incomplete run, with no comment or label. [An early run](https://github.com/SaaiAravindhRaja/repro-triage-agent/actions/runs/39466414624)
+  could not read an issue body. A preflight GitHub API failure instead exits
+  before inference and produces no public output. Neither is a successful triage.
 - **False request for details:** A strict requirement for runnable code and
   full environment data may bother a reporter whose issue is already clear
   enough to investigate. Later work on [pandas #69412](https://github.com/pandas-dev/pandas/issues/69412#issuecomment-5784836367)

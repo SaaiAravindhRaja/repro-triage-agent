@@ -18,6 +18,7 @@ class PreflightTests(unittest.TestCase):
         self.environment = {
             "TRIAGE_ISSUE_NUMBER": "41",
             "TRIAGE_REPOSITORY": "SaaiAravindhRaja/repro-triage-agent",
+            "TRIAGE_RUN_ATTEMPT": "1",
             "GITHUB_EVENT_NAME": "issues",
             "GH_AW_SAFE_OUTPUTS": str(self.output),
         }
@@ -95,6 +96,21 @@ class PreflightTests(unittest.TestCase):
             with patch.object(preflight.subprocess, "check_output", return_value="b" * 40):
                 with self.assertRaisesRegex(RuntimeError, "does not match"):
                     preflight.main()
+
+    def test_rerun_attempt_is_rejected_before_any_api_call(self) -> None:
+        self.environment["TRIAGE_RUN_ATTEMPT"] = "2"
+        with patch.dict(os.environ, self.environment, clear=True):
+            with patch.object(preflight, "api_get") as api_get:
+                with self.assertRaisesRegex(RuntimeError, "first workflow attempt"):
+                    preflight.main()
+        api_get.assert_not_called()
+
+    def test_preflight_api_failure_has_no_public_output(self) -> None:
+        with patch.dict(os.environ, self.environment, clear=True):
+            with patch.object(preflight, "api_get", side_effect=RuntimeError("API unavailable")):
+                with self.assertRaisesRegex(RuntimeError, "API unavailable"):
+                    preflight.main()
+        self.assertFalse(self.output.exists())
 
 
 if __name__ == "__main__":

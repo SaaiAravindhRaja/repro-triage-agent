@@ -54,6 +54,8 @@ def main() -> None:
     repository = os.environ.get("TRIAGE_REPOSITORY", "").lower()
     if repository != REPOSITORY:
         raise RuntimeError("preflight is restricted to the sandbox repository")
+    if os.environ.get("TRIAGE_RUN_ATTEMPT") != "1":
+        raise RuntimeError("only the first workflow attempt may triage")
     if not re.fullmatch(r"[1-9][0-9]{0,8}", number):
         raise RuntimeError("issue number must be a positive decimal integer")
     if os.environ.get("GITHUB_EVENT_NAME") == "workflow_dispatch":

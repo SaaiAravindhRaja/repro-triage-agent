@@ -120,11 +120,38 @@ class WorkflowGateTests(unittest.TestCase):
             "&& steps.check_rate_limit.outputs.rate_limit_ok == 'true' }}",
             pre_activation,
         )
+        self.assertNotIn("GH_AW_RATE_LIMIT_IGNORED_ROLES", pre_activation)
         self.assertRegex(activation, r"(?m)^    needs: pre_activation$")
         self.assertRegex(
             activation,
             r"(?m)^    if: needs\.pre_activation\.outputs\.activated == 'true'$",
         )
+
+    def test_source_limits_repository_file_reads_to_one(self) -> None:
+        source = SOURCE.read_text(encoding="utf-8")
+        frontmatter = re.search(r"(?s)\A---\s*\n(.*?)\n---\s*", source)
+        self.assertIsNotNone(frontmatter, "workflow frontmatter is missing")
+        assert frontmatter is not None
+        self.assertRegex(
+            frontmatter.group(1),
+            r"(?m)^      - name: get_file_contents\n        max-calls: 1$",
+        )
+
+    def test_source_and_lock_disable_diagnostic_issue_creation(self) -> None:
+        source = SOURCE.read_text(encoding="utf-8")
+        lock = LOCK.read_text(encoding="utf-8")
+        frontmatter = re.search(r"(?s)\A---\s*\n(.*?)\n---\s*", source)
+        self.assertIsNotNone(frontmatter, "workflow frontmatter is missing")
+        assert frontmatter is not None
+
+        for key in ("missing-tool", "missing-data"):
+            self.assertRegex(
+                frontmatter.group(1),
+                rf"(?m)^  {re.escape(key)}:\n    create-issue: false$",
+            )
+        conclusion = self.job_block(lock, "conclusion")
+        self.assertRegex(conclusion, r'(?m)^          GH_AW_MISSING_TOOL_CREATE_ISSUE: "false"$')
+        self.assertRegex(conclusion, r'(?m)^          GH_AW_FAILURE_REPORT_AS_ISSUE: "false"$')
 
 
 if __name__ == "__main__":

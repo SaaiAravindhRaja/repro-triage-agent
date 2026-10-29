@@ -10,7 +10,7 @@ agent comments only on incomplete bug reports in this repository.
 - `.claude/skills/repro-triage/SKILL.md` is the triage procedure. It is read at
   the explicit `source_sha` on manual runs, or from the default branch on issue
   events. Preflight checks that the manual SHA matches the checkout.
-- `scripts/preflight.py` validates the target and writes a `noop` for closed
+- `scripts/preflight.py` rejects reruns, validates the target and writes a `noop` for closed
   or already-triaged issues. In gh-aw 0.92.0, a no-op written by a pre-agent
   step short-circuits inference. This path has unit coverage, not a live run.
   Partial triage states fail closed. The script uses only the Python standard
