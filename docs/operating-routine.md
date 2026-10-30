@@ -5,12 +5,12 @@ deployment plan for pandas and does not make the untested controls tested.
 
 ## Owner and separation of duties
 
-Saai Aravindh Raja is the repository owner, workflow configuration owner and
-current Environment reviewer. He can change or disable the workflow, cancel a
-run, rotate the repository secret, and decide whether to approve a safe output.
-The current sandbox permits self-review because it has one owner. That is a
-known limitation: any community deployment should use a separately named
-maintainer to approve outputs and changes to the agent configuration.
+Saai Aravindh Raja is the repository owner and workflow configuration owner.
+He can change or disable the workflow, cancel a run, and rotate the repository
+secret. GitHub prevents the triggering owner from approving an output. Before
+releasing an output, add a distinct reviewer with repository read access to the
+Environment; that reviewer, rather than the configuration owner, decides whether
+to approve it.
 
 ## Before approving an output
 
@@ -45,6 +45,6 @@ tool sequence, or output quality changes materially.
 
 For an incident, disable the workflow in GitHub Actions, cancel queued and
 running jobs, inspect the affected issue and run artifacts, then rotate the
-secret if account or token compromise is suspected. The configuration and
-documentation describe this path, but phone-based cancellation and active-run
-cancellation have not been exercised end to end.
+secret if account or token compromise is suspected. Cancellation of an
+approval-queued run was exercised during the control check; the phone-only
+version of this sequence remains documented rather than separately tested.

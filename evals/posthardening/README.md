@@ -49,10 +49,39 @@ passed pre-activation despite the two earlier manual starts and was cancelled
 before output. Thus `user-rate-limit` did not constrain manual dispatch. The
 deployed source removes that trigger rather than calling this a sufficient budget.
 
-## Issue-trigger rate check: preregistered expectation
+## Issue-trigger budget check: preregistered expectation
 
 After the deployed source removes manual dispatch, I will open three fresh
 incomplete sandbox issues as the owner in one hour. The first two should reach
 the approval gate and be rejected so they publish nothing. The third should fail
 the two-runs-per-hour admission check before agent work. Each issue will remain
 open and unchanged. This is a control check, not an addition to the frozen score.
+
+## Result and correction
+
+The expectation file remains unchanged at
+[`issue-rate-expected.md`](issue-rate-expected.md). Issue
+[#55](https://github.com/SaaiAravindhRaja/repro-triage-agent/issues/55) used
+the deployed issue trigger at `ed43005`. Its
+[run](https://github.com/SaaiAravindhRaja/repro-triage-agent/actions/runs/41026047026)
+completed pre-activation, the agent and detection, then waited at the output
+Environment. I rejected it. The safe-output and conclusion jobs were skipped,
+and #55 still has no comment or label. This is the first live issue-triggered
+rejection test.
+
+[#56](https://github.com/SaaiAravindhRaja/repro-triage-agent/issues/56) did
+not meet the second expected outcome. Its
+[run](https://github.com/SaaiAravindhRaja/repro-triage-agent/actions/runs/41026838922)
+passed pre-activation but the built-in daily guardrail counted five earlier
+runs at its conservative 20-credit fallback and skipped the agent before
+inference. It published nothing. I did not open the planned third issue: this
+would not distinguish the hourly limiter while the stronger daily guardrail was
+already stopping the path.
+
+The current source replaces reliance on the platform user limiter with a
+[preflight](../../scripts/preflight.py) check over this workflow's issue runs.
+It stops the third start in an hour before model work, excludes the current
+run, uses only `actions: read`, and fails closed on malformed GitHub data. The
+unit suite covers an admitted first/second start and a rejected third start.
+This correction is post-evaluation hardening, not a retroactive claim about
+the frozen twelve cases.

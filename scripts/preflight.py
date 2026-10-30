@@ -10,6 +10,7 @@ import json
 import os
 import re
 import sys
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
@@ -20,6 +21,9 @@ WORKFLOW_MARKER = (
 )
 BOT_LOGIN = "github-actions[bot]"
 REPOSITORY = "saaiaravindhraja/repro-triage-agent"
+WORKFLOW_FILE = "smoke-triage.lock.yml"
+RATE_LIMIT_MAX_RUNS = 2
+RATE_LIMIT_WINDOW = timedelta(minutes=60)
 
 
 def api_get(path: str) -> object:
@@ -54,6 +58,60 @@ def no_action(reason: str) -> None:
     print(reason)
 
 
+def now_utc() -> datetime:
+    return datetime.now(timezone.utc)
+
+
+def parse_utc(value: object) -> datetime:
+    if not isinstance(value, str):
+        raise RuntimeError("workflow run is missing a created_at timestamp")
+    try:
+        parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except ValueError as error:
+        raise RuntimeError("workflow run has an invalid created_at timestamp") from error
+    if parsed.tzinfo is None:
+        raise RuntimeError("workflow run has a timezone-free created_at timestamp")
+    return parsed.astimezone(timezone.utc)
+
+
+def enforce_global_issue_rate_limit(current_run_id: str) -> None:
+    """Fail closed before inference after two issue-triggered starts per hour.
+
+    gh-aw's built-in user limiter exempts repository members. This workflow admits
+    only the sandbox owner, so the platform limiter cannot bound its spend. Count
+    this workflow's issue-triggered starts directly instead. GitHub has already
+    created the current run, but it is excluded so the first two starts are
+    admitted and the third is stopped before Codex is invoked.
+    """
+
+    payload = api_get(
+        f"actions/workflows/{WORKFLOW_FILE}/runs?event=issues&per_page=100"
+    )
+    if not isinstance(payload, dict):
+        raise RuntimeError("workflow-run listing is unavailable")
+    runs = payload.get("workflow_runs")
+    if not isinstance(runs, list):
+        raise RuntimeError("workflow-run listing is malformed")
+
+    cutoff = now_utc() - RATE_LIMIT_WINDOW
+    recent_other_runs = 0
+    for run in runs:
+        if not isinstance(run, dict):
+            raise RuntimeError("workflow-run listing contains an invalid entry")
+        run_id = run.get("id")
+        if not isinstance(run_id, int):
+            raise RuntimeError("workflow run is missing an id")
+        created_at = parse_utc(run.get("created_at"))
+        if str(run_id) != current_run_id and created_at >= cutoff:
+            recent_other_runs += 1
+
+    if recent_other_runs >= RATE_LIMIT_MAX_RUNS:
+        raise RuntimeError(
+            "global issue rate limit reached: "
+            f"{recent_other_runs} other issue-triggered starts in the last 60 minutes"
+        )
+
+
 def main() -> None:
     number = os.environ.get("TRIAGE_ISSUE_NUMBER", "")
     repository = os.environ.get("TRIAGE_REPOSITORY", "").lower()
@@ -63,6 +121,10 @@ def main() -> None:
         raise RuntimeError("only the first workflow attempt may triage")
     if not re.fullmatch(r"[1-9][0-9]{0,8}", number):
         raise RuntimeError("issue number must be a positive decimal integer")
+    current_run_id = os.environ.get("TRIAGE_RUN_ID", "")
+    if not re.fullmatch(r"[1-9][0-9]{0,15}", current_run_id):
+        raise RuntimeError("workflow run id must be a positive decimal integer")
+    enforce_global_issue_rate_limit(current_run_id)
     label = api_get("labels/needs-repro")
     if not isinstance(label, dict) or label.get("name") != "needs-repro":
         raise RuntimeError("needs-repro label is unavailable")

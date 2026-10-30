@@ -19,9 +19,10 @@
   tests one route, not every attack.
 - **Approval configuration:** The current lock requires success from the
   `triage-output-approval` Environment job before safe outputs and conclusion.
-  GitHub Settings has the repository owner as required reviewer, admin bypass disabled, and a
-  `main`-only policy. Self-review is allowed. Issue #54 exercised approval;
-  rejection remains untested, and a no-action run may wait for review too.
+  GitHub Settings has the repository owner as required reviewer, admin bypass disabled, a
+  `main`-only policy, and self-review prevention. Issue #54 exercised approval before
+  that hardening; #55 exercised rejection, leaving no public output. A distinct
+  reviewer must be added before the owner can release a future run.
 - **Trigger scope:** `on.roles: [admin]` blocks ordinary public reporters
   before inference. This limits public-trigger spend but means the sandbox
   does not triage community reports. The role check is not live-tested.
@@ -29,8 +30,9 @@
   the model step. gh-aw documents this as an inference short-circuit; unit tests
   and a later pre-removal manual run checked it. The historical live cases did not exercise
   it, so its effect on that scored set remains unmeasured.
-- **Volume and drift:** The daily credit cap can leave work unfinished during
-  a burst. The requested model name is mutable. Neither a 300-issue week nor
+- **Volume and drift:** A preflight API check now stops the third issue-triggered
+  start in an hour, and the daily credit cap can leave work unfinished during a
+  burst. The requested model name is mutable. Neither a 300-issue week nor
   provider updates can be handled by a 12-case test alone.
 
 [DESIGN.md](../DESIGN.md) separates observed failures in the

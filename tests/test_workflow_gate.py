@@ -157,6 +157,52 @@ class WorkflowGateTests(unittest.TestCase):
             r"(?m)^      - name: get_file_contents\n        max-calls: 2$",
         )
 
+    def test_source_grants_actions_read_only_for_pre_inference_budget_check(self) -> None:
+        source = SOURCE.read_text(encoding="utf-8")
+        frontmatter = re.search(r"(?s)\A---\s*\n(.*?)\n---\s*", source)
+        self.assertIsNotNone(frontmatter, "workflow frontmatter is missing")
+        assert frontmatter is not None
+
+        self.assertRegex(frontmatter.group(1), r"(?m)^  actions: read$")
+        self.assertRegex(
+            frontmatter.group(1),
+            r"(?m)^      TRIAGE_RUN_ID: \$\{\{ github\.run_id \}\}$",
+        )
+
+    def test_source_and_lock_bound_agent_and_detector_jobs_to_ten_minutes(self) -> None:
+        source = SOURCE.read_text(encoding="utf-8")
+        lock = LOCK.read_text(encoding="utf-8")
+        frontmatter = re.search(r"(?s)\A---\s*\n(.*?)\n---\s*", source)
+        self.assertIsNotNone(frontmatter, "workflow frontmatter is missing")
+        assert frontmatter is not None
+
+        for job in ("agent", "detection"):
+            self.assertRegex(
+                self.job_block(frontmatter.group(1), job),
+                r"(?m)^    timeout-minutes: 10$",
+            )
+            self.assertRegex(
+                self.job_block(lock, job),
+                r"(?m)^    timeout-minutes: 10$",
+            )
+
+    def test_source_and_lock_bound_approval_job_to_ten_minutes(self) -> None:
+        source = SOURCE.read_text(encoding="utf-8")
+        lock = LOCK.read_text(encoding="utf-8")
+        frontmatter = re.search(r"(?s)\A---\s*\n(.*?)\n---\s*", source)
+        self.assertIsNotNone(frontmatter, "workflow frontmatter is missing")
+        assert frontmatter is not None
+
+        job = "triage-output-approval"
+        self.assertRegex(
+            self.job_block(frontmatter.group(1), job),
+            r"(?m)^    timeout-minutes: 10$",
+        )
+        self.assertRegex(
+            self.job_block(lock, job),
+            r"(?m)^    timeout-minutes: 10$",
+        )
+
     def test_source_and_lock_disable_diagnostic_issue_creation(self) -> None:
         source = SOURCE.read_text(encoding="utf-8")
         lock = LOCK.read_text(encoding="utf-8")

@@ -4,6 +4,7 @@ import json
 import os
 import tempfile
 import unittest
+from datetime import datetime, timezone
 from pathlib import Path
 from unittest.mock import patch
 
@@ -18,17 +19,30 @@ class PreflightTests(unittest.TestCase):
         self.environment = {
             "TRIAGE_ISSUE_NUMBER": "41",
             "TRIAGE_REPOSITORY": "SaaiAravindhRaja/repro-triage-agent",
+            "TRIAGE_RUN_ID": "100",
             "TRIAGE_RUN_ATTEMPT": "1",
             "GITHUB_EVENT_NAME": "issues",
             "GH_AW_SAFE_OUTPUTS": str(self.output),
         }
 
     def run_case(self, issue: dict, comments: list | None = None) -> None:
-        responses = [{"name": "needs-repro"}, issue]
+        responses = [
+            {
+                "workflow_runs": [
+                    {"id": 100, "created_at": "2026-10-30T08:00:00Z"}
+                ]
+            },
+            {"name": "needs-repro"},
+            issue,
+        ]
         if comments is not None:
             responses.append(comments)
         with patch.dict(os.environ, self.environment, clear=True):
-            with patch.object(preflight, "api_get", side_effect=responses):
+            with patch.object(preflight, "api_get", side_effect=responses), patch.object(
+                preflight,
+                "now_utc",
+                return_value=datetime(2026, 10, 30, 8, 30, tzinfo=timezone.utc),
+            ):
                 preflight.main()
 
     def test_fresh_issue_produces_no_preflight_output(self) -> None:
@@ -101,6 +115,68 @@ class PreflightTests(unittest.TestCase):
                 with self.assertRaisesRegex(RuntimeError, "first workflow attempt"):
                     preflight.main()
         api_get.assert_not_called()
+
+    def test_global_rate_limit_blocks_third_recent_issue_before_label_check(self) -> None:
+        runs = {
+            "workflow_runs": [
+                {"id": 98, "created_at": "2026-10-30T08:25:00Z"},
+                {"id": 99, "created_at": "2026-10-30T08:20:00Z"},
+                {"id": 100, "created_at": "2026-10-30T08:30:00Z"},
+            ]
+        }
+        with patch.dict(os.environ, self.environment, clear=True):
+            with patch.object(preflight, "api_get", return_value=runs) as api_get, patch.object(
+                preflight,
+                "now_utc",
+                return_value=datetime(2026, 10, 30, 8, 30, tzinfo=timezone.utc),
+            ):
+                with self.assertRaisesRegex(RuntimeError, "global issue rate limit"):
+                    preflight.main()
+        api_get.assert_called_once_with(
+            "actions/workflows/smoke-triage.lock.yml/runs?event=issues&per_page=100"
+        )
+        self.assertFalse(self.output.exists())
+
+    def test_global_rate_limit_allows_second_recent_issue(self) -> None:
+        responses = [
+            {
+                "workflow_runs": [
+                    {"id": 99, "created_at": "2026-10-30T08:25:00Z"},
+                    {"id": 100, "created_at": "2026-10-30T08:30:00Z"},
+                ]
+            },
+            {"name": "needs-repro"},
+            {"number": 41, "state": "open", "labels": []},
+            [],
+        ]
+        with patch.dict(os.environ, self.environment, clear=True):
+            with patch.object(preflight, "api_get", side_effect=responses), patch.object(
+                preflight,
+                "now_utc",
+                return_value=datetime(2026, 10, 30, 8, 30, tzinfo=timezone.utc),
+            ):
+                preflight.main()
+        self.assertFalse(self.output.exists())
+
+    def test_malformed_rate_listing_fails_closed_before_issue_read(self) -> None:
+        with patch.dict(os.environ, self.environment, clear=True):
+            with patch.object(preflight, "api_get", return_value={"workflow_runs": [{}]}):
+                with self.assertRaisesRegex(RuntimeError, "workflow run is missing an id"):
+                    preflight.main()
+        self.assertFalse(self.output.exists())
+
+    def test_timezone_free_rate_timestamp_fails_closed(self) -> None:
+        with patch.dict(os.environ, self.environment, clear=True):
+            with patch.object(
+                preflight,
+                "api_get",
+                return_value={
+                    "workflow_runs": [{"id": 99, "created_at": "2026-10-30T08:30:00"}]
+                },
+            ):
+                with self.assertRaisesRegex(RuntimeError, "timezone-free"):
+                    preflight.main()
+        self.assertFalse(self.output.exists())
 
     def test_preflight_api_failure_has_no_public_output(self) -> None:
         with patch.dict(os.environ, self.environment, clear=True):

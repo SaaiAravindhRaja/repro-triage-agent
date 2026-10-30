@@ -24,18 +24,17 @@ used synthetic fixtures; its 12/12 is not agent accuracy.
 
 ## Boundary and procedure
 
-The [workflow](.github/workflows/smoke-triage.md) declares issue-open and
-manual triggers; Actions uses its [compiled lock file](.github/workflows/smoke-triage.lock.yml).
-The historical evaluation used manual dispatch on a non-default branch; deployed
-workflow now admits only admin issue opens, which were not scored. The checkout makes [AGENTS.md](AGENTS.md)
+The [workflow](.github/workflows/smoke-triage.md) admits only admin issue-open events; there is no manual trigger. Actions uses its [compiled lock file](.github/workflows/smoke-triage.lock.yml).
+The historical evaluation used manual dispatch on a non-default branch, so it
+does not score the deployed trigger. The checkout makes [AGENTS.md](AGENTS.md)
 available to Codex; the workflow fetches the
 [skill](.claude/skills/repro-triage/SKILL.md) before the issue. It checks
 bug intent, self-contained pandas code, expected versus observed behavior,
 and pandas/Python/OS versions. An incomplete bug may get one specific comment
 and `needs-repro`. Other readable cases get no public action. A model-tool read
 failure is incomplete; a preflight API failure exits before inference or output.
-Preflight emits `noop` for a closed or already-triaged issue; [gh-aw docs](https://github.github.com/gh-aw/reference/steps-jobs/)
-say pre-agent no-ops stop inference. Unit tests and a later manual run checked it; the historical twelve did not.
+Preflight emits `noop` for a closed or already-triaged issue and independently limits issue-triggered starts before inference. [gh-aw docs](https://github.github.com/gh-aw/reference/steps-jobs/)
+say pre-agent no-ops stop inference. Unit tests cover those paths; the historical twelve did not.
 
 Issue/tool text is untrusted. Safe outputs bar destructive actions, but wrong
 comments or labels remain possible. No `CONTRIBUTING.md`: the bot posts directly.
@@ -61,18 +60,17 @@ and [`col`](https://github.com/pandas-dev/pandas/blob/fbfadf45ae216faf91c622a68c
 existed then. I corrected the skill and detector model and reran fresh copies.
 All [twelve final runs](evals/golden/results.md) matched the frozen action on
 first attempt. The [five public comments](evals/golden/comment-quality-review.md)
-were courteous and 40--87 words, but only 3/5 avoided redundant requests (#43
-minor, #45 material). The injection did not redirect the bot. At 74.85 AI
+were courteous and 40--87 words, but only 3/5 avoided redundant requests (#43 minor, #45 material). The injection did not redirect the bot. At 74.85 AI
 credits, I'd keep it off outside the sandbox: only 2/30 reports clearly needed a request and
 time saved was unmeasured. Afterward, I corrected [AGENTS.md](AGENTS.md)'s
-duplicate-skip claim and added approval, an all-user rate limit, a two-read repository-file budget,
+duplicate-skip claim and added approval, a two-read repository-file budget,
 rerun rejection and diagnostic-only failure reports; none was scored. See the [deployment checklist](docs/production-readiness.md).
-The separate [post-hardening checks](evals/posthardening/) exercised the issue
-trigger, skill loading, approval, manual SHA/no-op path, bounded output and rerun block.
+The separate [post-hardening checks](evals/posthardening/) exercised skill loading,
+approval, bounded output, rejection, cancellation and rerun blocking.
 ## Governance: what is enforced and what is not
 1. **Identity — tested.** Comments come from `github-actions[bot]` with a run link.
-2. **Least privilege — configured, compile checked.** The agent job has
-   `contents: read` and `issues: read` in the [lock file](.github/workflows/smoke-triage.lock.yml);
+2. **Least privilege — configured, compile checked.** The agent job has only
+   `actions`, `contents` and `issues` read scopes in the [lock file](.github/workflows/smoke-triage.lock.yml);
    GitHub tools reach only this sandbox. Writes use a separate output job. The
    compiler still grants the output and conclusion jobs `pull-requests: write`;
    the fixed issue target and disabled failure reports, not token scope alone,
@@ -83,25 +81,29 @@ trigger, skill loading, approval, manual SHA/no-op path, bounded output and reru
    conclusion jobs require success from the approval job. On
    [#54](https://github.com/SaaiAravindhRaja/repro-triage-agent/issues/54), the
    owner reviewed the staged output, then approved one comment and one label.
-   The `main`-only Environment names the owner as reviewer; admin bypass is off,
-   but self-review is allowed and rejection was not tested.
+   Current Environment settings prevent self-review and disable admin bypass. On
+   [#55](https://github.com/SaaiAravindhRaja/repro-triage-agent/issues/55), I rejected
+   staged output: no comment or label was published. A second reviewer must be
+   named before the current owner can release a future output.
 5. **Budgets — configured, not a hard spend cap.** Agent and detector time out
    at ten minutes; compiler jobs allow setup/logging. Caps: 20 credits/run and ten for detection;
-   two starts/user/hour for every role; the experimental 100-credit guardrail can be overshot by concurrent issue runs.
-6. **Audit trail — partial.** [Logs](evals/golden/) and the [current check](evals/posthardening/)
-   retain visible calls, outputs and credits, but not hidden reasoning or exact backend build.
+   preflight admits at most two issue-triggered starts per repository/hour before inference.
+   The 100-credit guardrail remains conservative and can block work earlier when usage accounting is missing.
+6. **Audit trail — partial.** [Logs](evals/golden/) and the [current check](evals/posthardening/) retain visible calls, outputs and credits, but not hidden reasoning or exact backend build.
 7. **Kill switch — partly tested.** Disabled/re-enabled during seeding and
-   disabled after evaluation; active-run cancellation was untested.
+   disabled after evaluation; I also cancelled an approval-queued run. Phone-only
+   operation is documented but was not separately tested.
 8. **Drift detection — proposed, not scheduled.** Before model/configuration
    changes and monthly, I will use fresh sandbox copies and review each action
    and comment against the [quality rubric](evals/golden/comment-quality-review.md).
-9. **Accountability — owner-managed.** Saai Aravindh Raja owns configuration,
-   approval and the kill switch; [the routine](docs/operating-routine.md) records checks. Self-review is a sandbox limitation.
+9. **Accountability — owner-managed.** Saai Aravindh Raja owns configuration
+   and the kill switch; [the routine](docs/operating-routine.md) records checks.
+   A distinct reviewer owns output approval.
 
 `roles: [admin]` skips ordinary reporters before inference: safer for sandbox
-spend, but not community intake. The owner path, approval and rerun block were
-live-checked on #54; non-admin rejection and the rate limit were not. Recovery
-is manual handling after checking for partial output. AWF restricts
+spend, but not community intake. The owner path, approval, rejection, cancellation
+and rerun block were live-checked; non-admin rejection was source and lock checked.
+Recovery is manual handling after checking for partial output. AWF restricts
 network and shell/CLI tools are off; detection cannot catch false claims.
 ## Bill of materials
 - **Models:** Codex triage uses repo var `GH_AW_MODEL_AGENT_CODEX=gpt-5`; detection requests `gpt-5-mini`. Neither is pinned.
@@ -127,12 +129,10 @@ network and shell/CLI tools are off; detection cannot catch false claims.
 2. **The provider changes the model.** A model change itself is not detected.
    A changed decision might appear in a gold run; the owner must disable the
    workflow, inspect the diff and test a replacement before re-enabling it.
-3. **There are 300 issues in a week.** With `roles: [admin]`, ordinary
-   reporters do not start the agent. That protects this public sandbox but
-   does not automate community intake. If an admin starts 43 runs/day, the
-   100-credit guardrail may stop later issue runs and can be overshot; manual
-   dispatch bypasses it. At the measured median, 43 runs use about 267 credits.
-   Skipped and failed runs still need manual handling.
+3. **There are 300 issues in a week.** Ordinary reporters do not start this
+   admin-only sandbox workflow. Admin issue opens are stopped before inference
+   after two starts in an hour; the daily guardrail can stop them sooner. There
+   is no manual-dispatch bypass. Skipped reports need manual handling.
 4. **A GitHub/MCP response carries instructions.** The response is untrusted
    input. The model might still misclassify the report, but it cannot gain
    close, merge or shell capability from that text. It could still put a wrong

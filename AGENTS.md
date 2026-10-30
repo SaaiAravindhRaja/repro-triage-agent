@@ -9,7 +9,8 @@ agent comments only on incomplete bug reports in this repository.
   `gh aw compile smoke-triage`; commit the generated `.lock.yml` with changes.
 - `.claude/skills/repro-triage/SKILL.md` is the triage procedure. It is read
   from the default branch on an admitted issue-open event.
-- `scripts/preflight.py` rejects reruns, validates the target and writes a `noop` for closed
+- `scripts/preflight.py` rejects reruns, validates the target, limits the third
+  issue-triggered start in an hour before inference, and writes a `noop` for closed
   or already-triaged issues. Handle a partial output manually; do not rerun the same issue.
   In gh-aw 0.92.0, a no-op written by a pre-agent
   step short-circuits inference. It has unit coverage and a live manual check on issue #54.
@@ -31,11 +32,11 @@ never write to it.
 Keep source and compiled workflow in sync; inspect the compiled permissions
 and safe-output targets after each compile.
 The `safe_outputs` and `conclusion` jobs require success from the
-`triage-output-approval` GitHub Environment job. Keep its required reviewer
-and `main`-only policy; admin bypass is disabled. The enabled
+`triage-output-approval` GitHub Environment job. Keep its required reviewer,
+self-review prevention and `main`-only policy; admin bypass is disabled. The enabled
 issue trigger is restricted to repository admins. This is a sandbox, not an
 upstream pandas deployment. Issue #54 exercised the approval gate after agent
-and detection; Environment rejection remains untested.
+and detection; issue #55 exercised Environment rejection with no public output.
 
 ## Forbidden changes
 

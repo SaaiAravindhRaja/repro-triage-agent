@@ -8,6 +8,7 @@ engine:
   id: codex
 
 permissions:
+  actions: read
   contents: read
   issues: read
 
@@ -46,11 +47,16 @@ steps:
     env:
       TRIAGE_ISSUE_NUMBER: ${{ github.event.issue.number }}
       TRIAGE_REPOSITORY: ${{ github.repository }}
+      TRIAGE_RUN_ID: ${{ github.run_id }}
       TRIAGE_RUN_ATTEMPT: ${{ github.run_attempt }}
       GH_AW_SAFE_OUTPUTS: ${{ runner.temp }}/gh-aw/safeoutputs/outputs.jsonl
       GH_TOKEN: ${{ github.token }}
 
 jobs:
+  agent:
+    timeout-minutes: 10
+  detection:
+    timeout-minutes: 10
   safe_outputs:
     if: needs.triage-output-approval.result == 'success'
   conclusion:
@@ -59,6 +65,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [agent, detection]
     environment: triage-output-approval
+    timeout-minutes: 10
     permissions: {}
     steps:
       - name: Confirm environment approval released the job

@@ -37,10 +37,12 @@ as a second version of the design.
   future provider or network failures cannot recur.
 - The earlier 1000-credit per-run default was a generous failure ceiling, not
   a useful operating budget. The source now requests tighter per-run and daily
-  limits; [DESIGN.md](../DESIGN.md) treats throughput under those caps as a
-  limitation, not a promise. The deployed workflow has no manual trigger, and
-  concurrent issue-open runs can pass before earlier ones are counted.
-  It is an admission guardrail, not a hard spending cap.
+  limits and has its own preflight admission check: it counts issue-triggered
+  starts for this workflow and stops the third in an hour before Codex starts.
+  It uses only `actions: read`, fails closed on a malformed response, and has
+  unit coverage. The platform's experimental user limiter still appears in the
+  lock but exempts administrators, so it is not the evidence for this control.
+  Neither mechanism is a provider billing cap.
 - `min-integrity: none` lets this single-maintainer sandbox read its test
   issues, including malicious text. It removes the default author-trust
   filter, so bounded outputs and review remain important. It is not a
@@ -53,9 +55,10 @@ as a second version of the design.
   issue-open runs; ordinary reporters are skipped before model execution.
   This limits sandbox spend but is not a usable pandas intake policy. The owner
   path ran live on #54; a non-admin rejection has not been tested.
-- The experimental user-rate-limit applies to every admitted issue author and allows two starts
-  per user per hour. A manual-dispatch control check showed that this limiter did not cover
-  manual runs, so the deployed source removes that bypass. The issue-trigger limit is tested separately.
+- A manual-dispatch control check showed that the platform's user limiter did
+  not cover manual runs. The deployed source removes manual dispatch entirely;
+  the repository-side check is the effective two-start/hour policy for the
+  admin-only sandbox path.
 - Preflight rejects reruns before inference. [The rerun of #54](https://github.com/SaaiAravindhRaja/repro-triage-agent/actions/runs/40834047322)
   failed at that check with the model step skipped. A [manual no-op run](https://github.com/SaaiAravindhRaja/repro-triage-agent/actions/runs/40853359145)
   also accepted the current SHA and skipped the model after detecting completed
@@ -77,12 +80,14 @@ safe-output limits.
 After the twelve scored runs, the workflow gained a custom
 `triage-output-approval` job. The compiled lock puts it after `agent` and
 `detection`, gives it no token permissions, and makes both `safe_outputs` and
-`conclusion` require its success. GitHub Settings
-names the repository owner as reviewer, disables admin bypass, and limits the
-environment to `main`; self-review is allowed. [Issue #54](https://github.com/SaaiAravindhRaja/repro-triage-agent/issues/54)
-exercised this gate: the agent and detector succeeded, the owner reviewed their
-artifact and approved, and the single staged comment and label were published.
-A no-action run may wait too.
+`conclusion` require its success. GitHub Settings names the repository owner as
+reviewer, disables admin bypass, limits the environment to `main`, and now
+prevents self-review. [Issue #54](https://github.com/SaaiAravindhRaja/repro-triage-agent/issues/54)
+exercised this gate before the self-review hardening: the agent and detector
+succeeded, the owner approved, and one staged comment and label were published.
+[Issue #55](https://github.com/SaaiAravindhRaja/repro-triage-agent/issues/55)
+then exercised rejection: the agent and detector ran, but the rejected
+Environment kept its staged comment and label unpublished. A no-action run may wait too.
 
 The historical evaluation remains tied to its recorded commit and did not use
 this gate. The current workflow is enabled on `main` for admins only; this is
