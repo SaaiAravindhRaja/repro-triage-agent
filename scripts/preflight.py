@@ -9,7 +9,6 @@ from __future__ import annotations
 import json
 import os
 import re
-import subprocess
 import sys
 from pathlib import Path
 from urllib.error import HTTPError, URLError
@@ -64,16 +63,6 @@ def main() -> None:
         raise RuntimeError("only the first workflow attempt may triage")
     if not re.fullmatch(r"[1-9][0-9]{0,8}", number):
         raise RuntimeError("issue number must be a positive decimal integer")
-    if os.environ.get("GITHUB_EVENT_NAME") == "workflow_dispatch":
-        source_sha = os.environ.get("TRIAGE_SOURCE_SHA", "")
-        if not re.fullmatch(r"[0-9a-f]{40}", source_sha):
-            raise RuntimeError("manual dispatch requires a full lowercase commit SHA")
-        checkout_sha = subprocess.check_output(
-            ["git", "rev-parse", "HEAD"], text=True
-        ).strip()
-        if source_sha != checkout_sha or source_sha != os.environ.get("GITHUB_SHA"):
-            raise RuntimeError("manual source SHA does not match the workflow checkout")
-
     label = api_get("labels/needs-repro")
     if not isinstance(label, dict) or label.get("name") != "needs-repro":
         raise RuntimeError("needs-repro label is unavailable")

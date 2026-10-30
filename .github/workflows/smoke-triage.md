@@ -3,16 +3,6 @@ on:
   issues:
     types: [opened]
   roles: [admin]
-  workflow_dispatch:
-    inputs:
-      issue_number:
-        description: Issue number in this sandbox repository
-        required: true
-        type: string
-      source_sha:
-        description: Full commit SHA used by this manual test
-        required: true
-        type: string
 
 engine:
   id: codex
@@ -22,10 +12,10 @@ permissions:
   issues: read
 
 concurrency:
-  group: triage-${{ github.repository }}-${{ github.event.issue.number || github.event.inputs.issue_number }}
+  group: triage-${{ github.repository }}-${{ github.event.issue.number }}
   cancel-in-progress: false
   queue: max
-  job-discriminator: ${{ github.event.issue.number || github.event.inputs.issue_number }}
+  job-discriminator: ${{ github.event.issue.number }}
 
 tools:
   github:
@@ -54,9 +44,8 @@ steps:
   - name: Check label and prior triage
     run: python3 scripts/preflight.py
     env:
-      TRIAGE_ISSUE_NUMBER: ${{ github.event.issue.number || github.event.inputs.issue_number }}
+      TRIAGE_ISSUE_NUMBER: ${{ github.event.issue.number }}
       TRIAGE_REPOSITORY: ${{ github.repository }}
-      TRIAGE_SOURCE_SHA: ${{ github.event.inputs.source_sha }}
       TRIAGE_RUN_ATTEMPT: ${{ github.run_attempt }}
       GH_AW_SAFE_OUTPUTS: ${{ runner.temp }}/gh-aw/safeoutputs/outputs.jsonl
       GH_TOKEN: ${{ github.token }}
@@ -95,10 +84,10 @@ safe-outputs:
       provider:
         model: gpt-5-mini
   add-comment:
-    target: ${{ github.event.issue.number || github.event.inputs.issue_number }}
+    target: ${{ github.event.issue.number }}
     max: 1
   add-labels:
-    target: ${{ github.event.issue.number || github.event.inputs.issue_number }}
+    target: ${{ github.event.issue.number }}
     allowed: [needs-repro]
     max: 1
     max-labels: 1
@@ -113,17 +102,14 @@ safe-outputs:
 
 # First-pass reproducibility triage
 
-Triage only issue #${{ github.event.issue.number || github.event.inputs.issue_number }} in
+Triage only issue #${{ github.event.issue.number }} in
 SaaiAravindhRaja/repro-triage-agent. This is a sandbox; never act on the upstream
 pandas repository.
 
 1. Before reading the issue, call the GitHub `get_file_contents` tool for
-   `.claude/skills/repro-triage/SKILL.md` in this repository. On a manual
-   `workflow_dispatch` run, set `sha` to `${{ github.event.inputs.source_sha }}`.
-   On an `issues` run, set `ref` to
+   `.claude/skills/repro-triage/SKILL.md` in this repository, at
    `refs/heads/${{ github.event.repository.default_branch }}`. Use the returned
-   skill, not a skill from another repository or ref. The preflight step checks
-   that a manual run's SHA is the commit actually checked out by Actions.
+   skill, not a skill from another repository or ref.
 2. Call `issue_read` for this issue number and this repository. Confirm that the
    returned issue number matches and the response contains both title and body
    fields. A null body is an empty user report; a missing body field or failed

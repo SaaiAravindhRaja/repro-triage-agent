@@ -94,21 +94,6 @@ class PreflightTests(unittest.TestCase):
                 {"number": 41, "state": "open", "labels": [], "pull_request": {}}
             )
 
-    def test_manual_ref_mismatch_is_rejected(self) -> None:
-        self.environment.update(
-            {
-                "GITHUB_EVENT_NAME": "workflow_dispatch",
-                "TRIAGE_SOURCE_SHA": "a" * 40,
-                "GITHUB_SHA": "b" * 40,
-            }
-        )
-        with patch.dict(os.environ, self.environment, clear=True):
-            with patch.object(
-                preflight.subprocess, "check_output", return_value="b" * 40
-            ):
-                with self.assertRaisesRegex(RuntimeError, "does not match"):
-                    preflight.main()
-
     def test_rerun_attempt_is_rejected_before_any_api_call(self) -> None:
         self.environment["TRIAGE_RUN_ATTEMPT"] = "2"
         with patch.dict(os.environ, self.environment, clear=True):

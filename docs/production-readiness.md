@@ -29,19 +29,17 @@ This is a bounded live demo, not production approval for upstream use.
   but allowed comments can still be wrong. The two-file-read cap does not
   restrict its path; the required skill path/ref is only prompt-enforced.
 - **Spend:** per-run and daily AI-credit settings are guardrails, not a hard
-  provider billing cap. Manual runs bypass the daily guardrail, concurrent
-  issue runs can overshoot it, and the all-user rate limit is experimental.
+  provider billing cap. The deployed workflow has no manual trigger; concurrent
+  issue runs can overshoot the daily cap, and the all-user rate limit is experimental.
   Model cost is incurred before a reviewer approves or rejects output.
 - **Model drift:** `gpt-5` and `gpt-5-mini` are aliases, not immutable pins.
   The owner has a documented manual [drift routine](operating-routine.md),
   but there is no scheduled golden-set run. A live check consumes credits and
   must use fresh issues under the current configuration.
-- **Unverified paths:** non-admin role rejection, rate-limit rejection,
-  environment rejection, and phone-based cancellation have not been tested
+- **Unverified paths:** non-admin role rejection and phone-based cancellation have not been tested
   end-to-end. The twelve scored runs predate these controls. The owner issue-open
   path, approval, rerun rejection and manual no-op path were tested separately on #54.
-  A rejected rerun is deliberate: recovery is a new manual dispatch after the
-  owner checks the issue for partial output.
+  A rejected rerun is deliberate: the owner handles any partial output manually.
 - **Residual permissions:** gh-aw 0.92.0's compiled safe-output and conclusion
   jobs include `pull-requests: write` even though the configured actions are
   issue-scoped. The agent itself remains read-only, but review the generated

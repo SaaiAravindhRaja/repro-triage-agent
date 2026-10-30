@@ -26,8 +26,8 @@ used synthetic fixtures; its 12/12 is not agent accuracy.
 
 The [workflow](.github/workflows/smoke-triage.md) declares issue-open and
 manual triggers; Actions uses its [compiled lock file](.github/workflows/smoke-triage.lock.yml).
-I evaluated manual dispatch on a non-default branch; current admin-only
-issue-open and role checks were not scored. The checkout makes [AGENTS.md](AGENTS.md)
+The historical evaluation used manual dispatch on a non-default branch; deployed
+workflow now admits only admin issue opens, which were not scored. The checkout makes [AGENTS.md](AGENTS.md)
 available to Codex; the workflow fetches the
 [skill](.claude/skills/repro-triage/SKILL.md) before the issue. It checks
 bug intent, self-contained pandas code, expected versus observed behavior,
@@ -87,7 +87,7 @@ trigger, skill loading, approval, manual SHA/no-op path, bounded output and reru
    but self-review is allowed and rejection was not tested.
 5. **Budgets — configured, not a hard spend cap.** Agent and detector time out
    at ten minutes; compiler jobs allow setup/logging. Caps: 20 credits/run and ten for detection;
-   two starts/user/hour for every role; the experimental 100-credit guardrail excludes manual runs and can be overshot.
+   two starts/user/hour for every role; the experimental 100-credit guardrail can be overshot by concurrent issue runs.
 6. **Audit trail — partial.** [Logs](evals/golden/) and the [current check](evals/posthardening/)
    retain visible calls, outputs and credits, but not hidden reasoning or exact backend build.
 7. **Kill switch — partly tested.** Disabled/re-enabled during seeding and
@@ -101,7 +101,7 @@ trigger, skill loading, approval, manual SHA/no-op path, bounded output and reru
 `roles: [admin]` skips ordinary reporters before inference: safer for sandbox
 spend, but not community intake. The owner path, approval and rerun block were
 live-checked on #54; non-admin rejection and the rate limit were not. Recovery
-is a new admin manual dispatch after checking for partial output. AWF restricts
+is manual handling after checking for partial output. AWF restricts
 network and shell/CLI tools are off; detection cannot catch false claims.
 ## Bill of materials
 - **Models:** Codex triage uses repo var `GH_AW_MODEL_AGENT_CODEX=gpt-5`; detection requests `gpt-5-mini`. Neither is pinned.

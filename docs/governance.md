@@ -38,8 +38,8 @@ as a second version of the design.
 - The earlier 1000-credit per-run default was a generous failure ceiling, not
   a useful operating budget. The source now requests tighter per-run and daily
   limits; [DESIGN.md](../DESIGN.md) treats throughput under those caps as a
-  limitation, not a promise. Manual dispatch bypasses the daily guardrail,
-  and concurrent issue-open runs can pass before earlier ones are counted.
+  limitation, not a promise. The deployed workflow has no manual trigger, and
+  concurrent issue-open runs can pass before earlier ones are counted.
   It is an admission guardrail, not a hard spending cap.
 - `min-integrity: none` lets this single-maintainer sandbox read its test
   issues, including malicious text. It removes the default author-trust
@@ -50,17 +50,17 @@ as a second version of the design.
   GitHub and OpenAI endpoints. Hosted web search and shell tools are not
   exposed to the agent; the domain filter does not validate issue content.
 - `on.roles: [admin]` is an exact allowlist. Only repository admins can start
-  issue or manual runs; ordinary reporters are skipped before model execution.
+  issue-open runs; ordinary reporters are skipped before model execution.
   This limits sandbox spend but is not a usable pandas intake policy. The owner
   path ran live on #54; a non-admin rejection has not been tested.
-- The experimental user-rate-limit applies to every role and allows two starts
-  per user per hour. It is compile-checked, not live-tested. An admin can still
-  start paid runs, and the daily credit guardrail is not a hard provider billing cap.
+- The experimental user-rate-limit applies to every admitted issue author and allows two starts
+  per user per hour. A manual-dispatch control check showed that this limiter did not cover
+  manual runs, so the deployed source removes that bypass. The issue-trigger limit is tested separately.
 - Preflight rejects reruns before inference. [The rerun of #54](https://github.com/SaaiAravindhRaja/repro-triage-agent/actions/runs/40834047322)
   failed at that check with the model step skipped. A [manual no-op run](https://github.com/SaaiAravindhRaja/repro-triage-agent/actions/runs/40853359145)
   also accepted the current SHA and skipped the model after detecting completed
-  triage. Recover a failed run with a new manual dispatch after checking its
-  issue for partial output. Missing-tool reports cannot create issues;
+  triage. It predates removal of the manual trigger. Handle a failed issue after checking its
+  partial output. Missing-tool reports cannot create issues;
   missing-data reports flow only through the disabled failure-issue path;
   those paths have unit and compiled-workflow coverage, not a live run.
 

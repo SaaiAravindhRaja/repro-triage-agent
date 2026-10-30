@@ -35,11 +35,24 @@ artifact has no usage record or tool calls. After Environment approval it
 completed successfully with the issue still having one comment and one label.
 This tests the manual SHA check and no-op path, but not rate-limit rejection.
 
-## Next control check: preregistered expectation
+## Manual-dispatch control result
 
-On the next `main` commit, I will manually dispatch the already-triaged #54
-three times in one hour. Preflight should record a no-op before any model call
-each time it is reached. I will reject the first pending Environment deployment,
-approve the second, and expect the third start to fail at the two-runs-per-hour
-gate before agent work. The issue must keep its one existing comment and label.
-These are control checks, not additions to the frozen 12-case score.
+On `3dcb418`, I dispatched #54 three times in one hour. The first
+[run](https://github.com/SaaiAravindhRaja/repro-triage-agent/actions/runs/41023111683)
+reached Environment approval and was rejected; safe outputs and conclusion were
+skipped, leaving #54 unchanged. The second
+[run](https://github.com/SaaiAravindhRaja/repro-triage-agent/actions/runs/41023473318)
+completed preflight, agent and detection but remained in GitHub's Environment
+queue without a pending-deployment API record, so I cancelled it. The third
+[run](https://github.com/SaaiAravindhRaja/repro-triage-agent/actions/runs/41024479357)
+passed pre-activation despite the two earlier manual starts and was cancelled
+before output. Thus `user-rate-limit` did not constrain manual dispatch. The
+deployed source removes that trigger rather than calling this a sufficient budget.
+
+## Issue-trigger rate check: preregistered expectation
+
+After the deployed source removes manual dispatch, I will open three fresh
+incomplete sandbox issues as the owner in one hour. The first two should reach
+the approval gate and be rejected so they publish nothing. The third should fail
+the two-runs-per-hour admission check before agent work. Each issue will remain
+open and unchanged. This is a control check, not an addition to the frozen score.

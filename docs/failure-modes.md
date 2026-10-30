@@ -27,7 +27,7 @@
   does not triage community reports. The role check is not live-tested.
 - **Preflight no-op:** Closed and already-triaged issues write a `noop` before
   the model step. gh-aw documents this as an inference short-circuit; unit tests
-  and a later manual run checked it. The historical live cases did not exercise
+  and a later pre-removal manual run checked it. The historical live cases did not exercise
   it, so its effect on that scored set remains unmeasured.
 - **Volume and drift:** The daily credit cap can leave work unfinished during
   a burst. The requested model name is mutable. Neither a 300-issue week nor

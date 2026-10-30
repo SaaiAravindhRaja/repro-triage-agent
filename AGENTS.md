@@ -7,12 +7,11 @@ agent comments only on incomplete bug reports in this repository.
 
 - `.github/workflows/smoke-triage.md` is the source workflow. Compile it with
   `gh aw compile smoke-triage`; commit the generated `.lock.yml` with changes.
-- `.claude/skills/repro-triage/SKILL.md` is the triage procedure. It is read at
-  the explicit `source_sha` on manual runs, or from the default branch on issue
-  events. Preflight checks that the manual SHA matches the checkout.
+- `.claude/skills/repro-triage/SKILL.md` is the triage procedure. It is read
+  from the default branch on an admitted issue-open event.
 - `scripts/preflight.py` rejects reruns, validates the target and writes a `noop` for closed
-  or already-triaged issues. Recover a failed run with a new manual dispatch only after
-  checking its issue for partial output. In gh-aw 0.92.0, a no-op written by a pre-agent
+  or already-triaged issues. Handle a partial output manually; do not rerun the same issue.
+  In gh-aw 0.92.0, a no-op written by a pre-agent
   step short-circuits inference. It has unit coverage and a live manual check on issue #54.
   Partial triage states fail closed. The script uses only the Python standard
   library.

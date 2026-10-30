@@ -134,6 +134,19 @@ class WorkflowGateTests(unittest.TestCase):
             r"(?m)^    if: needs\.pre_activation\.outputs\.activated == 'true'$",
         )
 
+    def test_source_and_compiled_workflow_disable_manual_dispatch(self) -> None:
+        source = SOURCE.read_text(encoding="utf-8")
+        lock = LOCK.read_text(encoding="utf-8")
+        frontmatter = re.search(r"(?s)\A---\s*\n(.*?)\n---\s*", source)
+        self.assertIsNotNone(frontmatter, "workflow frontmatter is missing")
+        assert frontmatter is not None
+
+        self.assertNotIn("workflow_dispatch:", frontmatter.group(1))
+        lock_triggers = re.search(r"(?ms)^on:\n(.*?)(?=^permissions:)", lock)
+        self.assertIsNotNone(lock_triggers, "compiled workflow trigger is missing")
+        assert lock_triggers is not None
+        self.assertNotIn("workflow_dispatch:", lock_triggers.group(1))
+
     def test_source_limits_repository_file_reads_to_two(self) -> None:
         source = SOURCE.read_text(encoding="utf-8")
         frontmatter = re.search(r"(?s)\A---\s*\n(.*?)\n---\s*", source)
