@@ -20,9 +20,9 @@
 - **Approval configuration:** The current lock requires success from the
   `triage-output-approval` Environment job before safe outputs and conclusion.
   GitHub Settings has the repository owner as required reviewer, admin bypass disabled, a
-  `main`-only policy, and self-review prevention. Issue #54 exercised approval before
-  that hardening; #55 exercised rejection, leaving no public output. A distinct
-  reviewer must be added before the owner can release a future run.
+  `main`-only policy, and owner approval. Issue #54 exercised approval; #55
+  exercised rejection, leaving no public output. This is not independent review
+  in the single-owner sandbox.
 - **Trigger scope:** `on.roles: [admin]` blocks ordinary public reporters
   before inference. This limits public-trigger spend but means the sandbox
   does not triage community reports. The role check is not live-tested.

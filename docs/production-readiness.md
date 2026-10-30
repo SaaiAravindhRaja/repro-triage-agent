@@ -8,8 +8,8 @@ This is a bounded live demo, not production approval for upstream use.
 ## Controls configured on GitHub
 
 - Required reviewer: the repository owner is currently named, admin bypass is
-  disabled, and self-review is prevented. Therefore the owner cannot release a
-  run they triggered; add a distinct reviewer before any future approval.
+  disabled, and the owner approves or rejects staged output. This is a human
+  gate, but not independent review in the single-owner sandbox.
 - Deployment branch policy: `main` only.
 - The approval gate is after model execution and threat detection. Both
   `safe_outputs` and `conclusion` require its success; it does not prevent

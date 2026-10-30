@@ -33,10 +33,10 @@ Keep source and compiled workflow in sync; inspect the compiled permissions
 and safe-output targets after each compile.
 The `safe_outputs` and `conclusion` jobs require success from the
 `triage-output-approval` GitHub Environment job. Keep its required reviewer,
-self-review prevention and `main`-only policy; admin bypass is disabled. The enabled
-issue trigger is restricted to repository admins. This is a sandbox, not an
-upstream pandas deployment. Issue #54 exercised the approval gate after agent
-and detection; issue #55 exercised Environment rejection with no public output.
+`main`-only policy, and disabled admin bypass. The enabled issue trigger is
+restricted to repository admins. This is a sandbox, not an upstream pandas
+deployment. Issue #54 exercised the approval gate after agent and detection;
+issue #55 exercised Environment rejection with no public output.
 
 ## Forbidden changes
 

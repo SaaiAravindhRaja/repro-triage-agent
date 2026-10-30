@@ -81,10 +81,10 @@ After the twelve scored runs, the workflow gained a custom
 `triage-output-approval` job. The compiled lock puts it after `agent` and
 `detection`, gives it no token permissions, and makes both `safe_outputs` and
 `conclusion` require its success. GitHub Settings names the repository owner as
-reviewer, disables admin bypass, limits the environment to `main`, and now
-prevents self-review. [Issue #54](https://github.com/SaaiAravindhRaja/repro-triage-agent/issues/54)
-exercised this gate before the self-review hardening: the agent and detector
-succeeded, the owner approved, and one staged comment and label were published.
+reviewer, disables admin bypass, and limits the environment to `main`.
+[Issue #54](https://github.com/SaaiAravindhRaja/repro-triage-agent/issues/54)
+exercised this gate: the agent and detector succeeded, the owner approved, and
+one staged comment and label were published.
 [Issue #55](https://github.com/SaaiAravindhRaja/repro-triage-agent/issues/55)
 then exercised rejection: the agent and detector ran, but the rejected
 Environment kept its staged comment and label unpublished. A no-action run may wait too.

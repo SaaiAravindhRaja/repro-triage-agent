@@ -81,10 +81,10 @@ approval, bounded output, rejection, cancellation and rerun blocking.
    conclusion jobs require success from the approval job. On
    [#54](https://github.com/SaaiAravindhRaja/repro-triage-agent/issues/54), the
    owner reviewed the staged output, then approved one comment and one label.
-   Current Environment settings prevent self-review and disable admin bypass. On
+   Current Environment settings require owner review and disable admin bypass. On
    [#55](https://github.com/SaaiAravindhRaja/repro-triage-agent/issues/55), I rejected
-   staged output: no comment or label was published. A second reviewer must be
-   named before the current owner can release a future output.
+   staged output: no comment or label was published. In this single-owner sandbox,
+   approval is a human check, not independent separation.
 5. **Budgets — configured, not a hard spend cap.** Agent and detector time out
    at ten minutes; compiler jobs allow setup/logging. Caps: 20 credits/run and ten for detection;
    preflight admits at most two issue-triggered starts per repository/hour before inference.
@@ -98,7 +98,7 @@ approval, bounded output, rejection, cancellation and rerun blocking.
    and comment against the [quality rubric](evals/golden/comment-quality-review.md).
 9. **Accountability — owner-managed.** Saai Aravindh Raja owns configuration
    and the kill switch; [the routine](docs/operating-routine.md) records checks.
-   A distinct reviewer owns output approval.
+   The owner is accountable for output approval in this single-owner sandbox.
 
 `roles: [admin]` skips ordinary reporters before inference: safer for sandbox
 spend, but not community intake. The owner path, approval, rejection, cancellation

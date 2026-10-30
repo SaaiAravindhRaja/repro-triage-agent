@@ -7,10 +7,10 @@ deployment plan for pandas and does not make the untested controls tested.
 
 Saai Aravindh Raja is the repository owner and workflow configuration owner.
 He can change or disable the workflow, cancel a run, and rotate the repository
-secret. GitHub prevents the triggering owner from approving an output. Before
-releasing an output, add a distinct reviewer with repository read access to the
-Environment; that reviewer, rather than the configuration owner, decides whether
-to approve it.
+secret. He is also the current Environment reviewer, so he approves or rejects
+the staged output. This is a real human check, but not independent separation
+in a single-owner sandbox. A production deployment would name a maintainer who
+does not control the workflow configuration.
 
 ## Before approving an output
 

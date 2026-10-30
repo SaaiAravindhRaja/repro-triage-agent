@@ -27,7 +27,7 @@ a live run from controls checked only in configuration and proposed follow-up.
 The current workflow adds a post-agent approval job before safe outputs, and
 the compiled output and conclusion jobs explicitly require approval success. Its
 `triage-output-approval` GitHub Environment has a required reviewer, no admin
-bypass, self-review prevention, and a `main`-only branch policy. The
+bypass, and a `main`-only branch policy. The
 post-hardening checks exercised both approval and rejection; the historical
 twelve runs predate the gate. Admin-triggered runs can still consume model
 credits before approval. See the [deployment record](docs/production-readiness.md).
