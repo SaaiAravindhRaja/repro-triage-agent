@@ -34,3 +34,12 @@ preflight, recorded a no-op, and the gh-aw harness skipped the model: the
 artifact has no usage record or tool calls. After Environment approval it
 completed successfully with the issue still having one comment and one label.
 This tests the manual SHA check and no-op path, but not rate-limit rejection.
+
+## Next control check: preregistered expectation
+
+On the next `main` commit, I will manually dispatch the already-triaged #54
+three times in one hour. Preflight should record a no-op before any model call
+each time it is reached. I will reject the first pending Environment deployment,
+approve the second, and expect the third start to fail at the two-runs-per-hour
+gate before agent work. The issue must keep its one existing comment and label.
+These are control checks, not additions to the frozen 12-case score.
