@@ -51,8 +51,9 @@ targets are the selected issue. At evaluation time `assignment3-submission`
 was not the default branch, so these runs do not test automatic issue-open
 activation or role enforcement. The workflow was disabled after the last
 scored run. It was later re-enabled on `main` with `roles: [admin]` and a
-main-only approval environment; that deployment is not part of the score, and
-neither control has been exercised by a new live run.
+main-only approval environment; that deployment is not part of the score.
+The owner issue-open path and approval gate were later exercised by separate
+post-hardening runs, but non-admin role rejection is not live-tested.
 
 `actual.json` records each run URL/SHA/attempt/conclusion, output comment and
 label, and a separate judgment of whether a request asked for the right
@@ -85,8 +86,11 @@ after the runs.
 
 After the evaluation, I added a human-approval job and updated the compiled
 lock. GitHub now has a required reviewer, admin bypass disabled, and a `main`-
-only policy for that Environment; self-review is allowed. The setting is
-configured but the gate has not been exercised by a workflow run. The
-historical runs did not use it. `reproduce.py` checks each recorded run SHA
-contains the evaluated files, rather than requiring the current working tree
-to remain byte-identical to a historical configuration.
+only policy for that Environment; self-review is allowed. The gate was exercised
+after the scored runs: [#54](https://github.com/SaaiAravindhRaja/repro-triage-agent/issues/54)
+published its reviewed output and [#55](https://github.com/SaaiAravindhRaja/repro-triage-agent/issues/55)
+had its staged output rejected. Those runs are recorded in
+[`../posthardening/`](../posthardening/) and are not part of the historical score.
+`reproduce.py` checks each recorded run SHA contains the evaluated files,
+rather than requiring the current working tree to remain byte-identical to a
+historical configuration.

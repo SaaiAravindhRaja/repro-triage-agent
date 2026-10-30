@@ -56,9 +56,12 @@ to replay the saved comparison and `python3 -B evals/verify_trace.py` to
 recheck the visible tool sequence and credits. Neither command runs a model.
 
 These runs used the configuration at `bdb0a6e`. The current workflow adds a
-post-agent, post-detection approval job, but it was added after this evaluation
-and was not exercised. A later sandbox deployment restricted issue triggers to
-repository admins and configured a `main`-only GitHub Environment reviewer.
-Those controls were not part of this score and have not been exercised by a
-new live run. The current replay checks the configuration at each recorded
-run SHA; it does not treat later hardening as evidence from these twelve runs.
+post-agent, post-detection approval job after this evaluation. The gate later
+ran on [#54](https://github.com/SaaiAravindhRaja/repro-triage-agent/issues/54)
+(approved: one reviewed comment and label) and
+[#55](https://github.com/SaaiAravindhRaja/repro-triage-agent/issues/55)
+(rejected: no public output). A later sandbox deployment also restricted issue
+triggers to repository admins and configured a `main`-only Environment reviewer.
+These controls were not part of this score; the current replay checks the
+configuration at each recorded run SHA and does not treat later hardening as
+evidence from these twelve runs.
