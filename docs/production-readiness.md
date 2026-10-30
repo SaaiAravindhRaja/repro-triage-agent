@@ -16,7 +16,7 @@ This is a bounded live demo, not production approval for upstream use.
   inference cost. Inspect the issue, detector result, and `agent_output.json`
   artifact before approving; reject unsupported output or missing evidence.
 - These settings are confirmed through GitHub's repository environment API,
-  the approved [post-hardening run](https://github.com/SaaiAravindhRaja/repro-triage-agent/actions/runs/40834047322)
+  the approved [post-hardening run](https://github.com/SaaiAravindhRaja/repro-triage-agent/actions/runs/40834047322/attempts/1)
   on issue #54, and the rejected [issue-trigger run](https://github.com/SaaiAravindhRaja/repro-triage-agent/actions/runs/41026047026)
   on #55. A no-action run may wait for review too.
 

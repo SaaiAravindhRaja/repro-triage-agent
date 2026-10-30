@@ -59,7 +59,7 @@ as a second version of the design.
   not cover manual runs. The deployed source removes manual dispatch entirely;
   the repository-side check is the effective two-start/hour policy for the
   admin-only sandbox path.
-- Preflight rejects reruns before inference. [The rerun of #54](https://github.com/SaaiAravindhRaja/repro-triage-agent/actions/runs/40834047322)
+- Preflight rejects reruns before inference. [The rerun of #54](https://github.com/SaaiAravindhRaja/repro-triage-agent/actions/runs/40834047322/attempts/2)
   failed at that check with the model step skipped. A [manual no-op run](https://github.com/SaaiAravindhRaja/repro-triage-agent/actions/runs/40853359145)
   also accepted the current SHA and skipped the model after detecting completed
   triage. It predates removal of the manual trigger. Handle a failed issue after checking its

@@ -14,7 +14,7 @@ jobs run, because `TRIAGE_RUN_ATTEMPT` is no longer `1`.
 ## Result
 
 The owner opened [issue #54](https://github.com/SaaiAravindhRaja/repro-triage-agent/issues/54)
-after writing the expectation above. [Attempt 1](https://github.com/SaaiAravindhRaja/repro-triage-agent/actions/runs/40834047322)
+after writing the expectation above. [Attempt 1](https://github.com/SaaiAravindhRaja/repro-triage-agent/actions/runs/40834047322/attempts/1)
 ran at `2e8818581c019a7bf7b96e7c7d0670fbc8565e73` and succeeded. Its agent
 listed the skill directory, read `SKILL.md`, read issue #54, and staged one
 comment plus one `needs-repro` label. The owner inspected that staged output
@@ -22,7 +22,7 @@ and the successful detector job, then approved the Environment. GitHub
 published exactly that comment and label; it did not close or alter the issue.
 The recorded agent cost was 5.8644 AI credits.
 
-I then used GitHub's rerun control. In [attempt 2](https://github.com/SaaiAravindhRaja/repro-triage-agent/actions/runs/40834047322), the agent job failed at
+I then used GitHub's rerun control. In [attempt 2](https://github.com/SaaiAravindhRaja/repro-triage-agent/actions/runs/40834047322/attempts/2), the agent job failed at
 preflight with `TRIAGE_RUN_ATTEMPT=2`; `Execute Codex CLI`, safe outputs,
 approval, and conclusion were skipped. This confirms the rerun block before
 model work or a second public output. It does not test a non-admin reporter,
