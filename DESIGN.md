@@ -35,7 +35,7 @@ and pandas/Python/OS versions. An incomplete bug may get one specific comment
 and `needs-repro`. Other readable cases get no public action. A model-tool read
 failure is incomplete; a preflight API failure exits before inference or output.
 Preflight emits `noop` for a closed or already-triaged issue; [gh-aw docs](https://github.github.com/gh-aw/reference/steps-jobs/)
-say pre-agent no-ops stop inference. Unit tests check the record, not a live run.
+say pre-agent no-ops stop inference. Unit tests and a later manual run checked it; the historical twelve did not.
 
 Issue/tool text is untrusted. Safe outputs bar destructive actions, but wrong
 comments or labels remain possible. No `CONTRIBUTING.md`: the bot posts directly.

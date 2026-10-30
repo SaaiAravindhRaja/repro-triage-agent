@@ -40,8 +40,8 @@ result is a specific request for missing information, not a decision about
 whether the bug is real.
 
 The preflight skips inference by writing gh-aw's supported `noop` record for a
-closed or previously triaged issue. Unit tests check the output record; the
-historical twelve cases did not exercise this path.
+closed or previously triaged issue. Unit tests check the record; a later
+manual check confirmed the runner skips inference. The historical twelve did not exercise it.
 
 In a fixed [30-issue consecutive slice](evidence/pandas-consecutive-30.json),
 only two were clear candidates for that request, 21 needed no action and seven

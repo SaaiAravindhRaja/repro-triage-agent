@@ -13,7 +13,7 @@ agent comments only on incomplete bug reports in this repository.
 - `scripts/preflight.py` rejects reruns, validates the target and writes a `noop` for closed
   or already-triaged issues. Recover a failed run with a new manual dispatch only after
   checking its issue for partial output. In gh-aw 0.92.0, a no-op written by a pre-agent
-  step short-circuits inference. This path has unit coverage, not a live run.
+  step short-circuits inference. It has unit coverage and a live manual check on issue #54.
   Partial triage states fail closed. The script uses only the Python standard
   library.
 - `evals/golden/` holds historical inputs, expected decisions, actual outputs,
@@ -35,8 +35,8 @@ The `safe_outputs` and `conclusion` jobs require success from the
 `triage-output-approval` GitHub Environment job. Keep its required reviewer
 and `main`-only policy; admin bypass is disabled. The enabled
 issue trigger is restricted to repository admins. This is a sandbox, not an
-upstream pandas deployment. The approval gate has not been exercised by a
-post-activation workflow run.
+upstream pandas deployment. Issue #54 exercised the approval gate after agent
+and detection; Environment rejection remains untested.
 
 ## Forbidden changes
 
