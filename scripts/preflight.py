@@ -68,7 +68,9 @@ def parse_utc(value: object) -> datetime:
     try:
         parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
     except ValueError as error:
-        raise RuntimeError("workflow run has an invalid created_at timestamp") from error
+        raise RuntimeError(
+            "workflow run has an invalid created_at timestamp"
+        ) from error
     if parsed.tzinfo is None:
         raise RuntimeError("workflow run has a timezone-free created_at timestamp")
     return parsed.astimezone(timezone.utc)

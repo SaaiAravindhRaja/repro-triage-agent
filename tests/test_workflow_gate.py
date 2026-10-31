@@ -157,7 +157,9 @@ class WorkflowGateTests(unittest.TestCase):
             r"(?m)^      - name: get_file_contents\n        max-calls: 2$",
         )
 
-    def test_source_grants_actions_read_only_for_pre_inference_budget_check(self) -> None:
+    def test_source_grants_actions_read_only_for_pre_inference_budget_check(
+        self,
+    ) -> None:
         source = SOURCE.read_text(encoding="utf-8")
         frontmatter = re.search(r"(?s)\A---\s*\n(.*?)\n---\s*", source)
         self.assertIsNotNone(frontmatter, "workflow frontmatter is missing")

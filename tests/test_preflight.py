@@ -27,21 +27,20 @@ class PreflightTests(unittest.TestCase):
 
     def run_case(self, issue: dict, comments: list | None = None) -> None:
         responses = [
-            {
-                "workflow_runs": [
-                    {"id": 100, "created_at": "2026-10-30T08:00:00Z"}
-                ]
-            },
+            {"workflow_runs": [{"id": 100, "created_at": "2026-10-30T08:00:00Z"}]},
             {"name": "needs-repro"},
             issue,
         ]
         if comments is not None:
             responses.append(comments)
         with patch.dict(os.environ, self.environment, clear=True):
-            with patch.object(preflight, "api_get", side_effect=responses), patch.object(
-                preflight,
-                "now_utc",
-                return_value=datetime(2026, 10, 30, 8, 30, tzinfo=timezone.utc),
+            with (
+                patch.object(preflight, "api_get", side_effect=responses),
+                patch.object(
+                    preflight,
+                    "now_utc",
+                    return_value=datetime(2026, 10, 30, 8, 30, tzinfo=timezone.utc),
+                ),
             ):
                 preflight.main()
 
@@ -116,7 +115,9 @@ class PreflightTests(unittest.TestCase):
                     preflight.main()
         api_get.assert_not_called()
 
-    def test_global_rate_limit_blocks_third_recent_issue_before_label_check(self) -> None:
+    def test_global_rate_limit_blocks_third_recent_issue_before_label_check(
+        self,
+    ) -> None:
         runs = {
             "workflow_runs": [
                 {"id": 98, "created_at": "2026-10-30T08:25:00Z"},
@@ -125,10 +126,13 @@ class PreflightTests(unittest.TestCase):
             ]
         }
         with patch.dict(os.environ, self.environment, clear=True):
-            with patch.object(preflight, "api_get", return_value=runs) as api_get, patch.object(
-                preflight,
-                "now_utc",
-                return_value=datetime(2026, 10, 30, 8, 30, tzinfo=timezone.utc),
+            with (
+                patch.object(preflight, "api_get", return_value=runs) as api_get,
+                patch.object(
+                    preflight,
+                    "now_utc",
+                    return_value=datetime(2026, 10, 30, 8, 30, tzinfo=timezone.utc),
+                ),
             ):
                 with self.assertRaisesRegex(RuntimeError, "global issue rate limit"):
                     preflight.main()
@@ -150,18 +154,25 @@ class PreflightTests(unittest.TestCase):
             [],
         ]
         with patch.dict(os.environ, self.environment, clear=True):
-            with patch.object(preflight, "api_get", side_effect=responses), patch.object(
-                preflight,
-                "now_utc",
-                return_value=datetime(2026, 10, 30, 8, 30, tzinfo=timezone.utc),
+            with (
+                patch.object(preflight, "api_get", side_effect=responses),
+                patch.object(
+                    preflight,
+                    "now_utc",
+                    return_value=datetime(2026, 10, 30, 8, 30, tzinfo=timezone.utc),
+                ),
             ):
                 preflight.main()
         self.assertFalse(self.output.exists())
 
     def test_malformed_rate_listing_fails_closed_before_issue_read(self) -> None:
         with patch.dict(os.environ, self.environment, clear=True):
-            with patch.object(preflight, "api_get", return_value={"workflow_runs": [{}]}):
-                with self.assertRaisesRegex(RuntimeError, "workflow run is missing an id"):
+            with patch.object(
+                preflight, "api_get", return_value={"workflow_runs": [{}]}
+            ):
+                with self.assertRaisesRegex(
+                    RuntimeError, "workflow run is missing an id"
+                ):
                     preflight.main()
         self.assertFalse(self.output.exists())
 
