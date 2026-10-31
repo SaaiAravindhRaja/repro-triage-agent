@@ -19,6 +19,9 @@ agent comments only on incomplete bug reports in this repository.
 - `evals/golden/` holds historical inputs, expected decisions, actual outputs,
   and run evidence. Do not use the older `eval/agent_eval.py` classifier as
   evidence of an LLM run.
+- `evals/golden/inputs/` is a frozen evidence snapshot. Do not edit or
+  autoformat it; `evals/reproduce.py` checks it against the preregistration
+  commit.
 - Check source syntax with `gh aw compile smoke-triage --no-emit`. No package
   build or installation is needed for this repository.
 - Run local tests with `python3 -B -m unittest discover -s tests -v`.
