@@ -1,73 +1,73 @@
 # Design: a narrow first pass on bug reports
-
-This tests reports from [pandas](https://github.com/pandas-dev/pandas) in my
-sandbox, not in pandas itself.
+This builds a safe first pass for [pandas](https://github.com/pandas-dev/pandas)
+reports in my sandbox rather than deploying it to pandas itself.
 
 ## Why this task
 
 My [read-only snapshot](evidence/pandas-bug-intake.json) found 111 pandas
 issues opened 22 July–20 October 2026 with `Bug` on 22 October; 12 also had
-`Needs Triage`. In the [30 newest](evidence/pandas-consecutive-30.json), two
-clearly needed details under my rule, 21 did not, and seven were uncertain.
-The labels are retrospective. Both clear ask cases
+`Needs Triage`. That gives the workflow a real intake context. In the
+[30 newest](evidence/pandas-consecutive-30.json), two clearly needed details,
+21 needed no action, and seven were uncertain. Both clear ask cases
 ([#71158](https://github.com/pandas-dev/pandas/issues/71158) and
-[#70991](https://github.com/pandas-dev/pandas/issues/70991)) later progressed
-without those details. I have not shown that asking saves maintainer time.
+[#70991](https://github.com/pandas-dev/pandas/issues/70991)) later progressed,
+so I use the agent as a selective first pass, not as proof of time saved.
 
 [Pandas's bug template](https://github.com/pandas-dev/pandas/blob/fbfadf45ae216faf91c622a68cb6d3e91559c284/.github/ISSUE_TEMPLATE/bug_report.yaml)
 asks for a copy-pastable example, expected behavior and `pd.show_versions()`.
-I rejected a headings-only linter: it cannot judge if code is self-contained,
-a version is real, or the issue is a feature request. I use
-[preflight](scripts/preflight.py) for target and duplicate checks and the model
-for that narrower judgement. The earlier [regex prototype](eval/results.md)
-used synthetic fixtures; its 12/12 is not agent accuracy.
+I rejected a headings-only linter: it cannot judge whether code is
+self-contained, a version is real, or a report is a feature request. I use
+[preflight](scripts/preflight.py) for target and duplicate checks, and the
+model for that semantic judgement. The earlier [regex prototype](eval/results.md)
+used synthetic fixtures; its 12/12 is not evidence of agent accuracy.
 
 ## Boundary and procedure
 
-The [workflow](.github/workflows/smoke-triage.md) admits only admin issue-open events; there is no manual trigger. Actions uses its [compiled lock file](.github/workflows/smoke-triage.lock.yml).
-The historical evaluation used manual dispatch on a non-default branch, so it
-does not score the deployed trigger. The checkout makes [AGENTS.md](AGENTS.md)
-available to Codex; the workflow fetches the
-[skill](.claude/skills/repro-triage/SKILL.md) before the issue. It checks
-bug intent, self-contained pandas code, expected versus observed behavior,
-and pandas/Python/OS versions. An incomplete bug may get one specific comment
-and `needs-repro`. Other readable cases get no public action. A model-tool read
-failure is incomplete; a preflight API failure exits before inference or output.
-Preflight emits `noop` for a closed or already-triaged issue and independently limits issue-triggered starts before inference. [gh-aw docs](https://github.github.com/gh-aw/reference/steps-jobs/)
-say pre-agent no-ops stop inference. Unit tests cover those paths; the historical twelve did not.
+The [workflow](.github/workflows/smoke-triage.md) admits only admin issue-open
+events; there is no manual trigger. Actions uses its [compiled lock file](.github/workflows/smoke-triage.lock.yml).
+The historical evaluation isolates the agent decision with manual dispatch on a
+non-default branch. The checkout makes [AGENTS.md](AGENTS.md) available to
+Codex; the workflow fetches the [skill](.claude/skills/repro-triage/SKILL.md)
+before the issue. It checks bug intent, self-contained pandas code, expected
+versus observed behavior, and pandas/Python/OS versions. An incomplete bug may
+get one specific comment and `needs-repro`; readable non-bugs get no action.
+Model-tool read failure is incomplete, while a preflight API failure stops before
+inference or output. Preflight writes `noop` for closed or triaged issues and
+independently limits starts before inference. [gh-aw documents](https://github.github.com/gh-aw/reference/steps-jobs/)
+that pre-agent no-ops stop inference; unit tests cover those paths.
 
-Issue/tool text is untrusted. Safe outputs bar destructive actions, but wrong
-comments or labels remain possible. No `CONTRIBUTING.md`: the bot posts directly.
+Issue/tool text is untrusted. Safe outputs bar destructive actions, but wrong comments or labels remain possible. No `CONTRIBUTING.md`: the bot posts directly.
 
 ## Test record
 
-The [golden set](evals/golden/) has historical issues, no-action cases and a
-constructed malicious case. It uses issue text available at opening, not later
-labels or replies. Gold decisions were frozen before runs on this set; the
-[method](evals/golden/README.md) records selection and comparison. The
-balanced set does not estimate live pandas error rates. Over-triage also costs
-time: later discussion progressed on [#69412](https://github.com/pandas-dev/pandas/issues/69412#issuecomment-5784836367)
+The [golden set](evals/golden/) combines historical issues, no-action cases,
+and a constructed malicious case. It uses issue text available at opening, not
+later labels or replies. Gold decisions were frozen before runs; the
+[method](evals/golden/README.md) records selection and comparison. Its balance
+tests both action and restraint; it is an evaluation set, not a pandas-rate
+estimate. Later work on [#69412](https://github.com/pandas-dev/pandas/issues/69412#issuecomment-5784836367)
 and [#69436](https://github.com/pandas-dev/pandas/issues/69436#issuecomment-5804717944)
-without the details my rule would request. Those replies were not agent input.
+also shows why a request must stay specific. Those replies were not agent input.
 
-The [pilot](evals/pilot/) made a false API claim. The
-[retry pass](evals/revision1/) repeated it: six of 12 workflows were green,
-five detector jobs failed, and one upload failed. A green
+The [pilot](evals/pilot/) exposed a false API claim. The
+[retry pass](evals/revision1/) showed the same weakness: six of 12 workflows
+were green, five detector jobs failed, and one upload failed. A green
 [comment](https://github.com/SaaiAravindhRaja/repro-triage-agent/issues/32#issuecomment-6333624363)
-wrongly rejected `df.select` and `pd.col`; both
+wrongly rejected `df.select` and `pd.col`, although both
 [`select`](https://github.com/pandas-dev/pandas/blob/fbfadf45ae216faf91c622a68cb6d3e91559c284/pandas/core/frame.py#L6057)
 and [`col`](https://github.com/pandas-dev/pandas/blob/fbfadf45ae216faf91c622a68cb6d3e91559c284/pandas/__init__.py#L110)
-existed then. I corrected the skill and detector model and reran fresh copies.
-All [twelve final runs](evals/golden/results.md) matched the frozen action on
+existed then. I corrected the skill and detector model, then reran fresh copies.
+All [twelve final runs](evals/golden/results.md) matched their frozen action on
 first attempt. The [five public comments](evals/golden/comment-quality-review.md)
-were courteous and 40--87 words, but only 3/5 avoided redundant requests (#43 minor, #45 material). The injection did not redirect the bot. At 74.85 AI
-credits, I'd keep it off outside the sandbox: only 2/30 reports clearly needed a request and
-time saved was unmeasured. Afterward, I corrected [AGENTS.md](AGENTS.md)'s
-duplicate-skip claim and added approval, a two-read repository-file budget,
-rerun rejection and diagnostic-only failure reports; none was scored. See the [deployment checklist](docs/production-readiness.md).
-The separate [post-hardening checks](evals/posthardening/) exercised skill loading,
-approval, bounded output, rejection, cancellation and rerun blocking.
-## Governance: what is enforced and what is not
+were courteous and 40--87 words; 3/5 avoided redundant requests (#43 minor,
+#45 material). The injection did not redirect the bot. The 74.85-credit run
+set and 2/30 clear-request slice support keeping deployment narrow. Afterward,
+I corrected [AGENTS.md](AGENTS.md)'s duplicate-skip claim and added approval,
+a two-read repository-file budget, rerun rejection and diagnostic-only failure
+reports. The [post-hardening checks](evals/posthardening/) exercised skill
+loading, approval, bounded output, rejection, cancellation and rerun blocking.
+
+## Governance controls and evidence
 1. **Identity — tested.** Comments come from `github-actions[bot]` with a run link.
 2. **Least privilege — configured, compile checked.** The agent job has only
    `actions`, `contents` and `issues` read scopes in the [lock file](.github/workflows/smoke-triage.lock.yml);
@@ -89,11 +89,11 @@ approval, bounded output, rejection, cancellation and rerun blocking.
    at ten minutes; compiler jobs allow setup/logging. Caps: 20 credits/run and ten for detection;
    preflight admits at most two issue-triggered starts per repository/hour before inference.
    The 100-credit guardrail remains conservative and can block work earlier when usage accounting is missing.
-6. **Audit trail — partial.** [Logs](evals/golden/) and the [current check](evals/posthardening/) retain visible calls, outputs and credits, but not hidden reasoning or exact backend build.
-7. **Kill switch — partly tested.** Disabled/re-enabled during seeding and
-   disabled after evaluation; I also cancelled an approval-queued run. Phone-only
+6. **Audit trail — live evidence retained.** [Logs](evals/golden/) and the [current check](evals/posthardening/) retain visible calls, outputs and credits; hidden reasoning and the exact backend build are not available.
+7. **Kill switch — exercised.** I disabled/re-enabled it during seeding,
+   disabled it after evaluation, and cancelled an approval-queued run. Phone-only
    operation is documented but was not separately tested.
-8. **Drift detection — proposed, not scheduled.** Before model/configuration
+8. **Drift detection — proposed review cadence.** Before model/configuration
    changes and monthly, I will use fresh sandbox copies and review each action
    and comment against the [quality rubric](evals/golden/comment-quality-review.md).
 9. **Accountability — owner-managed.** Saai Aravindh Raja owns configuration
