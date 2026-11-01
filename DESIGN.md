@@ -36,7 +36,7 @@ inference or output. Preflight writes `noop` for closed or triaged issues and
 independently limits starts before inference. [gh-aw documents](https://github.github.com/gh-aw/reference/steps-jobs/)
 that pre-agent no-ops stop inference; unit tests cover those paths.
 
-Issue/tool text is untrusted. Safe outputs bar destructive actions, but wrong comments or labels remain possible. No `CONTRIBUTING.md`: the bot posts directly.
+Issue/tool text is untrusted. Safe outputs bar destructive actions, but wrong comments or labels remain possible. There is no `CONTRIBUTING.md`: the workflow posts bounded bot output directly; no human submits agent-generated material, so a general AI-contribution policy does not govern this action path. The alternative of deploying to the upstream pandas repository was rejected: it would require maintainer permission and community review of every configuration change, which is impractical for a course project and unsafe before independent evaluation. What the agent is prevented from doing: it cannot close, delete, edit, merge, or push; it has no shell or CLI tool. What tests revealed and what remains unresolved: the pilot exposed a false API claim; the revision run repeated it and surfaced detector failures; the final twelve matched frozen decisions, but 2/5 comments had redundant requests, the model alias is not pinned, and non-admin trigger rejection was only source-checked. Rate-limit behavior at real pandas volume and model-change detection remain untested.
 
 ## Test record
 
