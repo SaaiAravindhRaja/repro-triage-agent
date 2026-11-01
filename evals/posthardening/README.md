@@ -85,3 +85,26 @@ run, uses only `actions: read`, and fails closed on malformed GitHub data. The
 unit suite covers an admitted first/second start and a rejected third start.
 This correction is post-evaluation hardening, not a retroactive claim about
 the frozen twelve cases.
+
+## Non-admin trigger rejection: live test
+
+On 1 November 2026, a collaborator with Read access (`olengs`) opened
+[issue #57](https://github.com/SaaiAravindhRaja/repro-triage-agent/issues/57)
+with the title "test: non-admin trigger check". The issue-open event triggered
+[run 41283199069](https://github.com/SaaiAravindhRaja/repro-triage-agent/actions/runs/41283199069).
+
+The `pre_activation` job ran and checked team membership for the triggering
+actor. Because `olengs` is not a repository admin, the `activation` job was
+skipped; every downstream job (`agent`, `detection`, `triage-output-approval`,
+`safe_outputs`, `conclusion`) was also skipped. No model was invoked and no
+public output was produced on issue #57.
+
+This confirms that `on.roles: [admin]` works as configured: a non-admin
+issue-open event reaches `pre_activation` but is stopped before any agent
+work or spend. The run concluded `success` because all required jobs either
+passed or were intentionally skipped.
+
+This upgrades the trigger restriction from source-and-lock-verified to
+live-tested. It does not test a malicious reporter attempting to escalate
+through the issue body; that path remains blocked by the tool and output
+configuration rather than the role check alone.

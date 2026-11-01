@@ -69,7 +69,7 @@ loading, approval, bounded output, rejection, cancellation and rerun blocking.
 
 ## Governance controls and evidence
 1. **Identity — tested.** Comments come from `github-actions[bot]` with a run link.
-2. **Least privilege — configured, compile checked.** The agent job has only
+2. **Least privilege — configured, compile checked, trigger live-tested.** The agent job has only
    `actions`, `contents` and `issues` read scopes in the [lock file](.github/workflows/smoke-triage.lock.yml);
    GitHub tools reach only this sandbox. Writes use a separate output job. The
    compiler still grants the output and conclusion jobs `pull-requests: write`;
@@ -104,8 +104,9 @@ loading, approval, bounded output, rejection, cancellation and rerun blocking.
 spend, but not community intake. Because the only output is one comment and one
 label on a selected issue, bounded safe-outputs and single-owner approval are
 proportionate — heavier controls like CODEOWNERS or draft PRs serve no purpose here.
-The owner path, approval, rejection, cancellation and rerun block were live-checked;
-non-admin rejection was source and lock checked. Recovery is manual handling after
+The owner path, approval, rejection, cancellation, rerun block and non-admin
+rejection were all live-checked; see [posthardening](evals/posthardening/README.md).
+Recovery is manual handling after
 checking for partial output. AWF restricts network; shell/CLI tools are off.
 ## Bill of materials
 - **Models:** Codex triage uses repo var `GH_AW_MODEL_AGENT_CODEX=gpt-5`; detection requests `gpt-5-mini`. Neither is pinned.
