@@ -24,8 +24,11 @@ agent comments only on incomplete bug reports in this repository.
   commit.
 - Check source syntax with `gh aw compile smoke-triage --no-emit`. No package
   build or installation is needed for this repository.
+- Lint Python with `ruff check .`.
 - Run local tests with `python3 -B -m unittest discover -s tests -v`.
 - Recheck the saved evaluation with `python3 -B evals/reproduce.py`.
+- Verify historical inputs with `python3 -B evals/golden/inputs/_capture_historical.py --verify`.
+- Verify tool traces with `python3 -B evals/verify_trace.py`.
 
 ## Conventions
 
