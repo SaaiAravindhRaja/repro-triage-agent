@@ -35,4 +35,25 @@ run publishes no output and counts as a quality failure, not a workflow failure.
 
 ## Results
 
-Results will be recorded here after runs complete.
+### First attempt — blocked by preflight rate limiter (expected behaviour)
+
+Issues #58 (pandas-71034) and #59 (pandas-69436) were opened at 2026-11-01T07:13 UTC.
+Both triggered runs immediately:
+- [Run 41283887656](https://github.com/SaaiAravindhRaja/repro-triage-agent/actions/runs/41283887656) — issue #58
+- [Run 41283887357](https://github.com/SaaiAravindhRaja/repro-triage-agent/actions/runs/41283887357) — issue #59
+
+Both failed at the `Check label and prior triage` preflight step with:
+`preflight failed: global issue rate limit reached: 2 other issue-triggered starts in the last 60 minutes`
+
+The cause: a non-admin test run at 07:02 UTC (run 41283199069) was still within
+the 60-minute window, and the two new runs started simultaneously — counting as
+3 issue-triggered starts total. The preflight blocked both before any model work.
+This is the rate limiter working as designed.
+
+**No model was invoked and no output was produced on either issue.**
+
+### Second attempt — pending
+
+The rate limit window clears at 08:03 UTC. Fresh issues will be opened then.
+Results will be recorded here after completion.
+
