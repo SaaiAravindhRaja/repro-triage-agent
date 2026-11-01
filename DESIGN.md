@@ -101,21 +101,20 @@ loading, approval, bounded output, rejection, cancellation and rerun blocking.
    The owner is accountable for output approval in this single-owner sandbox.
 
 `roles: [admin]` skips ordinary reporters before inference: safer for sandbox
-spend, but not community intake. The owner path, approval, rejection, cancellation
-and rerun block were live-checked; non-admin rejection was source and lock checked.
-Recovery is manual handling after checking for partial output. AWF restricts
-network and shell/CLI tools are off; detection cannot catch false claims.
+spend, but not community intake. Because the only output is one comment and one
+label on a selected issue, bounded safe-outputs and single-owner approval are
+proportionate — heavier controls like CODEOWNERS or draft PRs serve no purpose here.
+The owner path, approval, rejection, cancellation and rerun block were live-checked;
+non-admin rejection was source and lock checked. Recovery is manual handling after
+checking for partial output. AWF restricts network; shell/CLI tools are off.
 ## Bill of materials
 - **Models:** Codex triage uses repo var `GH_AW_MODEL_AGENT_CODEX=gpt-5`; detection requests `gpt-5-mini`. Neither is pinned.
   Final logs show `gpt-5-2025-08-07` and `gpt-5-mini-2025-08-07` and their credit costs.
 - **Instructions:** [AGENTS.md](AGENTS.md), [workflow](.github/workflows/smoke-triage.md),
   and [skill](.claude/skills/repro-triage/SKILL.md).
-- **Tools and data:** sandbox-only GitHub MCP: up to two repository-file reads and two issue reads.
-  The prompt directs them to the skill at the chosen commit and selected issue, but cannot enforce path/ref/number. `safeoutputs` permits a
-  comment, label or no-op. No bash or CLI proxy is available to the model.
-- **Permissions and outputs:** read-only agent scopes; a separate safe-output
-  path for one comment and one existing label. The compiled output job also
-  retains `pull-requests: write`; see the lock file.
+- **Tools and MCP servers:** sandbox-only GitHub MCP: up to two repository-file reads and two issue reads. No bash or CLI proxy.
+- **Data sources:** live GitHub issue content (untrusted); [evidence/](evidence/) snapshots for need justification.
+- **Permissions and outputs:** read-only agent scopes; separate safe-output path for one comment and one existing label. The compiled output job retains `pull-requests: write`; see the lock file.
 - **Logs and evaluations:** [Actions runs](https://github.com/SaaiAravindhRaja/repro-triage-agent/actions),
   [golden inputs/outputs](evals/golden/), and gh-aw credit logs where present.
 - **Humans:** the owner maintains the configuration, reviews drift and can
